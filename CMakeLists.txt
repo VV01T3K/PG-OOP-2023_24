@@ -4,8 +4,8 @@ project(test)
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCES
-        "*.h"
-        "*.cpp"
+        "Project/*.h"
+        "Project/*.cpp"
 )
 
 add_executable(test ${SOURCES})
