@@ -1,6 +1,4 @@
-_Pragma("once")
-
-    class ExampleClass {
+class ExampleClass {
    public:
     ExampleClass() : value(0) {}                    // Default constructor
     explicit ExampleClass(int val) : value(val) {}  // Parameterized constructor
