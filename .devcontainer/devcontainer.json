@@ -12,7 +12,6 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"tomoki1207.pdf",
 				"eamodio.gitlens",
 				"ms-vscode.hexeditor",
 				"mintlify.document",
