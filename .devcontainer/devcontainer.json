@@ -3,7 +3,11 @@
 {
 	"name": "C++",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"args": {
+			// version of cmake to install fromm official source
+			"REINSTALL_CMAKE_VERSION_FROM_SOURCE": "3.28.3"
+		}
 	},
 	"customizations": {
 		"vscode": {
