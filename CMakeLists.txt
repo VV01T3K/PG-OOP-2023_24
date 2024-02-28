@@ -3,7 +3,7 @@ project(OOP)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SOURCES
+file(GLOB_RECURSE  SOURCES
         "Project/*.h"
         "Project/*.cpp"
 )
