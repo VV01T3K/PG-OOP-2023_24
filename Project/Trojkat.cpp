@@ -12,7 +12,7 @@ double Trojkat::GetB() const { return b; }
 double Trojkat::GetC() const { return c; }
 void Trojkat::SetA(double a) { this->a = a; }
 void Trojkat::SetB(double b) { this->b = b; }
-void Trojkat::SetB(double c) { this->c = c; }
+void Trojkat::SetC(double c) { this->c = c; }
 double Trojkat::Obwod() { return a + b + c; }
 double Trojkat::Pole() {
     const double p = Obwod() / 2;

@@ -1,5 +1,7 @@
+_Pragma("once")
 #include "FiguraPlaska.h"
-class Kolo : public FiguraPlaska {
+    class Kolo : public FiguraPlaska {
+   private:
     double r;
 
    protected:
@@ -13,6 +15,4 @@ class Kolo : public FiguraPlaska {
     double Pole() override;
 
     ~Kolo() override;
-
-   private:
 };
