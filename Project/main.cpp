@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "FiguryPlaske/Kolo.h"
-#include "FiguryPlaske/Prostokat.h"
-#include "FiguryPlaske/Trojkat.h"
+#include "FiguryPlaskie/Kolo.h"
+#include "FiguryPlaskie/Prostokat.h"
+#include "FiguryPlaskie/Trojkat.h"
 
 using namespace std;
 
