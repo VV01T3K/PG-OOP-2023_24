@@ -7,6 +7,9 @@ using namespace std;
 Trojkat::Trojkat(double a, double b, double c) : a(a), b(b), c(c) {
     cout << "Konstruktor Trójkąta(" << a << "," << b << "," << c << ")" << endl;
 }
+Trojkat::Trojkat(double a) : a(a), b(a), c(a) {
+    cout << "Konstruktor Trójkąta Równobocznego o boku (" << a << ")" << endl;
+}
 double Trojkat::GetA() const { return a; }
 double Trojkat::GetB() const { return b; }
 double Trojkat::GetC() const { return c; }
@@ -19,7 +22,7 @@ double Trojkat::Pole() {
     return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 void Trojkat::Wypisz(std::ostream& out) const {
-    out << "Trójkąta o bokach " << a << "," << b << "," << c;
+    out << "Trójkąt o bokach " << a << "," << b << "," << c;
 }
 Trojkat::~Trojkat() {
     cout << "Destruktor Trójkąta(" << a << "," << b << "," << c << ")" << endl;
