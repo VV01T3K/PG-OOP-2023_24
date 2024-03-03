@@ -10,7 +10,7 @@ _Pragma("once")
    public:
     Kolo(double r);
     double GetR() const;
-    void SetR(double a);
+    void SetR(double r);
     double Obwod() override;
     double Pole() override;
 
