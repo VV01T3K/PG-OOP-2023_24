@@ -7,35 +7,35 @@
 using namespace std;
 
 int main() {
-    // Tworzenie obiektów za pomocą zmiennych lokalnych
-    Kolo kolo(5.0);
-    Prostokat prostokat(4.0, 6.0);
-    Trojkat trojkat(3.0, 4.0, 5.0);
+    Kolo kolo(5);
+    Prostokat prostokat(4, 6);
+    Trojkat trojkat(3, 4, 5);
 
-    // Wyświetlanie właściwości obiektów
-    cout << "Kolo: " << kolo << ", Pole: " << kolo.Pole()
-         << ", Obwod: " << kolo.Obwod() << endl;
-    cout << "Prostokat: " << prostokat << ", Pole: " << prostokat.Pole()
+    cout << endl;
+    cout << kolo << ", Pole: " << kolo.Pole() << ", Obwod : " << kolo.Obwod()
+         << endl;
+    cout << prostokat << ", Pole: " << prostokat.Pole()
          << ", Obwod: " << prostokat.Obwod() << endl;
-    cout << "Trojkat: " << trojkat << ", Pole: " << trojkat.Pole()
+    cout << trojkat << ", Pole: " << trojkat.Pole()
          << ", Obwod: " << trojkat.Obwod() << endl;
 
-    // Tworzenie obiektów za pomocą wskaźników
-    Kolo* pKolo = new Kolo(7.0);
-    Prostokat* pProstokat = new Prostokat(8.0, 9.0);
-    Trojkat* pTrojkat = new Trojkat(6.0, 8.0, 10.0);
+    FiguraPlaska* figury[3];
 
-    // Wyświetlanie właściwości obiektów
-    cout << "Kolo: " << *pKolo << ", Pole: " << pKolo->Pole()
-         << ", Obwod: " << pKolo->Obwod() << endl;
-    cout << "Prostokat: " << *pProstokat << ", Pole: " << pProstokat->Pole()
-         << ", Obwod: " << pProstokat->Obwod() << endl;
-    cout << "Trojkat: " << *pTrojkat << ", Pole: " << pTrojkat->Pole()
-         << ", Obwod: " << pTrojkat->Obwod() << endl;
+    cout << endl;
+    figury[0] = new Kolo(7);
+    figury[1] = new Prostokat(8, 9);
+    figury[2] = new Trojkat(6, 8, 10);
 
-    delete pKolo;
-    delete pProstokat;
-    delete pTrojkat;
+    cout << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << *figury[i] << endl;
+    }
+
+    cout << endl;
+
+    for (int i = 0; i < 3; i++) {
+        delete figury[i];
+    }
 
     return 0;
 }
