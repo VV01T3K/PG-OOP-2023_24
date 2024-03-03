@@ -1,7 +1,5 @@
-_Pragma("once")
 #include "FiguraPlaska.h"
-
-    class Prostokat : public FiguraPlaska {
+class Prostokat : public FiguraPlaska {
    private:
     double a, b;
 
@@ -16,6 +14,5 @@ _Pragma("once")
     void SetB(double b);
     double Obwod() override;
     double Pole() override;
-
     ~Prostokat() override;
 };
