@@ -39,16 +39,17 @@ int main() {
 
     figury[0] = new Prostokat(8, 9);
     figury[1] = new Trojkat(6, 8, 10);
+    figury[2] = new Trapez(2, 4, 2, 2, 2);
 
     cout << endl;
 
-    for (int i = 0; i < 2; i++) {
-        cout << *figury[i] << endl;
+    for (int i = 0; i < 3; i++) {
+        cout << *figury[i] << figury[i]->Obwod() << endl;
     }
 
     cout << endl;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         delete figury[i];
     }
 
