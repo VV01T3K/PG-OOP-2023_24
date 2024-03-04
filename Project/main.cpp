@@ -27,13 +27,11 @@ int main() {
          << " ->Pole: " << trojkat.Pole() << endl
          << " ->Obwod: " << trojkat.Obwod() << endl;
 
-    Trojkat trojkatRownoboczny(3);
+    Trojkat* trojkatRownoboczny = new Trojkat(3);
 
-    cout << trojkatRownoboczny << endl
-         << " ->Pole: " << trojkatRownoboczny.Pole() << endl
-         << " ->Obwod: " << trojkatRownoboczny.Obwod() << endl;
-
-    cout << endl;
+    cout << *trojkatRownoboczny << endl
+         << " ->Pole: " << trojkatRownoboczny->Pole() << endl
+         << " ->Obwod: " << trojkatRownoboczny->Obwod() << endl;
 
     FiguraPlaska* figury[2];
 
