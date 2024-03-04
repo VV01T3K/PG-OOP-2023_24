@@ -1,3 +1,4 @@
+_Pragma("once");
 #include <iostream>
 class FiguraPlaska {
    protected:

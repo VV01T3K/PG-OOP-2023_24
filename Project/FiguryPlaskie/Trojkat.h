@@ -1,6 +1,6 @@
-_Pragma("once")
+_Pragma("once");
 #include "FiguraPlaska.h"
-    class Trojkat : public FiguraPlaska {
+class Trojkat : public FiguraPlaska {
     double a, b, c;
 
    protected:
@@ -8,7 +8,6 @@ _Pragma("once")
 
    public:
     Trojkat(double a, double b, double c);
-    Trojkat(double a);  // trójkąt równoboczny
     double GetA() const;
     void SetA(double a);
     double GetB() const;
