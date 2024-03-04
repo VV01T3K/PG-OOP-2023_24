@@ -8,9 +8,9 @@ using namespace std;
 int main() {
     Trapez trapez(2, 4, 2, 2, 2);
 
-    cout << trapez;
-    cout << " ->Pole: " << trapez.Pole() << endl;
-    cout << " ->Obwod: " << trapez.Obwod() << endl;
+    cout << trapez << endl
+         << " ->Pole: " << trapez.Pole() << endl
+         << " ->Obwod: " << trapez.Obwod() << endl;
 
     cout << endl;
 
@@ -19,10 +19,21 @@ int main() {
 
     cout << endl;
 
-    cout << prostokat << ", Pole: " << prostokat.Pole()
-         << ", Obwod: " << prostokat.Obwod() << endl;
-    cout << trojkat << ", Pole: " << trojkat.Pole()
-         << ", Obwod: " << trojkat.Obwod() << endl;
+    cout << prostokat << endl
+         << " ->Pole: " << prostokat.Pole() << endl
+         << " ->Obwod: " << prostokat.Obwod() << endl;
+
+    cout << trojkat << endl
+         << " ->Pole: " << trojkat.Pole() << endl
+         << " ->Obwod: " << trojkat.Obwod() << endl;
+
+    Trojkat trojkatRownoboczny(3);
+
+    cout << trojkatRownoboczny << endl
+         << " ->Pole: " << trojkatRownoboczny.Pole() << endl
+         << " ->Obwod: " << trojkatRownoboczny.Obwod() << endl;
+
+    cout << endl;
 
     FiguraPlaska* figury[2];
 

@@ -8,6 +8,7 @@ class Trojkat : public FiguraPlaska {
 
    public:
     Trojkat(double a, double b, double c);
+    Trojkat(double a);  // trójkąt równoboczny
     double GetA() const;
     void SetA(double a);
     double GetB() const;

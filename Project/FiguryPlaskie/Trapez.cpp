@@ -21,8 +21,8 @@ void Trapez::SetH(double h) { this->h = h; }
 double Trapez::Obwod() { return a + b + c + d; }
 double Trapez::Pole() { return (a + b) * h / 2; }
 void Trapez::Wypisz(std::ostream& out) const {
-    out << "Trapez(" << a << "," << b << "," << c << "," << d << "," << h << ")"
-        << endl;
+    out << "Trapez(" << a << "," << b << "," << c << "," << d << "," << h
+        << ")";
 }
 Trapez::~Trapez() {
     cout << "Destruktor Trapezu(" << a << "," << b << "," << c << "," << d
