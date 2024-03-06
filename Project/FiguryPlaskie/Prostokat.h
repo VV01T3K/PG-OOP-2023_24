@@ -1,6 +1,6 @@
-_Pragma("once");
+_Pragma("once")
 #include "FiguraPlaska.h"
-class Prostokat : public FiguraPlaska {
+    class Prostokat : public FiguraPlaska {
    private:
     double a, b;
 

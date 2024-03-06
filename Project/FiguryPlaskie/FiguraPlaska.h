@@ -1,6 +1,7 @@
-_Pragma("once");
+_Pragma("once")
 #include <iostream>
-class FiguraPlaska {
+
+    class FiguraPlaska {
    protected:
     virtual void Wypisz(std::ostream& out) const = 0;
     friend std::ostream& operator<<(std::ostream& os,

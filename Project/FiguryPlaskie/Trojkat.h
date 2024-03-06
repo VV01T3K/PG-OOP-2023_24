@@ -1,6 +1,6 @@
-_Pragma("once");
+_Pragma("once")
 #include "FiguraPlaska.h"
-class Trojkat : public FiguraPlaska {
+    class Trojkat : public FiguraPlaska {
     double a, b, c;
 
    protected:
