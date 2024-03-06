@@ -7,5 +7,4 @@ class Book {
     std::string author, title;
 
    public:
-    Book()
 };
