@@ -7,7 +7,7 @@ _Pragma("once");
 template <typename T>
 class Stack {
     DoublyLinkedList<T> list;
-    Node<T> *top;
+    Node<T>* top;
 
    public:
     Stack();
@@ -15,15 +15,14 @@ class Stack {
     void push(T data);
     T pop();
     void print() const;
-
-    T peek() { return list.getAtBeginning(); }
-    const;
-    size_t getSize() { return list.getSize(); }
-    const;
-    bool isEmpty() { return list.isEmpty(); }
-    const;
+    T peek() const { return list.getAtBeginning(); };
+    size_t getSize() const { return list.getSize(); };
+    bool isEmpty() const { return list.isEmpty(); };
     void clear() { list.clear(); };
 };
+
+template <typename T>
+Stack<T>::Stack() : top(nullptr) {}
 
 template <typename T>
 Stack<T>::~Stack() {
@@ -33,13 +32,9 @@ Stack<T>::~Stack() {
 
 template <typename T>
 void Stack<T>::print() const {
-    cout << "Stack: (";
-    while (top != nullptr) {
-        cout << top->data << " ";
-        top = top->next;
-    }
-    cout << ")" << endl;
-};
+    std::cout << "Stack: ";
+    list.print();
+}
 
 template <typename T>
 void Stack<T>::push(T data) {

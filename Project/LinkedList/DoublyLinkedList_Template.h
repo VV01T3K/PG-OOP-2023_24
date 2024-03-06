@@ -152,12 +152,15 @@ template <typename T>
 void DoublyLinkedList<T>::print() const {
     if (isEmpty()) throw std::out_of_range("List is empty");
     Node<T> *tmp = head;
-    std::cout << "List: (";
+    std::cout << "(";
     while (tmp != nullptr) {
-        std::cout << tmp->data << ",";
+        std::cout << tmp->data;
+        if (tmp->next != nullptr) {
+            std::cout << ",";
+        }
         tmp = tmp->next;
     }
-    std::cout << "\b)" << std::endl;
+    std::cout << ")" << std::endl;
 };
 
 template <typename T>
