@@ -3,6 +3,8 @@ _Pragma("once");
 #include <iostream>
 #include <stdexcept>
 
+// !! copying and assignig is broken
+
 template <typename T>
 class Node {
    public:
@@ -89,6 +91,7 @@ void DoublyLinkedList<T>::removeAtEnd() {
 
 template <typename T>
 void DoublyLinkedList<T>::insertAtPos(size_t pos, T data) {
+    if (pos > getSize()) throw std::out_of_range("Index is out of range");
     Node<T> *newNode = new Node<T>(data);
     if (isEmpty()) {
         head = tail = newNode;
@@ -97,21 +100,19 @@ void DoublyLinkedList<T>::insertAtPos(size_t pos, T data) {
         insertAtBeginning(data);
     } else if (pos >= getSize()) {
         insertAtEnd(data);
-    } else if (pos >= getSize() / 2) {
-        Node<T> *tmp = tail;
-        for (size_t i = getSize() - 1; i > pos; i--) tmp = tmp->prev;
-        newNode->next = tmp->next;
-        newNode->prev = tmp;
-        tmp->next = newNode;
-        newNode->next->prev = newNode;
-        size++;
     } else {
-        Node<T> *tmp = head;
-        for (size_t i = 0; i < pos; i++) tmp = tmp->next;
+        Node<T> *tmp;
+        if (pos < getSize() / 2) {
+            tmp = head;
+            for (size_t i = 0; i < pos; i++) tmp = tmp->next;
+        } else {
+            tmp = tail;
+            for (size_t i = getSize() - 1; i > pos; i--) tmp = tmp->prev;
+        }
         newNode->next = tmp;
         newNode->prev = tmp->prev;
+        tmp->prev->next = newNode;
         tmp->prev = newNode;
-        newNode->prev->next = newNode;
         size++;
     }
 };
@@ -121,20 +122,19 @@ void DoublyLinkedList<T>::removeAtPos(size_t pos) {
     if (isEmpty()) throw std::out_of_range("List is empty");
     if (pos >= getSize()) throw std::out_of_range("Index is out of range");
 
+    Node<T> *tmp;
     if (pos == 0) {
         removeAtBeginning();
     } else if (pos == getSize() - 1) {
         removeAtEnd();
-    } else if (pos >= getSize() / 2) {
-        Node<T> *tmp = tail;
-        for (size_t i = getSize() - 1; i > pos; i--) tmp = tmp->prev;
-        tmp->prev->next = tmp->next;
-        tmp->next->prev = tmp->prev;
-        delete tmp;
-        size--;
     } else {
-        Node<T> *tmp = head;
-        for (size_t i = 0; i < pos; i++) tmp = tmp->next;
+        if (pos < getSize() / 2) {
+            tmp = head;
+            for (size_t i = 0; i < pos; i++) tmp = tmp->next;
+        } else {
+            tmp = tail;
+            for (size_t i = getSize() - 1; i > pos; i--) tmp = tmp->prev;
+        }
         tmp->prev->next = tmp->next;
         tmp->next->prev = tmp->prev;
         delete tmp;
@@ -187,7 +187,6 @@ T DoublyLinkedList<T>::getAtEnd() {
 
 template <typename T>
 void DoublyLinkedList<T>::clear() {
-    if (isEmpty()) throw std::out_of_range("List is already empty");
     while (!isEmpty()) removeAtBeginning();
 };
 
