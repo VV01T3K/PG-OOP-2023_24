@@ -1,52 +1,22 @@
 #include <iostream>
-
-#include "FiguryPlaskie/Kolo.h"
-#include "FiguryPlaskie/Prostokat.h"
-#include "FiguryPlaskie/Trojkat.h"
-
+#include <string>
 using namespace std;
 
 int main() {
-    Trojkat trojkatRownoboczny(3);
-
-    cout << "Trojkat Rownoboczny: " << trojkatRownoboczny
-         << ", Pole: " << trojkatRownoboczny.Pole()
-         << ", Obwod: " << trojkatRownoboczny.Obwod() << endl;
-
-    cout << endl;
-
-    Kolo kolo(5);
-    Prostokat prostokat(4, 6);
-    Trojkat trojkat(3, 4, 5);
-
-    cout << endl;
-
-    cout << kolo << ", Pole: " << kolo.Pole() << ", Obwod : " << kolo.Obwod()
-         << endl;
-    cout << prostokat << ", Pole: " << prostokat.Pole()
-         << ", Obwod: " << prostokat.Obwod() << endl;
-    cout << trojkat << ", Pole: " << trojkat.Pole()
-         << ", Obwod: " << trojkat.Obwod() << endl;
-
-    FiguraPlaska* figury[3];
-
-    cout << endl;
-
-    figury[0] = new Kolo(7);
-    figury[1] = new Prostokat(8, 9);
-    figury[2] = new Trojkat(6, 8, 10);
-
-    cout << endl;
-
-    for (int i = 0; i < 3; i++) {
-        cout << *figury[i] << endl;
-    }
-
-    cout << endl;
-
-    for (int i = 0; i < 3; i++) {
-        delete figury[i];
-    }
-
+    string a = "<?>", t = "<?>";
+    Book e;
+    cout << "e: " << e << endl;
+    Book b1 = {a, t};
+    cout << "b1: " << b1 << endl;
+    Book b2 = {"<?>", "<?>"};
+    cout << "b2: " << b2 << endl;
+    Book b3 = b1;
+    cout << "b3: " << b3 << " b1: " << b1 << endl;
+    e = std::move(b2);
+    cout << "e: " << e << " b2:" << b2 << endl;
+    e.SetAuthor("<?>");
+    cout << "e: " << e << endl;
+    e.SetTitle("<?>");
+    cout << "e: " << e << endl;
     return 0;
 }
