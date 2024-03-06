@@ -21,16 +21,16 @@ class DoublyLinkedList {
     size_t size;
 
    public:
-    // T getHead();
-    // T getTail();
+    Node<T> *getHead() const { return head; }
+    Node<T> *getTail() const { return tail; }
     DoublyLinkedList();
     ~DoublyLinkedList();
     void insertAtPos(size_t pos, T data);
-    void removeAtPos(size_t pos);
+    T removeAtPos(size_t pos);
     void insertAtBeginning(T data);
-    void removeAtBeginning();
+    T removeAtBeginning();
     void insertAtEnd(T data);
-    void removeAtEnd();
+    T removeAtEnd();
     void print() const;
     size_t getSize() const;
     bool isEmpty() const;
@@ -38,7 +38,6 @@ class DoublyLinkedList {
     T getAtBeginning();
     T getAtEnd();
     void clear();
-    void destroy();
 };
 
 template <typename T>
@@ -72,21 +71,25 @@ void DoublyLinkedList<T>::insertAtEnd(T data) {
 };
 
 template <typename T>
-void DoublyLinkedList<T>::removeAtBeginning() {
+T DoublyLinkedList<T>::removeAtBeginning() {
     if (isEmpty()) throw std::out_of_range("List is empty");
     Node<T> *tmp = head;
+    T data = tmp->data;
     head = head->next;
     delete tmp;
     size--;
+    return data;
 };
 
 template <typename T>
-void DoublyLinkedList<T>::removeAtEnd() {
+T DoublyLinkedList<T>::removeAtEnd() {
     if (isEmpty()) throw std::out_of_range("List is empty");
     Node<T> *tmp = tail;
+    T data = tmp->data;
     tail = tail->prev;
     delete tmp;
     size--;
+    return data;
 };
 
 template <typename T>
@@ -118,15 +121,16 @@ void DoublyLinkedList<T>::insertAtPos(size_t pos, T data) {
 };
 
 template <typename T>
-void DoublyLinkedList<T>::removeAtPos(size_t pos) {
+T DoublyLinkedList<T>::removeAtPos(size_t pos) {
     if (isEmpty()) throw std::out_of_range("List is empty");
     if (pos >= getSize()) throw std::out_of_range("Index is out of range");
 
     Node<T> *tmp;
+    T data;
     if (pos == 0) {
-        removeAtBeginning();
+        data = removeAtBeginning();
     } else if (pos == getSize() - 1) {
-        removeAtEnd();
+        data = removeAtEnd();
     } else {
         if (pos < getSize() / 2) {
             tmp = head;
@@ -135,11 +139,13 @@ void DoublyLinkedList<T>::removeAtPos(size_t pos) {
             tmp = tail;
             for (size_t i = getSize() - 1; i > pos; i--) tmp = tmp->prev;
         }
+        data = tmp->data;
         tmp->prev->next = tmp->next;
         tmp->next->prev = tmp->prev;
         delete tmp;
         size--;
     }
+    return data;
 };
 
 template <typename T>
@@ -187,17 +193,19 @@ T DoublyLinkedList<T>::getAtEnd() {
 
 template <typename T>
 void DoublyLinkedList<T>::clear() {
-    while (!isEmpty()) removeAtBeginning();
+    while (head != nullptr) {
+        Node<T> *tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+    head = nullptr;
+    tail = nullptr;
+    size = 0;
 };
 
 template <typename T>
-void DoublyLinkedList<T>::destroy() {
+DoublyLinkedList<T>::~DoublyLinkedList() {
     clear();
     head = nullptr;
     tail = nullptr;
-}
-
-template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
-    destroy();
 };
