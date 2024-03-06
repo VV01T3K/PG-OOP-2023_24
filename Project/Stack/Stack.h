@@ -15,7 +15,10 @@ class Stack {
     void push(T data);
     T pop();
     void print() const;
-    T peek() const { return list.getAtBeginning(); };
+    T peek() const {
+        if (isEmpty()) throw std::out_of_range("Stack is empty");
+        return top->data;
+    };
     size_t getSize() const { return list.getSize(); };
     bool isEmpty() const { return list.isEmpty(); };
     void clear() { list.clear(); };
