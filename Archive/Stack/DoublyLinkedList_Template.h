@@ -31,13 +31,15 @@ class DoublyLinkedList {
     T removeAtBeginning();
     void insertAtEnd(T data);
     T removeAtEnd();
-    void print() const;
     size_t getSize() const;
     bool isEmpty() const;
     T getAtPos(size_t pos);
     T getAtBeginning();
     T getAtEnd();
     void clear();
+    template <typename T2>
+    friend std::ostream &operator<<(std::ostream &out,
+                                    const DoublyLinkedList<T2> &list);
 };
 
 template <typename T>
@@ -149,18 +151,19 @@ T DoublyLinkedList<T>::removeAtPos(size_t pos) {
 };
 
 template <typename T>
-void DoublyLinkedList<T>::print() const {
-    if (isEmpty()) throw std::out_of_range("List is empty");
-    Node<T> *tmp = head;
-    std::cout << "(";
+std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &list) {
+    if (list.isEmpty()) throw std::out_of_range("List is empty");
+    Node<T> *tmp = list.getHead();
+    out << "(";
     while (tmp != nullptr) {
-        std::cout << tmp->data;
+        out << tmp->data;
         if (tmp->next != nullptr) {
-            std::cout << ",";
+            out << ",";
         }
         tmp = tmp->next;
     }
-    std::cout << ")" << std::endl;
+    out << ")";
+    return out;
 };
 
 template <typename T>

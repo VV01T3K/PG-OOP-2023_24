@@ -3,17 +3,25 @@
 #include "ONPcalc.h"
 #include "Stack.h"
 using namespace std;
+
 int main() {
     Stack<Token> stack;
     {
-        stack.push(Token{Token::Type::OPERATOR, '!'});
-        stack.push(Token{Token::Type::NUMBER, 21});
+        // 0  1  MAX2  1  N  +  N
+        stack.push(Token{Token::Type::OPERATOR, NOT});
+        stack.push(Token{Token::Type::OPERATOR, ADD});
+        stack.push(Token{Token::Type::OPERATOR, NOT});
+        stack.push(Token{Token::Type::NUMBER, 1});
+        stack.push(Token{Token::Type::OPERATOR, MAX, 2});
+        stack.push(Token{Token::Type::NUMBER, 1});
+        stack.push(Token{Token::Type::NUMBER, 0});
     }
 
-    cout << "Stack:" << stack << endl;
+    stack.print("  ");
 
     ONPcalc calc;
-    cout << calc.calculate(stack) << endl;
+    calc.calculate(stack);
+    stack.clear();
 
     return 0;
 }

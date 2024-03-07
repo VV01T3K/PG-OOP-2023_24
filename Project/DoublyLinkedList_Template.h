@@ -37,6 +37,7 @@ class DoublyLinkedList {
     T getAtBeginning();
     T getAtEnd();
     void clear();
+    void print(const char *separator) const;
     template <typename T2>
     friend std::ostream &operator<<(std::ostream &out,
                                     const DoublyLinkedList<T2> &list);
@@ -151,18 +152,30 @@ T DoublyLinkedList<T>::removeAtPos(size_t pos) {
 };
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &list) {
-    if (list.isEmpty()) throw std::out_of_range("List is empty");
-    Node<T> *tmp = list.getHead();
-    out << "(";
+void DoublyLinkedList<T>::print(const char *separator) const {
+    if (isEmpty()) throw std::out_of_range("List is empty");
+    Node<T> *tmp = getHead();
     while (tmp != nullptr) {
-        out << tmp->data;
+        std::cout << tmp->data;
         if (tmp->next != nullptr) {
-            out << ",";
+            std::cout << separator;
         }
         tmp = tmp->next;
     }
-    out << ")";
+    std::cout << std::endl;
+};
+
+template <typename T>
+std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &list) {
+    if (list.isEmpty()) throw std::out_of_range("List is empty");
+    Node<T> *tmp = list.getHead();
+    while (tmp != nullptr) {
+        out << tmp->data;
+        if (tmp->next != nullptr) {
+            out << " ";
+        }
+        tmp = tmp->next;
+    }
     return out;
 };
 

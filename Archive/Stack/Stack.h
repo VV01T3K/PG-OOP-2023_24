@@ -7,14 +7,13 @@ _Pragma("once");
 template <typename T>
 class Stack {
     DoublyLinkedList<T> list;
-    Node<T>* top;
+    Node<T> *top;
 
    public:
     Stack();
     ~Stack();
     void push(T data);
     T pop();
-    void print() const;
     T peek() const {
         if (isEmpty()) throw std::out_of_range("Stack is empty");
         return top->data;
@@ -22,6 +21,8 @@ class Stack {
     size_t getSize() const { return list.getSize(); };
     bool isEmpty() const { return list.isEmpty(); };
     void clear() { list.clear(); };
+    template <typename T2>
+    friend std::ostream &operator<<(std::ostream &out, const Stack<T2> &stack);
 };
 
 template <typename T>
@@ -34,10 +35,10 @@ Stack<T>::~Stack() {
 };
 
 template <typename T>
-void Stack<T>::print() const {
-    std::cout << "Stack: ";
-    list.print();
-}
+std::ostream &operator<<(std::ostream &out, const Stack<T> &stack) {
+    out << stack.list;
+    return out;
+};
 
 template <typename T>
 void Stack<T>::push(T data) {

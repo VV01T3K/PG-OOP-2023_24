@@ -3,42 +3,55 @@ _Pragma("once");
 
 #include "Stack.h"
 
-#define NUMBER_OF_IMPLEMENTED_OPERATORS 9
+enum Operator {
+    ADD = '+',
+    SUBTRACT = '-',
+    MULTIPLY = '*',
+    DIVIDE = '/',
+    IF = '?',
+    NOT = '!',
+    MAX = '>',
+    MIN = '<',
+
+};
 
 class Token {
    public:
     enum Type { NUMBER, OPERATOR };
     Type type;
-    int data;
+    int value;
+    unsigned char arg_count;
 
     friend std::ostream& operator<<(std::ostream& out, const Token& token) {
         if (token.type == Type::NUMBER) {
-            out << token.data;
+            out << token.value;
         } else {
-            out << (char)token.data;
+            switch (token.value) {
+                case IF:
+                    out << "IF";
+                    break;
+                case NOT:
+                    out << 'N';
+                    break;
+                case MAX:
+                    out << "MAX" << (int)token.arg_count;
+                    break;
+                case MIN:
+                    out << "MIN" << (int)token.arg_count;
+                    break;
+                default:
+                    out << (char)token.value;
+                    break;
+            }
         }
         return out;
     }
 };
-
 class ONPcalc {
    private:
     Stack<int>* stack;
     Stack<int> tmp_stack;
 
-    enum Operator {
-        ADD = '+',
-        SUBTRACT = '-',
-        MULTIPLY = '*',
-        DIVIDE = '/',
-        IF = '?',
-        NOT = '!',
-        MAX = '>',
-        MIN = '<',
-
-    };
-    const char operators[NUMBER_OF_IMPLEMENTED_OPERATORS] = "+-*/!?><";
-
    public:
-    int calculate(Stack<Token>& stack);
+    void calculate(Stack<Token>& stack);
 };

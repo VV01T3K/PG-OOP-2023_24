@@ -13,6 +13,7 @@ class Stack {
     Stack();
     ~Stack();
     void push(T data);
+    void print(const char *separator) const;
     T pop();
     T peek() const {
         if (isEmpty()) throw std::out_of_range("Stack is empty");
@@ -23,6 +24,11 @@ class Stack {
     void clear() { list.clear(); };
     template <typename T2>
     friend std::ostream &operator<<(std::ostream &out, const Stack<T2> &stack);
+};
+
+template <typename T>
+void Stack<T>::print(const char *separator) const {
+    list.print(separator);
 };
 
 template <typename T>
