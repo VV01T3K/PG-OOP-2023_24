@@ -1,6 +1,7 @@
 #include "ONPcalc.h"
 
 #include <iostream>
+
 void ONPcalc::calculate(Stack<Token>& stack) {
     while (!stack.isEmpty()) {
         Token token = stack.pop();
@@ -68,3 +69,29 @@ void ONPcalc::calculate(Stack<Token>& stack) {
     }
     std::cout << tmp_stack.pop() << std::endl;
 };
+
+// Przeciążenie operatora << dla klasy Token
+std::ostream& operator<<(std::ostream& out, const Token& token) {
+    if (token.type == Token::Type::NUMBER) {
+        out << token.value;
+    } else {
+        switch (token.value) {
+            case ONPcalc::IF:
+                out << "IF";
+                break;
+            case ONPcalc::NOT:
+                out << 'N';
+                break;
+            case ONPcalc::MAX:
+                out << "MAX" << (int)token.arg_count;
+                break;
+            case ONPcalc::MIN:
+                out << "MIN" << (int)token.arg_count;
+                break;
+            default:
+                out << (char)token.value;
+                break;
+        }
+    }
+    return out;
+}
