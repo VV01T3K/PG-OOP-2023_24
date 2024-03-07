@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "ONPcalc.h"
-#include "Reader.h"
+// #include "Reader.h"
 #include "Stack.h"
 using namespace std;
 
@@ -24,9 +24,9 @@ int main() {
     // calc.calculate(stack);
     // stack.clear();
 
-    Reader reader("input.txt");
-
-    reader.read();
+    char input[500];
+    cin >> input;
+    cout << "===================" << endl << input << endl;
 
     return 0;
 }
