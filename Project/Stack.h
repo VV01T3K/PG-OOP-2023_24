@@ -10,12 +10,6 @@ class Stack {
     Node<T> *top;
 
    public:
-    DoublyLinkedList<T> swapList(DoublyLinkedList<T> &list) {
-        DoublyLinkedList<T> tmp;
-        tmp = this->list;
-        this->list = list;
-        return tmp;
-    }
     Stack();
     ~Stack();
     void push(T data);
