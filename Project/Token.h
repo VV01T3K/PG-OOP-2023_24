@@ -2,7 +2,7 @@ _Pragma("once");
 #include <iostream>
 class Token {
    public:
-    enum Type { NUMBER, OPERATOR };
+    enum Type { NUMBER, OPERATOR, FUNCTION };
     Type type;
     int value;
     unsigned char arg_count;

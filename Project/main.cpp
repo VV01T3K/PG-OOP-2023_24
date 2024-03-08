@@ -16,8 +16,8 @@ int main() {
 
     stack.print("  ");
 
-    ONPcalc calc;
-    calc.calculate(stack);
+    // ONPcalc calc;
+    // calc.calculate(stack);
 
     return 0;
 }

@@ -22,7 +22,7 @@ class Stack {
     void print(const char *separator) const;
     T pop();
     T peek() const {
-        if (isEmpty()) std::cerr << "Stack is empty" << std::endl;
+        if (isEmpty()) return NULL;
         return top->data;
     };
     size_t getSize() const { return list.getSize(); };

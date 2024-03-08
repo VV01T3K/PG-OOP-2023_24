@@ -28,9 +28,12 @@ void Converter::convertOneFormula() {
         if (str[0] == '.') break;
         if (str[0] == ',') continue;
 
-        Token token(str);
+        const Token token(str);
         if (token.type == Token::Type::NUMBER) {
             output.insertAtEnd(token);
+            cout << token << " | ";
+            cout << output << " | " << stack << endl;
+            cout << "----------------" << endl;
             continue;
         }
         switch (token.value) {
@@ -38,20 +41,25 @@ void Converter::convertOneFormula() {
                 stack.push(token);
                 break;
             case ')':
-                while (stack.peek().value != '(') {
+                while (!stack.isEmpty() && stack.peek().value != '(') {
                     output.insertAtEnd(stack.pop());
                 }
-                stack.pop();
+                if (!stack.isEmpty() && stack.peek().value == '(') {
+                    stack.pop();
+                }
                 break;
             default:
-                while (!stack.isEmpty() &&
-                       ONPcalc::getPriority(stack.peek().value) >=
-                           ONPcalc::getPriority(token.value)) {
+                const int priority = ONPcalc::getPriority(token.value);
+                while (!stack.isEmpty() && stack.peek().value != '(' &&
+                       ONPcalc::getPriority(stack.peek().value) >= priority) {
                     output.insertAtEnd(stack.pop());
                 }
                 stack.push(token);
                 break;
         }
+        cout << token << " | ";
+        cout << output << " | " << stack << endl;
+        cout << "----------------" << endl;
     }
     while (!stack.isEmpty()) {
         output.insertAtEnd(stack.pop());
