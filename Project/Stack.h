@@ -10,13 +10,19 @@ class Stack {
     Node<T> *top;
 
    public:
+    DoublyLinkedList<T> swapList(DoublyLinkedList<T> &list) {
+        DoublyLinkedList<T> tmp;
+        tmp = this->list;
+        this->list = list;
+        return tmp;
+    }
     Stack();
     ~Stack();
     void push(T data);
     void print(const char *separator) const;
     T pop();
     T peek() const {
-        if (isEmpty()) throw std::out_of_range("Stack is empty");
+        if (isEmpty()) std::cerr << "Stack is empty" << std::endl;
         return top->data;
     };
     size_t getSize() const { return list.getSize(); };

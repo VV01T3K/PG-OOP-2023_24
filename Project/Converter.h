@@ -3,6 +3,7 @@ _Pragma("once");
 #include <cstring>
 #include <iostream>
 
+#include "DoublyLinkedList_Template.h"
 #include "ONPcalc.h"
 #include "Stack.h"
 #include "Token.h"
@@ -12,63 +13,50 @@ using namespace std;
 #define MAX_TOKEN_LENGTH 500
 
 class Converter {
-    int n;
-    Stack<Token>* stack;
-    Stack<Token> tmp_stack;
+    Stack<Token>& stack;
+    DoublyLinkedList<Token> output;
 
    public:
-    Converter(int n, Stack<Token>& stack) : n(n), stack(&stack) {
-        cout << "Converter constructor" << endl;
-    };
-    ~Converter() { cout << "Converter destructor" << endl; };
+    Converter(Stack<Token>& stack) : stack(stack){};
+    ~Converter(){};
     void convertOneFormula();
 };
 
 void Converter::convertOneFormula() {
     char token[MAX_TOKEN_LENGTH];
     while (cin >> token) {
-        if (strcmp(token, ".") == 0) break;
-
+        cout << token[0] << ": " << ONPcalc::getPriority(token[0]) << endl;
+        if (token[0] == '.') break;
         if (isdigit(token[0])) {
-            stack->push(Token{Token::Type::NUMBER, atoi(token)});
+            output.insertAtEnd(Token{Token::Type::NUMBER, atoi(token)});
         } else {
             switch (token[0]) {
                 case '(':
-                    stack->push(Token{Token::Type::OPERATOR, '('});
+                    stack.push(Token{Token::Type::OPERATOR, token[0]});
                     break;
                 case ')':
-                    stack->push(Token{Token::Type::OPERATOR, ')'});
-                    break;
-                case 'M':
-                    if (token[1] == 'A') {
-                        stack->push(Token(Token::Type::OPERATOR, ONPcalc::MAX,
-                                          token[3]));
-                    } else {
-                        stack->push(Token(Token::Type::OPERATOR, ONPcalc::MIN,
-                                          token[3]));
+                    while (!stack.isEmpty()) {
+                        Token tmp = stack.pop();
+                        if (tmp.value == '(')
+                            break;
+                        else
+                            output.insertAtEnd(tmp);
                     }
                     break;
-                case '+':
-                    stack->push(Token{Token::Type::OPERATOR, ONPcalc::ADD});
-                    break;
-                case '-':
-                    stack->push(
-                        Token{Token::Type::OPERATOR, ONPcalc::SUBTRACT});
-                    break;
-                case '*':
-                    stack->push(
-                        Token{Token::Type::OPERATOR, ONPcalc::MULTIPLY});
-                    break;
-                case '/':
-                    stack->push(Token{Token::Type::OPERATOR, ONPcalc::DIVIDE});
-                    break;
-                case 'N':
-                    stack->push(Token{Token::Type::OPERATOR, ONPcalc::NOT});
-                    break;
-                case 'I':
-                    stack->push(Token{Token::Type::OPERATOR, ONPcalc::IF});
+                default:
+                    while (!stack.isEmpty() &&
+                           ONPcalc::getPriority(token[0]) <=
+                               ONPcalc::getPriority(stack.peek().value)) {
+                        output.insertAtEnd(stack.pop());
+                    }
+                    stack.push(Token{Token::Type::OPERATOR, token[0]});
                     break;
             }
         }
     }
+    while (!stack.isEmpty()) {
+        output.insertAtEnd(stack.pop());
+    }
+    stack.clear();
+    output = stack.swapList(output);
 }

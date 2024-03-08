@@ -10,15 +10,16 @@ int main() {
 
     int n;
     cin >> n;
-    Converter converter(n, stack);
+    Converter converter(stack);
 
     converter.convertOneFormula();
 
+    cout << "5  4  -  4  N  /  0  9  +  N  /" << endl
+         << "-------------------------------" << endl;
     stack.print("  ");
 
     // ONPcalc calc;
     // calc.calculate(stack);
-    // stack.clear();
 
     return 0;
 }

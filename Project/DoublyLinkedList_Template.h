@@ -48,6 +48,13 @@ DoublyLinkedList<T>::DoublyLinkedList()
     : size(0), head(nullptr), tail(nullptr) {}
 
 template <typename T>
+DoublyLinkedList<T>::~DoublyLinkedList() {
+    clear();
+    head = nullptr;
+    tail = nullptr;
+};
+
+template <typename T>
 void DoublyLinkedList<T>::insertAtBeginning(T data) {
     Node<T> *newNode = new Node<T>(data);
     if (isEmpty()) {
@@ -153,7 +160,7 @@ T DoublyLinkedList<T>::removeAtPos(size_t pos) {
 
 template <typename T>
 void DoublyLinkedList<T>::print(const char *separator) const {
-    if (isEmpty()) throw std::out_of_range("List is empty");
+    if (isEmpty()) throw std::out_of_range("List is empty (print)");
     Node<T> *tmp = getHead();
     while (tmp != nullptr) {
         std::cout << tmp->data;
@@ -167,7 +174,7 @@ void DoublyLinkedList<T>::print(const char *separator) const {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &list) {
-    if (list.isEmpty()) throw std::out_of_range("List is empty");
+    if (list.isEmpty()) std::cerr << "List is empty (<<)" << std::endl;
     Node<T> *tmp = list.getHead();
     while (tmp != nullptr) {
         out << tmp->data;
@@ -220,11 +227,4 @@ void DoublyLinkedList<T>::clear() {
     head = nullptr;
     tail = nullptr;
     size = 0;
-};
-
-template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
-    clear();
-    head = nullptr;
-    tail = nullptr;
 };
