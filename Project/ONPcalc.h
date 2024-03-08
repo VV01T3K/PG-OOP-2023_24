@@ -2,19 +2,10 @@ _Pragma("once");
 #include <iostream>
 
 #include "Stack.h"
-
-class Token {
-   public:
-    enum Type { NUMBER, OPERATOR };
-    Type type;
-    int value;
-    unsigned char arg_count;
-    friend std::ostream& operator<<(std::ostream& out, const Token& token);
-};
+#include "Token.h"
 
 class ONPcalc {
    private:
-    Stack<int>* stack;
     Stack<int> tmp_stack;
 
    public:
@@ -27,7 +18,6 @@ class ONPcalc {
         NOT = '!',
         MAX = '>',
         MIN = '<',
-
     };
     void calculate(Stack<Token>& stack);
 };

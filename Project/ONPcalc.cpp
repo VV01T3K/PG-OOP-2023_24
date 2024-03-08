@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Token.h"
+
 void ONPcalc::calculate(Stack<Token>& stack) {
     while (!stack.isEmpty()) {
         Token token = stack.pop();
