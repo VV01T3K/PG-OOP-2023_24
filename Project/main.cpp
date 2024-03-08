@@ -14,12 +14,10 @@ int main() {
 
     converter.convertOneFormula();
 
-    cout << "5  4  -  4  N  /  0  9  +  N  /" << endl
-         << "-------------------------------" << endl;
     stack.print("  ");
 
-    // ONPcalc calc;
-    // calc.calculate(stack);
+    ONPcalc calc;
+    calc.calculate(stack);
 
     return 0;
 }

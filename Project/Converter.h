@@ -10,7 +10,7 @@ _Pragma("once");
 
 using namespace std;
 
-#define MAX_TOKEN_LENGTH 500
+#define MAX_TOKEN_LENGTH 1000
 
 class Converter {
     Stack<Token>& stack;
@@ -23,40 +23,38 @@ class Converter {
 };
 
 void Converter::convertOneFormula() {
-    char token[MAX_TOKEN_LENGTH];
-    while (cin >> token) {
-        cout << token[0] << ": " << ONPcalc::getPriority(token[0]) << endl;
-        if (token[0] == '.') break;
-        if (isdigit(token[0])) {
-            output.insertAtEnd(Token{Token::Type::NUMBER, atoi(token)});
-        } else {
-            switch (token[0]) {
-                case '(':
-                    stack.push(Token{Token::Type::OPERATOR, token[0]});
-                    break;
-                case ')':
-                    while (!stack.isEmpty()) {
-                        Token tmp = stack.pop();
-                        if (tmp.value == '(')
-                            break;
-                        else
-                            output.insertAtEnd(tmp);
-                    }
-                    break;
-                default:
-                    while (!stack.isEmpty() &&
-                           ONPcalc::getPriority(token[0]) <=
-                               ONPcalc::getPriority(stack.peek().value)) {
-                        output.insertAtEnd(stack.pop());
-                    }
-                    stack.push(Token{Token::Type::OPERATOR, token[0]});
-                    break;
-            }
+    char str[MAX_TOKEN_LENGTH];
+    while (cin >> str) {
+        if (str[0] == '.') break;
+        if (str[0] == ',') continue;
+
+        Token token(str);
+        if (token.type == Token::Type::NUMBER) {
+            output.insertAtEnd(token);
+            continue;
+        }
+        switch (token.value) {
+            case '(':
+                stack.push(token);
+                break;
+            case ')':
+                while (stack.peek().value != '(') {
+                    output.insertAtEnd(stack.pop());
+                }
+                stack.pop();
+                break;
+            default:
+                while (!stack.isEmpty() &&
+                       ONPcalc::getPriority(stack.peek().value) >=
+                           ONPcalc::getPriority(token.value)) {
+                    output.insertAtEnd(stack.pop());
+                }
+                stack.push(token);
+                break;
         }
     }
     while (!stack.isEmpty()) {
         output.insertAtEnd(stack.pop());
     }
-    stack.clear();
     output = stack.swapList(output);
 }
