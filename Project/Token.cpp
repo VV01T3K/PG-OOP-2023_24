@@ -4,6 +4,14 @@
 
 #include "ONPcalc.h"
 
+int Token::precedence() const {
+    if (type == Type::OPERATOR) {
+        return ONPcalc::getPriority(value);
+    } else {
+        return 0;
+    }
+}
+
 Token::Token(const char* string) {
     if (isdigit(string[0])) {
         type = Type::NUMBER;
