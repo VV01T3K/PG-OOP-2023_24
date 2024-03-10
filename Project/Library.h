@@ -32,8 +32,9 @@ class Library {
     const Book& operator[](size_t index) const;
     size_t GetSize() const;
     ~Library();
+
+    bool isEmpty() const;
     void push_back(const Book& book);
     void push_back(Book&& book);
     Book pop_back();
-    bool isEmpty() const;
 };

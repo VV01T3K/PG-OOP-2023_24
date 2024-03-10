@@ -49,8 +49,25 @@ Library& Library::operator=(Library&& right) {
     return *this;
 };
 
-// Book& Library::operator[](size_t index){};
+Book& Library::operator[](size_t index) {
+    if (isEmpty()) throw out_of_range("Empty list - operator[]");
+    if (index >= GetSize()) throw out_of_range("Index is out of range");
+    Node<Book>* tmp = head;
+    for (size_t i = 0; i < index; i++) tmp = tmp->next;
+    return tmp->data;
+};
 
+const Book& Library::operator[](size_t index) const {
+    if (isEmpty()) throw out_of_range("Empty list - operator[]");
+    if (index >= GetSize()) throw out_of_range("Index is out of range");
+    Node<Book>* tmp = head;
+    for (size_t i = 0; i < index; i++) tmp = tmp->next;
+    return tmp->data;
+};
+
+size_t Library::GetSize() const { return size; };
+
+// Tylko dla implementacji jako lista
 bool Library::isEmpty() const { return size == 0; };
 void Library::push_back(const Book& book) {
     Node<Book>* newNode = new Node<Book>(book);
@@ -61,7 +78,6 @@ void Library::push_back(const Book& book) {
         newNode->prev = tail;
         tail = newNode;
     }
-    size++;
     size++;
 };
 void Library::push_back(Book&& book) {
@@ -75,9 +91,8 @@ void Library::push_back(Book&& book) {
     }
     size++;
 };
-
 Book Library::pop_back() {
-    if (isEmpty()) throw std::out_of_range("List is empty - pop_back()");
+    if (isEmpty()) throw out_of_range("Empty list - pop_back()");
     Node<Book>* tmp = tail;
     Book data = tmp->data;
     tail = tail->prev;
