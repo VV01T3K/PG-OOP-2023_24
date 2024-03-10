@@ -26,17 +26,19 @@ int main() {
     //// !! ----------------------------------
 
     Library e;
-    cout << "e: " << e << endl;
+    cout << "e:  " << e << endl << endl;
     // 3-5 książek
-    Library l1 = {{"<?>", "<?>"}, {"<?>", "<?>"}, {"<?>", "<?>"}};
-    cout << "l1: " << l1 << endl;
+    Library l1 = {{"'Harry Potter'", "Rowling"},
+                  {"'To Kill a Mockingbird'", "Harper  Lee"},
+                  {"'Hobbit'", "Tolkien"}};
+    cout << "l1: " << l1 << endl << endl;
     Library l2;
-    cout << "l2: " << l2 << endl;
-    l2.push_back({"<?>", "<?>"});
-    l2.push_back({"<?>", "<?>"});
-    cout << "l2: " << l2 << endl;
+    cout << "l2: " << l2 << endl << endl;
+    l2.push_back({"'Pride and Prejudice'", "Jane Austen"});
+    l2.push_back({"'The Great Gatsby'", "Fitzgerald"});
+    cout << "l2: " << l2 << endl << endl;
     e = std::move(l2);
-    cout << "e: " << e << " l2: " << l2 << endl;
+    cout << "e:  " << e << endl << ">l2: " << l2 << endl << endl;
     l1[0] = std::move(e[1]);
-    cout << "l1: " << l1 << " e: " << e << endl;
+    cout << "l1: " << l1 << endl << ">e: " << e << endl << endl;
 }

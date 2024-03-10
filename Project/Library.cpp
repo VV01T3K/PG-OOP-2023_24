@@ -70,8 +70,14 @@ const Book& Library::operator[](size_t index) const {
 // operator << wypisania na strumień std::ostream
 ostream& operator<<(ostream& out, const Library& library) {
     if (library.isEmpty()) cerr << "List is empty (<<)";
-
-    for (int i = 0; i < library.GetSize(); i++) out << library[i] << ' ';
+    for (int i = 0; i < library.GetSize(); i++) {
+        if (i != 0)
+            out << "    - ";
+        else
+            out << "- ";
+        out << library[i];
+        if (i != library.GetSize() - 1) out << "," << endl;
+    }
 
     return out;
 };
