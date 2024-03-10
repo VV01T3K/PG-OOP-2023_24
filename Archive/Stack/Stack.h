@@ -1,4 +1,4 @@
-_Pragma("once");
+#pragma once
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
@@ -10,11 +10,18 @@ class Stack {
     Node<T> *top;
 
    public:
+    DoublyLinkedList<T> swapList(DoublyLinkedList<T> &newlist) {
+        DoublyLinkedList<T> tmpList;
+        tmpList = list;
+        list = newlist;
+        return tmpList;
+    }
     Stack();
     ~Stack();
     void push(T data);
+    void print(const char *separator) const;
     T pop();
-    T peek() const {
+    T &peek() {
         if (isEmpty()) throw std::out_of_range("Stack is empty");
         return top->data;
     };
@@ -23,6 +30,11 @@ class Stack {
     void clear() { list.clear(); };
     template <typename T2>
     friend std::ostream &operator<<(std::ostream &out, const Stack<T2> &stack);
+};
+
+template <typename T>
+void Stack<T>::print(const char *separator) const {
+    list.print(separator);
 };
 
 template <typename T>
@@ -48,7 +60,8 @@ void Stack<T>::push(T data) {
 
 template <typename T>
 T Stack<T>::pop() {
-    if (isEmpty()) throw std::out_of_range("Stack is empty");
+    if (isEmpty())
+        throw std::out_of_range("Stack is empty - cannot pop element!");
     T data = list.removeAtBeginning();
     top = list.getHead();
     return data;
