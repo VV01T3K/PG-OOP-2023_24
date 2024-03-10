@@ -35,3 +35,24 @@ ostream& operator<<(ostream& out, const Book& book) {
         << " Author: " << (book.author == "" ? "NONE" : book.author);
     return out;
 }
+
+// konstruktor kopiujący
+Book::Book(const Book& book) : title(book.title), author(book.author){};
+
+// konstruktor przenoszący
+Book::Book(Book&& book) : title(move(book.title)), author(move(book.author)){};
+
+// kopiujący operator przypisania
+Book& Book::operator=(const Book& right) {
+    Book tmp = right;
+    swap(author, tmp.author);
+    swap(title, tmp.title);
+    return *this;
+}
+
+// przenoszący operator przypisania
+Book& Book::operator=(Book&& right) {
+    swap(author, right.author);
+    swap(title, right.title);
+    return *this;
+}

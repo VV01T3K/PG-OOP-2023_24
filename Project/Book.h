@@ -17,4 +17,9 @@ class Book {
     void SetTitle(string&& title);
     void SetAuthor(string&& author);
     friend ostream& operator<<(ostream& out, const Book& book);
+
+    Book(const Book& book);
+    Book(Book&& book);
+    Book& operator=(const Book& right);
+    Book& operator=(Book&& right);
 };
