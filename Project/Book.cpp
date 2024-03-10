@@ -40,7 +40,10 @@ ostream& operator<<(ostream& out, const Book& book) {
 Book::Book(const Book& book) : title(book.title), author(book.author){};
 
 // konstruktor przenoszący
-Book::Book(Book&& book) : title(move(book.title)), author(move(book.author)){};
+Book::Book(Book&& book) : title(move(book.title)), author(move(book.author)) {
+    book.title = "";
+    book.author = "";
+};
 
 // kopiujący operator przypisania
 Book& Book::operator=(const Book& right) {

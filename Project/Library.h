@@ -1,3 +1,4 @@
+#pragma once
 #include <initializer_list>
 #include <string>
 
@@ -11,28 +12,28 @@ class Node {
     T data;
     Node<T>* next;
     Node<T>* prev;
+    Node(const T& data) : data(data), next(nullptr), prev(nullptr) {}
 };
 
 class Library {
    private:
-    /* data */
+    Node<Book>* head;
+    Node<Book>* tail;
+    size_t size;
+
    public:
     Library();
-    Library(std::initializer_list<Book> list);
+    Library(initializer_list<Book> list);
     Library(const Library& orig);
     Library(Library&& orig);
     Library& operator=(const Library& right);
     Library& operator=(Library&& right);
-    Book& operator[](std::size_t index);
-    const Book& operator[](std::size_t index) const;
-    std::size_t GetSize() const;
+    Book& operator[](size_t index);
+    const Book& operator[](size_t index) const;
+    size_t GetSize() const;
     ~Library();
-    // Tylko dla implementacji jako lista
-    void push_back(const Book&);
-    void push_back(Book&&);
+    void push_back(const Book& book);
+    void push_back(Book&& book);
     Book pop_back();
+    bool isEmpty() const;
 };
-
-Library::Library(/* args */) {}
-
-Library::~Library() {}
