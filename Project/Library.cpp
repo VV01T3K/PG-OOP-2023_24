@@ -49,6 +49,7 @@ Library& Library::operator=(Library&& right) {
     return *this;
 };
 
+// operator[]
 Book& Library::operator[](size_t index) {
     if (isEmpty()) throw out_of_range("Empty list - operator[]");
     if (index >= GetSize()) throw out_of_range("Index is out of range");
@@ -57,6 +58,7 @@ Book& Library::operator[](size_t index) {
     return tmp->data;
 };
 
+// wersja const operatora []
 const Book& Library::operator[](size_t index) const {
     if (isEmpty()) throw out_of_range("Empty list - operator[]");
     if (index >= GetSize()) throw out_of_range("Index is out of range");
@@ -65,7 +67,22 @@ const Book& Library::operator[](size_t index) const {
     return tmp->data;
 };
 
-size_t Library::GetSize() const { return size; };
+// operator << wypisania na strumień std::ostream
+ostream& operator<<(ostream& out, const Library& library) {
+    if (library.isEmpty()) cerr << "List is empty (<<)";
+
+    for (int i = 0; i < library.GetSize(); i++) out << library[i] << ' ';
+
+    return out;
+};
+
+// gettery
+std::size_t Library::GetSize() const { return size; };
+
+// destruktor
+Library::~Library() {
+    while (!isEmpty()) pop_back();
+}
 
 // Tylko dla implementacji jako lista
 bool Library::isEmpty() const { return size == 0; };

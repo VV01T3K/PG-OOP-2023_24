@@ -30,7 +30,7 @@ int main() {
     // 3-5 książek
     Library l1 = {{"<?>", "<?>"}, {"<?>", "<?>"}, {"<?>", "<?>"}};
     cout << "l1: " << l1 << endl;
-    LibraryAsList l2;
+    Library l2;
     cout << "l2: " << l2 << endl;
     l2.push_back({"<?>", "<?>"});
     l2.push_back({"<?>", "<?>"});

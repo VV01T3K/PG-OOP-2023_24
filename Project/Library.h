@@ -30,6 +30,7 @@ class Library {
     Library& operator=(Library&& right);
     Book& operator[](size_t index);
     const Book& operator[](size_t index) const;
+    friend ostream& operator<<(ostream& out, const Library& library);
     size_t GetSize() const;
     ~Library();
 
