@@ -16,7 +16,10 @@
 				"ms-vscode.hexeditor",
 				"mintlify.document",
 				"adpyke.codesnap",
-				"aaron-bond.better-comments"
+				"aaron-bond.better-comments",
+				"ms-vscode.cpptools",
+				"ms-vscode.cmake-tools",
+				"josetr.cmake-language-support-vscode"
 			]
 		}
 	}
