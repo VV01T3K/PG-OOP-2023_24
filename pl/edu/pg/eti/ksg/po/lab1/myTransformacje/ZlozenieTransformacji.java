@@ -35,11 +35,11 @@ public class ZlozenieTransformacji implements Transformacja {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Zlozenie transformacji: ");
+        StringBuilder str = new StringBuilder("Zlozenie transformacji:");
         for (Transformacja transformacja : transformacje) {
-            sb.append(transformacja.toString()).append(" ");
+            str.append("\n ->").append(transformacja.toString());
         }
-        return sb.toString();
+        return str.toString();
     }
 
 }

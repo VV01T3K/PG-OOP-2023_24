@@ -21,9 +21,9 @@ public class Obrot implements Transformacja {
 
     @Override
     public Punkt transformuj(Punkt p) {
-        double radianAngle = Math.toRadians(angle);
-        double x = Math.round(p.getX() * Math.cos(radianAngle) - p.getY() * Math.sin(radianAngle));
-        double y = Math.round(p.getX() * Math.sin(radianAngle) + p.getY() * Math.cos(radianAngle));
+        double rad = Math.toRadians(angle);
+        double x = Math.round(p.getX() * Math.cos(rad) - p.getY() * Math.sin(rad));
+        double y = Math.round(p.getX() * Math.sin(rad) + p.getY() * Math.cos(rad));
         return new Punkt(x, y);
     }
 
@@ -33,7 +33,7 @@ public class Obrot implements Transformacja {
 
     @Override
     public String toString() {
-        return "Obrot o angle " + angle;
+        return "Obrot o kąt: " + angle;
     }
 
 }
