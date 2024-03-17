@@ -1,7 +1,5 @@
 package pl.edu.pg.eti.ksg.po.lab1.transformacje;
 
-import pl.edu.pg.eti.ksg.po.lab1.B;
-
 public class Punkt {
     private final double x, y;
 
