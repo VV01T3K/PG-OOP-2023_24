@@ -21,11 +21,10 @@ public class Obrot implements Transformacja {
 
     @Override
     public Punkt transformuj(Punkt p) {
-        double x = p.getX();
-        double y = p.getY();
-        double x1 = x * Math.cos(angle) - y * Math.sin(angle);
-        double y1 = x * Math.sin(angle) + y * Math.cos(angle);
-        return new Punkt(x1, y1);
+        double radianAngle = Math.toRadians(angle);
+        double x = Math.round(p.getX() * Math.cos(radianAngle) - p.getY() * Math.sin(radianAngle));
+        double y = Math.round(p.getX() * Math.sin(radianAngle) + p.getY() * Math.cos(radianAngle));
+        return new Punkt(x, y);
     }
 
     public double getAngle() {
