@@ -26,62 +26,31 @@ public class Javalab1 {
          * klasy java.lang.Exception)
          */
 
-        // // ----------------- Zadanie 1 -----------------
-        // try {
-        // Punkt p1 = Punkt.E_X;
-        // System.out.println(p1);
-        // Transformacja tr = new Translacja(5, 6);
-        // System.out.println(tr);
-        // Punkt p2 = tr.transformuj(p1);
-        // System.out.println(p2);
-        // Transformacja trr = tr.getTransformacjaOdwrotna();
-        // System.out.println(trr);
-        // Punkt p3 = trr.transformuj(p2);
-        // System.out.println(p3);
+        // ----------------- Zadanie 1 -----------------
+        System.out.println("----------------- Translacja -----------------");
+        try {
+            Punkt p1 = Punkt.E_X;
+            System.out.println(p1);
+            Transformacja tr = new Translacja(5, 6);
+            System.out.println(tr);
+            Punkt p2 = tr.transformuj(p1);
+            System.out.println(p2);
+            Transformacja trr = tr.getTransformacjaOdwrotna();
+            System.out.println(trr);
+            Punkt p3 = trr.transformuj(p2);
+            System.out.println(p3);
 
-        // } catch (BrakTransformacjiOdwrotnejException ex) {
-        // ex.printStackTrace();
-        // }
-        // System.out.println();
-        // try {
-        // Punkt p1 = new Punkt(2, 2);
-        // System.out.println(p1);
-        // Transformacja tr2 = new Skalowanie(5, 4);
-        // System.out.println(tr2);
-        // Punkt p2 = tr2.transformuj(p1);
-        // System.out.println(p2);
-        // Transformacja trr2 = tr2.getTransformacjaOdwrotna();
-        // System.out.println(trr2);
-        // Punkt p3 = trr2.transformuj(p2);
-        // System.out.println(p3);
-        // } catch (BrakTransformacjiOdwrotnejException ex) {
-        // ex.printStackTrace();
-        // }
-        // System.out.println();
-
-        // // ----------------- Zadanie 2 -----------------
-        // try {
-        // Punkt p1 = new Punkt(2, 2);
-        // Transformacja tr2 = new Skalowanie(5, 0);
-        // System.out.println(tr2);
-        // System.out.println(p1);
-        // Punkt p2 = tr2.transformuj(p1);
-        // System.out.println(p2);
-        // Transformacja trr2 = tr2.getTransformacjaOdwrotna();
-        // System.out.println(trr2);
-        // Punkt p3 = trr2.transformuj(p2);
-        // System.out.println(p3);
-        // } catch (BrakTransformacjiOdwrotnejException ex) {
-        // ex.printStackTrace();
-        // }
-
-        // ----------------- Zadanie 3 -----------------
+        } catch (BrakTransformacjiOdwrotnejException ex) {
+            ex.printStackTrace();
+        }
         System.out.println();
+
+        System.out.println("----------------- Skalowanie -----------------");
         try {
             Punkt p1 = new Punkt(2, 2);
-            Transformacja tr2 = new Obrot(90);
-            System.out.println(tr2);
             System.out.println(p1);
+            Transformacja tr2 = new Skalowanie(5, 4);
+            System.out.println(tr2);
             Punkt p2 = tr2.transformuj(p1);
             System.out.println(p2);
             Transformacja trr2 = tr2.getTransformacjaOdwrotna();
@@ -92,6 +61,69 @@ public class Javalab1 {
             ex.printStackTrace();
         }
         System.out.println();
+
+        // ----------------- Zadanie 2 -----------------
+        System.out.println("----------------- ERROR z 0 -----------------");
+        try {
+            Punkt p1 = new Punkt(2, 2);
+            System.out.println(p1);
+            Transformacja tr2 = new Skalowanie(5, 0);
+            System.out.println(tr2);
+            Punkt p2 = tr2.transformuj(p1);
+            System.out.println(p2);
+            Transformacja trr2 = tr2.getTransformacjaOdwrotna();
+            System.out.println(trr2);
+            Punkt p3 = trr2.transformuj(p2);
+            System.out.println(p3);
+        } catch (BrakTransformacjiOdwrotnejException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println();
+
+        // ----------------- Zadanie 3 -----------------
+        System.out.println("------------------- Obrót -------------------");
+        try {
+            Punkt p1 = new Punkt(2, 2);
+            System.out.println(p1);
+            Transformacja tr2 = new Obrot(90);
+            System.out.println(tr2);
+            Punkt p2 = tr2.transformuj(p1);
+            System.out.println(p2);
+            Transformacja trr2 = tr2.getTransformacjaOdwrotna();
+            System.out.println(trr2);
+            Punkt p3 = trr2.transformuj(p2);
+            System.out.println(p3);
+        } catch (BrakTransformacjiOdwrotnejException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println();
+
+        // ----------------- Zadanie 4 -----------------
+        System.out.println("----------- Złożenie Transformacji -----------");
+        try {
+            Punkt p1 = new Punkt(2, 2);
+
+            Transformacja[] tab = new Transformacja[2];
+            tab[0] = new Obrot(90);
+            tab[1] = new Translacja(5, 6);
+
+            ZlozenieTransformacji zt = new ZlozenieTransformacji(tab);
+            System.out.println(zt);
+            System.out.println(p1);
+            Punkt p2 = zt.transformuj(p1);
+            System.out.println(p2);
+            Transformacja trr2 = zt.getTransformacjaOdwrotna();
+            System.out.println(trr2);
+            Punkt p3 = trr2.transformuj(p2);
+            System.out.println(p3);
+
+        } catch (BrakTransformacjiOdwrotnejException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println();
+
+        // --------------------------------------------
+        System.out.println("----------------------------------------------");
 
     }
 }
