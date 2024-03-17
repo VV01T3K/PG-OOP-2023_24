@@ -20,16 +20,16 @@ public class Punkt {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof B) {
+        if (obj instanceof Punkt) {
             Punkt other = (Punkt) obj;
-            return x == other.x && y == other.y;
+            return (x == other.x && y == other.y);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return 60 * Double.hashCode(x) + 6 * Double.hashCode(y);
+        return 59 * Double.hashCode(x) + 7 * Double.hashCode(y);
     }
 
     @Override
