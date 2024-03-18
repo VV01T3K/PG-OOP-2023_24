@@ -14,12 +14,13 @@ public class Main1 {
         System.out.println("p1?p3: " + p1.equals(p3));
 
         System.out.println("p1-hash: " + p1.hashCode());
+        System.out.println("p2-hash: " + p2.hashCode());
 
         System.out.println("p1.x p1y: " + p1.getX() + " " + p1.getY());
 
-        System.out.println(Punkt.O);
-        System.out.println(Punkt.E_X);
-        System.out.println(Punkt.E_Y);
+        // System.out.println(Punkt.O);
+        // System.out.println(Punkt.E_X);
+        // System.out.println(Punkt.E_Y);
 
     }
 }

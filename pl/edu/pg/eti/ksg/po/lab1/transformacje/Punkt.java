@@ -27,7 +27,7 @@ public class Punkt {
 
     @Override
     public int hashCode() {
-        return 59 * Double.hashCode(x) + 7 * Double.hashCode(y);
+        return 69 * Double.hashCode(x) + 17 * Double.hashCode(y);
     }
 
     @Override

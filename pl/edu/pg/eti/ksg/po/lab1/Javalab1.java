@@ -102,6 +102,7 @@ public class Javalab1 {
         System.out.println("----------- Złożenie Transformacji -----------");
         try {
             Punkt p1 = new Punkt(2, 2);
+            System.out.println(p1);
 
             Transformacja[] tab = new Transformacja[2];
             tab[0] = new Obrot(90);
@@ -109,7 +110,6 @@ public class Javalab1 {
 
             ZlozenieTransformacji zt = new ZlozenieTransformacji(tab);
             System.out.println(zt);
-            System.out.println(p1);
             Punkt p2 = zt.transformuj(p1);
             System.out.println(p2);
             Transformacja trr2 = zt.getTransformacjaOdwrotna();

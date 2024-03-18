@@ -43,15 +43,3 @@ public class ZlozenieTransformacji implements Transformacja {
     }
 
 }
-
-// public static void main(String[] args) {
-// Punkt p = new Punkt(1, 1);
-// Transformacja t1 = new Translacja(1, 1);
-// Transformacja t2 = new Skalowanie(2, 2);
-// Transformacja t3 = new Obrot(Math.PI / 2);
-// Transformacja t4 = new Skalowanie(0.5, 0.5);
-// Transformacja t5 = new Translacja(-1, -1);
-// Transformacja zlozenie = new ZlozenieTransformacji(t1, t2, t3, t4, t5);
-// System.out.println(zlozenie);
-// System.out.println(zlozenie.transformuj(p));
-// }
