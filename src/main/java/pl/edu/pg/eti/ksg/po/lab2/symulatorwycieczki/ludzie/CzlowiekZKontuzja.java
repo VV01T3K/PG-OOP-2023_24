@@ -8,7 +8,7 @@ public class CzlowiekZKontuzja extends Czlowiek {
 
     @Override
     public int getUmiejetnosciNawigacyjne() {
-        return 1;
+        return 2;
     }
 
 }
