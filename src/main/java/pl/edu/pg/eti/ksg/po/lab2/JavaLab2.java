@@ -46,6 +46,10 @@ public class JavaLab2 {
 
         SymulatorWycieczki symulator = new SymulatorWycieczki(g, w);
 
+        symulator.dodajSluchaczaPostepow((elementWycieczki, lp, liczbaElementow) -> {
+            System.out.println("Aktualizacja postępu: " + (lp + 1) + "/" + liczbaElementow);
+        });
+
         symulator.symuluj();
     }
 

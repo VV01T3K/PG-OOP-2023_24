@@ -15,6 +15,12 @@ public class SymulatorWycieczki {
     private double czasWycieczki = 0.0;
     private double pokonanyDystans = 0.0;
 
+    private Set<SluchaczPostepow> sluchaczePostepow = new HashSet<>();
+
+    public void dodajSluchaczaPostepow(SluchaczPostepow sluchacz) {
+        sluchaczePostepow.add(sluchacz);
+    }
+
     public SymulatorWycieczki(Grupa grupa, Wycieczka wycieczka) {
         this.grupa = grupa;
         this.wycieczka = wycieczka;
@@ -87,11 +93,16 @@ public class SymulatorWycieczki {
                 pokonanyDystans += wedrowka.getOdleglosc();
             }
 
-            System.out.println();
+            for (SluchaczPostepow sluchacz : sluchaczePostepow) {
+                sluchacz.aktualizujPostep(wycieczka.getElementWycieczki(pozycjaGrupy), pozycjaGrupy,
+                        wycieczka.getLiczbaElementowWycieczki());
+            }
 
+            System.out.println();
         }
         System.out.printf("Trasa zajęła grupie %.2f h, przeszli oni %.2f GOT.\n", czasWycieczki, pokonanyDystans);
         System.out.println("===Koniec symulacji===");
+
     }
 
 }
