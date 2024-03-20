@@ -63,7 +63,7 @@ public class PrzewodnikStudencki extends Student {
             mow("Tutaj mamy do czynienia z torami kolejowymi. Warto zwrócić uwagę na ...");
             regeneruj(czas);
         } else if (w instanceof PoleBarszczuSosnowskiego) {
-            mow("Przed nami barszcz Sosnowskiego, roślina tak niebezpieczna, że nawet Chuck Norris boi się jej dotknąć.");
+            mow("Tutaj mamy do czynienia z polem barszczu sosnowskiego. To jest bardzo niebezpieczna roślina ...");
             regeneruj(czas);
         } else {
             super.reagujNaWedrowke(w, czas);
