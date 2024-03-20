@@ -5,7 +5,7 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.Tory;
 
 public class Spotter extends Czlowiek {
     public Spotter(String imie, String nazwisko, Plec plec) {
-        super(imie, nazwisko, plec, 4.5, 17, 17);
+        super(imie, nazwisko, plec, 4.5);
     }
 
     @Override

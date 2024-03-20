@@ -19,6 +19,10 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.Schronisko;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.ElektrowniaWodna;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.Tory;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.PoleBarszczuSosnowskiego;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.CzlowiekZKontuzja;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.Spotter;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.YouTuber;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.BeskidzkiPiechur;
 
 /**
  *
@@ -31,10 +35,12 @@ public class JavaLab2 {
 
         PrzewodnikStudencki przewodnik = new PrzewodnikStudencki("Stefan", "Długonogi", Czlowiek.Plec.MEZCZYZNA);
         Set<Uczestnik> uczestnicy = new HashSet<>();
-        uczestnicy.add(new Student("Alojzy", "Mechanik", Czlowiek.Plec.MEZCZYZNA));
         uczestnicy.add(new Student("Ada", "Lovelace", Czlowiek.Plec.KOBIETA));
-        uczestnicy.add(new Student("Jan", "Elektronik", Czlowiek.Plec.MEZCZYZNA));
         uczestnicy.add(new StudentKSG("Piotr", "Teledetekcyjny", Czlowiek.Plec.MEZCZYZNA));
+        uczestnicy.add(new CzlowiekZKontuzja("Jan", "Kowalski", Czlowiek.Plec.MEZCZYZNA));
+        uczestnicy.add(new YouTuber("Jacek", "Makarewicz", Czlowiek.Plec.MEZCZYZNA));
+        uczestnicy.add(new BeskidzkiPiechur("Krzysztof", "Krawczyk", Czlowiek.Plec.MEZCZYZNA));
+        uczestnicy.add(new Spotter("Marek", "Markowski", Czlowiek.Plec.MEZCZYZNA));
 
         Grupa g = new Grupa(przewodnik, uczestnicy);
 
