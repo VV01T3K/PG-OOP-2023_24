@@ -60,13 +60,12 @@ public class JavaLab2 {
         ret.dodajElementWycieczki(new Droga(2.0));
         ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(2));
         ret.dodajElementWycieczki(new ElektrowniaWodna("San"));
-        ret.dodajElementWycieczki(new Droga(4.0));
+        ret.dodajElementWycieczki(new Droga(5.0));
         ret.dodajElementWycieczki(new Tory(3.0));
-        ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(2.0));
+        ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(3.0));
         ret.dodajElementWycieczki(new Panorama());
         ret.dodajElementWycieczki(new Droga(7.0));
         ret.dodajElementWycieczki(new Schronisko("Na Hali"));
-        ret.dodajElementWycieczki(new Droga(5.0));
 
         return ret;
     }
