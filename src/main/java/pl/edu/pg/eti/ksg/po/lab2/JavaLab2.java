@@ -26,7 +26,8 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.PoleBarszczuSos
  */
 public class JavaLab2 {
     public static void main(String[] args) {
-        Wycieczka w = doDydiowki();
+        // Wycieczka w = doDydiowki();
+        Wycieczka w = doSchroniska();
 
         PrzewodnikStudencki przewodnik = new PrzewodnikStudencki("Stefan", "Długonogi", Czlowiek.Plec.MEZCZYZNA);
         Set<Uczestnik> uczestnicy = new HashSet<>();
@@ -57,15 +58,15 @@ public class JavaLab2 {
 
     public static Wycieczka doSchroniska() {
         Wycieczka ret = new Wycieczka("Do schroniska");
-        ret.dodajElementWycieczki(new Droga(2.0));
+        ret.dodajElementWycieczki(new Droga(4.0));
         ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(2));
         ret.dodajElementWycieczki(new ElektrowniaWodna("San"));
         ret.dodajElementWycieczki(new Droga(5.0));
         ret.dodajElementWycieczki(new Tory(3.0));
         ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(3.0));
         ret.dodajElementWycieczki(new Panorama());
-        ret.dodajElementWycieczki(new Droga(7.0));
-        ret.dodajElementWycieczki(new Schronisko("Na Hali"));
+        ret.dodajElementWycieczki(new Droga(8.0));
+        ret.dodajElementWycieczki(new Schronisko("Klimczok"));
 
         return ret;
     }
