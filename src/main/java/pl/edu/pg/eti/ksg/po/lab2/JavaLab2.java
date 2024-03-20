@@ -13,6 +13,12 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.PrzewodnikStudencki;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.Student;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.StudentKSG;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.DrewnianaCerkiew;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.GestyLas;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.Panorama;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.Schronisko;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.ElektrowniaWodna;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.Tory;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.PoleBarszczuSosnowskiego;
 
 /**
  *
@@ -42,8 +48,24 @@ public class JavaLab2 {
         ret.dodajElementWycieczki(new DrewnianaCerkiew("Smolnik"));
         ret.dodajElementWycieczki(new Droga(4.0));
         // ret.dodajElementWycieczki(new PrzeprawaPrzezRzeke(1.0));
-        // ret.dodajElementWycieczki(new GestyLas(2.0));
+        ret.dodajElementWycieczki(new GestyLas(2.0));
         ret.dodajElementWycieczki(new Las(2.0));
+        ret.dodajElementWycieczki(new Droga(5.0));
+
+        return ret;
+    }
+
+    public static Wycieczka doSchroniska() {
+        Wycieczka ret = new Wycieczka("Do schroniska");
+        ret.dodajElementWycieczki(new Droga(2.0));
+        ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(2));
+        ret.dodajElementWycieczki(new ElektrowniaWodna("San"));
+        ret.dodajElementWycieczki(new Droga(4.0));
+        ret.dodajElementWycieczki(new Tory(3.0));
+        ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(2.0));
+        ret.dodajElementWycieczki(new Panorama());
+        ret.dodajElementWycieczki(new Droga(7.0));
+        ret.dodajElementWycieczki(new Schronisko("Na Hali"));
         ret.dodajElementWycieczki(new Droga(5.0));
 
         return ret;

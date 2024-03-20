@@ -4,7 +4,7 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.Atrakcja;
 
 public class Panorama extends Atrakcja {
 
-    public Panorama(String miejscowosc) {
+    public Panorama() {
         super(1 / 6f);
     }
 
