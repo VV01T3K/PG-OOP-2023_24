@@ -11,4 +11,13 @@ public class DrewnianaCerkiew extends Atrakcja {
         this.miejscowosc = miejscowosc;
     }
 
+    public String getMiejscowosc() {
+        return miejscowosc;
+    }
+
+    @Override
+    public String getNazwa() {
+        return "Drewniana Cerkiew";
+    }
+
 }
