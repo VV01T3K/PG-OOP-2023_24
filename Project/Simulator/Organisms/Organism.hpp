@@ -1,13 +1,29 @@
 #pragma once
 
+#include "../Utils/Position.hpp"
+#include "../World.hpp"
 class Organism {
-   private:
-    /* data */
+   protected:
+    int power;
+    int initiative;
+    Position position;
+    World &world;
+
    public:
-    Organism(/* args */);
-    ~Organism();
+    Organism(int power, int initiative, int x, int y, World &world)
+        : power(power), initiative(initiative), position(x, y), world(world) {}
+    int getPower() const { return power; }
+    int getInitiative() const { return initiative; }
+    int getX() const { return position.x; }
+    int getY() const { return position.y; }
+    void setPower(int power) { this->power = power; }
+    void setInitiative(int initiative) { this->initiative = initiative; }
+    void setPosition(int x, int y) {
+        position.x = x;
+        position.y = y;
+    }
+    virtual ~Organism() {}
+    virtual void action() = 0;
+    virtual void collision(Organism &organism) = 0;
+    virtual void draw() = 0;
 };
-
-Organism::Organism(/* args */) {}
-
-Organism::~Organism() {}
