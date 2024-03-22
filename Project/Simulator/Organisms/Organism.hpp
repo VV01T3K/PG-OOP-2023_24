@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Utils/Position.hpp"
+#include "../Position.hpp"
 #include "../World.hpp"
+
 class Organism {
    protected:
     int power;
@@ -22,6 +23,8 @@ class Organism {
         position.x = x;
         position.y = y;
     }
+    Position getPosition() const { return position; }
+    void setPosition(Position position) { this->position = position; }
     virtual ~Organism() {}
     virtual void action() = 0;
     virtual void collision(Organism &organism) = 0;

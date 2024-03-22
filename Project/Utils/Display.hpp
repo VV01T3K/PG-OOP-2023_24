@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "../World.hpp"
+#include "../Simulator/World.hpp"
 class Display {
    private:
     /* data */
