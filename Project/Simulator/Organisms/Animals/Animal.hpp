@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <random>
 
 #include "../../Position.hpp"
@@ -45,6 +46,7 @@ class Animal : public Organism {
             world.addOrganism(new Animal(power, initiative, position, world));
             this->undoMove();
             other.skipTurn();
+            std::cout << "New animal born at " << position << std::endl;
         } else if (power < other.getPower()) {
             this->die();
         } else {

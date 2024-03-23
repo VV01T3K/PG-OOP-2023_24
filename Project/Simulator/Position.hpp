@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <iostream>
 class Position {
    public:
     int x;
@@ -11,4 +12,9 @@ class Position {
         return x == other.x && y == other.y;
     }
     bool operator!=(const Position &other) const { return !(*this == other); }
+    friend std::ostream &operator<<(std::ostream &os,
+                                    const Position &position) {
+        os << "(" << position.x << ", " << position.y << ")";
+        return os;
+    }
 };

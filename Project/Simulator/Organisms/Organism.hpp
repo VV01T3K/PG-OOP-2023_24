@@ -56,7 +56,10 @@ class Organism {
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
     virtual void draw() = 0;
-    virtual void die() { alive = false; }
+    virtual void die() {
+        alive = false;
+        std::cout << "Organism at " << position << " died" << std::endl;
+    }
 
     virtual bool operator==(const Organism &other) const {
         return power == other.power && initiative == other.initiative &&
