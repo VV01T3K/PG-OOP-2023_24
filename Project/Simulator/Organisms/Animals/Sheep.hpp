@@ -3,6 +3,7 @@
 #include "Animal.hpp"
 class Sheep : public Animal {
    public:
-    Sheep(int x, int y, World &world) : Animal(4, 4, x, y, world) {}
-    Sheep(Position position, World &world) : Animal(4, 4, position, world) {}
+    Sheep(World& world) : Animal(4, 4, world) {}
+    void draw() override { std::cout << "🐏"; }
+    Animal* construct() const override { return new Sheep(world); }
 };

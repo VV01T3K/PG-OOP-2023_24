@@ -1,40 +1,70 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
+#include "../Utils/RandGen.hpp"
 #include "Organisms/Organism.hpp"
-#include "Position.hpp"
 
-enum class Direction : uint8_t { NORTH, EAST, SOUTH, WEST, SELF };
+class Organism;
+
+enum class Direction : size_t { UP, DOWN, RIGHT, LEFT, SELF };
 class Tile {
    private:
-    Position position;
-    Organism *organism;
     std::array<Tile *, 4> directions;
 
    public:
-    bool test = false;
+    std::vector<Organism *> organisms;
+    void print() {
+        if (organisms.empty()) {
+            std::cout << "Empty";
+        } else {
+            for (auto &organism : organisms) {
+                if (organism != nullptr) cout << "sheep ";
+            }
+        }
+    }
 
-    Tile() : organism(nullptr) { directions.fill(nullptr); }
-
-    Tile(Position position) : Tile() { this->position = position; }
-    Tile(int x, int y) : Tile() { position = Position(x, y); }
-
+    Tile() {
+        directions.fill(nullptr);
+        organisms.reserve(1);
+    }
     ~Tile(){};
 
+    void clear() { organisms.clear(); }
+
     void setLink(Direction direction, Tile *tile) {
-        directions[static_cast<uint8_t>(direction)] = tile;
+        directions[static_cast<size_t>(direction)] = tile;
     }
 
-    Position getPosition() { return position; }
-    void setPosition(Position position) { this->position = position; }
-    Organism *getOrganism() { return organism; }
-    void setOrganism(Organism *organism) { this->organism = organism; }
+    Organism *getOrganism() const { return organisms[0]; }
+    void placeOrganism(Organism *organism) { organisms.push_back(organism); }
+    void removeOrganism(Organism *organism) {
+        organisms.erase(
+            std::remove(organisms.begin(), organisms.end(), organism),
+            organisms.end());
+    }
+
     Tile &operator[](Direction direction) {
         if (direction == Direction::SELF) return *this;
-        return *directions[static_cast<uint8_t>(direction)];
+        return *directions[static_cast<size_t>(direction)];
     }
-    Tile *getRandomNeighbour() {
+    Tile *getRandomFreeNeighbour() const {
+        std::vector<Tile *> neighbours;
+        for (auto &direction : directions) {
+            if (direction != nullptr && direction->isFree()) {
+                neighbours.push_back(direction);
+            }
+        }
+        if (neighbours.empty()) return nullptr;
+        return neighbours[RandGen::getInstance().roll(0,
+                                                      neighbours.size() - 1)];
+    }
+
+    Tile *getNeighbour(Direction direction) const {
+        return directions[static_cast<size_t>(direction)];
+    }
+    Tile *getRandomNeighbour() const {
         std::vector<Tile *> neighbours;
         for (auto &direction : directions) {
             if (direction != nullptr) {
@@ -45,4 +75,18 @@ class Tile {
         return neighbours[RandGen::getInstance().roll(0,
                                                       neighbours.size() - 1)];
     }
+    Direction getRandomDirection() const {
+        std::vector<Direction> directions;
+        for (auto &direction : this->directions) {
+            if (direction != nullptr) {
+                directions.push_back(
+                    static_cast<Direction>(&direction - &this->directions[0]));
+            }
+        }
+        if (directions.empty()) return Direction::SELF;
+        return directions[RandGen::getInstance().roll(0,
+                                                      directions.size() - 1)];
+    }
+
+    bool isFree() const { return organisms.empty(); }
 };

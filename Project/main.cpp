@@ -13,19 +13,33 @@
 #include <vector>  // STL dynamic array (vector) class template.
 using namespace std;
 
-#include "Simulator/World.hpp"
-//
+#include <unistd.h>
+
+#include "Simulator/Organisms/Animals/Dog.hpp"
 #include "Simulator/Organisms/Animals/Sheep.hpp"
+#include "Simulator/Tile.hpp"
+#include "Simulator/World.hpp"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
     World world(4, 4);
 
-    world.addOrganism(new Sheep(0, 0, world));
+    world.addOrganism(new Sheep(world), world.getTile(0));
+    world.addOrganism(new Sheep(world), world.getTile(15));
 
-    world.printTiles();
     world.printOrganisms();
+    while (true) {
+        system("clear");
+
+        world.simulate();
+
+        world.printOrganisms();
+
+        cout << world.getOrganimsCount() << endl;
+
+        cin.get();
+    }
 
     return 0;
 }

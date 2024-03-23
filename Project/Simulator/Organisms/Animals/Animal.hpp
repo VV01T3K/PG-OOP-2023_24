@@ -3,55 +3,55 @@
 #include <iostream>
 #include <random>
 
-#include "../../Position.hpp"
+#include "../../World.hpp"
 #include "../Organism.hpp"
 
 class Animal : public Organism {
    protected:
-    Position oldPosition;
+    Tile* oldTile = nullptr;
 
-    void move(Direction direction) {
-        switch (direction) {
-            case Direction::NORTH:
-                if (position.y > 0) position.y--;
-                break;
-            case Direction::SOUTH:
-                if (position.y < world.getHeight() - 1) position.y++;
-                break;
-            case Direction::WEST:
-                if (position.x > 0) position.x--;
-                break;
-            case Direction::EAST:
-                if (position.x < world.getWidth() - 1) position.x++;
-                break;
-        }
+    void move(Tile* newtile) {
+        if (newtile == nullptr) return;
+        std::cout << "Moving";
+        oldTile = tile;
+        tile = newtile;
+        tile->placeOrganism(this);
+        oldTile->removeOrganism(this);
     }
+    void move(Direction direction) { move(tile->getNeighbour(direction)); }
 
    public:
-    Animal(int power, int initiative, int x, int y, World& world)
-        : Organism(power, initiative, x, y, world), oldPosition(x, y) {}
-    Animal(int power, int initiative, Position position, World& world)
-        : Organism(power, initiative, position, world), oldPosition(position) {}
-
-    virtual void action() override {
-        oldPosition = position;
-        while (oldPosition == position) {
-            move(static_cast<Direction>(
-                world.rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
-        }
-    }
-    virtual void undoMove() { position = oldPosition; }
+    Animal(int power, int initiative, World& world)
+        : Organism(power, initiative, world) {}
+    virtual void action() override { move(tile->getRandomNeighbour()); }
     virtual void collision(Organism& other) override {
-        if (other == *this) {
-            world.addOrganism(new Animal(power, initiative, position, world));
+        if (typeid(*this) == typeid(other) && breed_cooldown == 0) {
             this->undoMove();
-            other.skipTurn();
-            std::cout << "New animal born at " << position << std::endl;
-        } else if (power < other.getPower()) {
-            this->die();
-        } else {
-            other.die();
-        }
+            Tile* newtile = other.getTile()->getRandomFreeNeighbour();
+            if (newtile == nullptr) return;
+            other.collision(static_cast<const Organism&>(*this));
+            Animal* newAnimal = construct();
+            newAnimal->skipTurn();
+            world.addOrganism(newAnimal, newtile);
+            this->setBreedCooldown(5);
+            other.setBreedCooldown(5);
+            newAnimal->setBreedCooldown(10);
+
+        } else
+            undoMove();
     }
-    virtual void draw() override {}
+    virtual void collision(const Organism& other) override { this->skipTurn(); }
+
+    void setBreedCooldown(int cooldown = 5) { breed_cooldown = cooldown; }
+    int getBreedCooldown() const { return breed_cooldown; }
+
+    virtual void undoMove() {
+        if (oldTile == nullptr) return;
+        oldTile->placeOrganism(this);
+        tile->removeOrganism(this);
+        tile = oldTile;
+        oldTile = nullptr;
+    }
+    virtual void draw() = 0;
+    virtual Animal* construct() const = 0;
 };

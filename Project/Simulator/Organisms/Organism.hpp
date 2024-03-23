@@ -2,67 +2,52 @@
 
 #include <iostream>
 
-#include "../Position.hpp"
+#include "../Tile.hpp"
 #include "../World.hpp"
 
-class World;  // Forward declaration of World
+class World;
+class Tile;
 
 class Organism {
    protected:
     int power;
     int initiative;
-    int age;
-    bool alive;
-    Position position;
+    size_t age = 0;
+    bool alive = true;
+    int breed_cooldown;
+    bool skip = false;
+    Tile *tile = nullptr;
     World &world;
+    RandGen &rng = RandGen::getInstance();
 
    public:
-    Organism(int power, int initiative, int x, int y, World &world)
-        : power(power),
-          initiative(initiative),
-          age(0),
-          alive(true),
-          position(x, y),
-          world(world) {}
-    Organism(int power, int initiative, Position position, World &world)
-        : power(power),
-          initiative(initiative),
-          age(0),
-          alive(true),
-          position(position),
-          world(world) {}
+    Organism(int power, int initiative, World &world)
+        : power(power), initiative(initiative), world(world) {}
+
+    Tile *getTile() const { return tile; }
+    void setTile(Tile *tile) { this->tile = tile; }
+
+    void Age() {
+        if (breed_cooldown > 0) breed_cooldown--;
+        age++;
+    }
+    void setBreedCooldown(size_t turns = 5) { breed_cooldown = turns; }
+    void Die() { alive = false; }
+    bool isDead() { return !alive; }
+    bool isAlive() const { return alive; }
+    void skipTurn() { skip = true; }
+    void unskipTurn() { skip = false; }
+    bool isSkipped() { return skip; }
 
     int getPower() const { return power; }
     int getInitiative() const { return initiative; }
     int getAge() const { return age; }
-    bool isAlive() const { return alive; }
-    int getX() const { return position.x; }
-    int getY() const { return position.y; }
     void setPower(int power) { this->power = power; }
     void setInitiative(int initiative) { this->initiative = initiative; }
-    void setAge(int age) { this->age = age; }
-    void setAlive(bool alive) { this->alive = alive; }
-    void setPosition(int x, int y) {
-        position.x = x;
-        position.y = y;
-    }
-    Position getPosition() const { return position; }
-    void setPosition(Position position) { this->position = position; }
-    void skipTurn() {}
-    virtual ~Organism() {}
+    ~Organism() {}
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
+    virtual void collision(const Organism &other) = 0;
     virtual void draw() = 0;
-    virtual void die() {
-        alive = false;
-        std::cout << "Organism at " << position << " died" << std::endl;
-    }
-
-    virtual bool operator==(const Organism &other) const {
-        return power == other.power && initiative == other.initiative &&
-               position == other.position;
-    }
-    virtual bool operator!=(const Organism &other) const {
-        return !(*this == other);
-    }
+    virtual Organism *construct() const = 0;
 };
