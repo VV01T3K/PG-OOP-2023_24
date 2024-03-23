@@ -39,19 +39,31 @@ class World {
     }
 
     void simulate() {
+        const auto compare = [](const auto &a, const auto &b) {
+            if (a->getInitiative() == b->getInitiative()) {
+                return a->getAge() > b->getAge();
+            }
+            return a->getInitiative() > b->getInitiative();
+        };
+        std::sort(organisms.begin(), organisms.end(), compare);
         for (auto organism : organisms) {
+            if (!organism->isAlive()) continue;
             organism->action();
-        }
-    }
-    void collisions() {
-        for (auto organism1 : organisms) {
-            for (auto organism2 : organisms) {
-                if (organism1 != organism2 &&
-                    organism1->getPosition() == organism2->getPosition()) {
-                    organism1->collision(*organism2);
+            for (auto other : organisms) {
+                if (!other->isAlive() || organism == other) continue;
+                if (organism->getPosition() == other->getPosition()) {
+                    organism->collision(*other);
                 }
             }
+            organism->setAge(organism->getAge() + 1);
         }
+        organisms.erase(
+            // remove_if to shift all dead organisms to the end of the vector
+            std::remove_if(
+                organisms.begin(), organisms.end(),
+                // Lambda function to check if an organism is dead
+                [](const auto &organism) { return !organism->isAlive(); }),
+            organisms.end());
     }
 
     bool isOccupied(Position position) {
@@ -65,7 +77,6 @@ class World {
 
     void simulateOneRound() {
         simulate();
-        collisions();
         display.draw(this);
         controler.waitForInput();
     }
