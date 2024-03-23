@@ -38,20 +38,16 @@ class World {
             for (int x = 0; x < width; x++) {
                 Tile *tile = tiles[y * width + x];
                 if (y > 0) {
-                    tile->setLink(Tile::Direction::NORTH,
-                                  tiles[(y - 1) * width + x]);
+                    tile->setLink(Direction::NORTH, tiles[(y - 1) * width + x]);
                 }
                 if (x < width - 1) {
-                    tile->setLink(Tile::Direction::EAST,
-                                  tiles[y * width + x + 1]);
+                    tile->setLink(Direction::EAST, tiles[y * width + x + 1]);
                 }
                 if (y < height - 1) {
-                    tile->setLink(Tile::Direction::SOUTH,
-                                  tiles[(y + 1) * width + x]);
+                    tile->setLink(Direction::SOUTH, tiles[(y + 1) * width + x]);
                 }
                 if (x > 0) {
-                    tile->setLink(Tile::Direction::WEST,
-                                  tiles[y * width + x - 1]);
+                    tile->setLink(Direction::WEST, tiles[y * width + x - 1]);
                 }
             }
         }

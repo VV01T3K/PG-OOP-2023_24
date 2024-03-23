@@ -3,6 +3,7 @@
 #include "Organisms/Organism.hpp"
 #include "Position.hpp"
 
+enum class Direction : uint8_t { SELF, NORTH, EAST, SOUTH, WEST };
 class Tile {
    private:
     Position position;
@@ -14,7 +15,6 @@ class Tile {
 
    public:
     bool test = false;
-    enum class Direction : uint8_t { SELF, NORTH, EAST, SOUTH, WEST };
 
     Tile()
         : north(nullptr),
@@ -49,7 +49,7 @@ class Tile {
     void setPosition(Position position) { this->position = position; }
     Organism *getOrganism() { return organism; }
     void setOrganism(Organism *organism) { this->organism = organism; }
-    Tile operator[](Direction direction) {
+    Tile &operator[](Direction direction) {
         switch (direction) {
             case Direction::SELF:
                 return *this;
@@ -62,6 +62,7 @@ class Tile {
             case Direction::WEST:
                 return *west;
         }
+        return *this;
     }
     Tile *getRandomNeighbour() {
         std::vector<Tile *> neighbours;

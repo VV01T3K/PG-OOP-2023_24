@@ -20,6 +20,9 @@ int main() {
 
     World world(4, 4);
 
+    world.getTile(0, 0)[Direction::EAST][Direction::SOUTH][Direction::EAST]
+        .test = true;
+
     world.printTiles();
 
     return 0;
