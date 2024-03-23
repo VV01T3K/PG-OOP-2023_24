@@ -10,7 +10,7 @@ class Fox : public Animal {
         oldPosition = position;
         while (oldPosition == position) {
             move(static_cast<Direction>(
-                rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
+                world.rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
             if (world.getOrganismAt(position) != nullptr &&
                 world.getOrganismAt(position)->getPower() > power) {
                 undoMove();

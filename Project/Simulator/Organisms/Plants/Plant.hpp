@@ -2,26 +2,22 @@
 
 #include <random>
 
-#include "../../../Utils/RandGen.hpp"
 #include "../../Position.hpp"
 #include "../Organism.hpp"
 
 class Plant : public Organism {
-   private:
-    RandGen& rng;
-
    public:
     Plant(int power, int x, int y, World& world)
-        : Organism(power, 0, x, y, world), rng(RandGen::getInstance()) {}
+        : Organism(power, 0, x, y, world) {}
     Plant(int power, Position position, World& world)
-        : Organism(power, 0, position, world), rng(RandGen::getInstance()) {}
+        : Organism(power, 0, position, world) {}
 
     virtual void action() override {
-        if (rng.roll(0, 50) < 5) {
+        if (world.rng.roll(0, 99) < 5) {
             Position newPosition = position;
             while (newPosition == position || world.isOccupied(newPosition)) {
                 newPosition = position;
-                switch (static_cast<Direction>(rng.roll(0, 3))) {
+                switch (static_cast<Direction>(world.rng.roll(0, 3))) {
                     case Direction::UP:
                         newPosition.y = position.y - 1;
                         break;

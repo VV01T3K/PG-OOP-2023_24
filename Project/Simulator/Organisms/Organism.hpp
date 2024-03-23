@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Utils/RandGen.hpp"
 #include "../Position.hpp"
 #include "../World.hpp"
 
@@ -51,7 +52,7 @@ class Organism {
     Position getPosition() const { return position; }
     void setPosition(Position position) { this->position = position; }
     void skipTurn() {}
-    virtual ~Organism() { std::cout << "Organism destructor" << std::endl; }
+    virtual ~Organism() {}
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
     virtual void draw() = 0;

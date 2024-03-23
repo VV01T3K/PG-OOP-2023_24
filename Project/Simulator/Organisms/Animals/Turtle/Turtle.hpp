@@ -8,7 +8,7 @@ class Turtle : public Animal {
     Turtle(Position position, World &world) : Animal(2, 1, position, world) {}
 
     void action() override {
-        if (rng.roll(0, 3) == 0) Animal::action();
+        if (world.rng.roll(0, 3) == 0) Animal::action();
     }
 
     void collision(Organism &other) override {

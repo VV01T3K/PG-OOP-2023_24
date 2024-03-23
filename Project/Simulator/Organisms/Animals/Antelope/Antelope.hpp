@@ -18,13 +18,13 @@ class Antelope : public Animal {
         // first step
         while (oldPosition == position) {
             move(static_cast<Direction>(
-                rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
+                world.rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
         // second step
         oldPosition = position;
         while (oldPosition == position && oldestPosition == position) {
             move(static_cast<Direction>(
-                rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
+                world.rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
     }
     void undoMove() override {
@@ -35,7 +35,7 @@ class Antelope : public Animal {
     }
     void collision(Organism &other) override {
         if (other.getPower() > power) {
-            if (rng.roll(0, 1) == 0) {
+            if (world.rng.roll(0, 1) == 0) {
                 position = oldPosition;
             } else {
                 Animal::collision(other);

@@ -2,13 +2,11 @@
 
 #include <random>
 
-#include "../../../Utils/RandGen.hpp"
 #include "../../Position.hpp"
 #include "../Organism.hpp"
 
 class Animal : public Organism {
    protected:
-    RandGen& rng;
     Position oldPosition;
 
     void move(Direction direction) {
@@ -30,19 +28,15 @@ class Animal : public Organism {
 
    public:
     Animal(int power, int initiative, int x, int y, World& world)
-        : Organism(power, initiative, x, y, world),
-          rng(RandGen::getInstance()),
-          oldPosition(x, y) {}
+        : Organism(power, initiative, x, y, world), oldPosition(x, y) {}
     Animal(int power, int initiative, Position position, World& world)
-        : Organism(power, initiative, position, world),
-          rng(RandGen::getInstance()),
-          oldPosition(position) {}
+        : Organism(power, initiative, position, world), oldPosition(position) {}
 
     virtual void action() override {
         oldPosition = position;
         while (oldPosition == position) {
             move(static_cast<Direction>(
-                rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
+                world.rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
     }
     virtual void undoMove() { position = oldPosition; }

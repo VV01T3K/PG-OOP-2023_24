@@ -17,6 +17,7 @@ class World {
     // Controler &controler;
 
    public:
+    RandGen &rng = RandGen::getInstance();
     World(int width, int height) : width(width), height(height) {
         std::cout << "World constructor" << std::endl;
     };

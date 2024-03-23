@@ -17,6 +17,9 @@ using namespace std;
 // #include "Utils/Controler.hpp"
 // #include "Utils/Display.hpp"
 
+#include <unistd.h>
+
+#include "Simulator/Organisms/Animals/Wolf/Wolf.hpp"
 #include "Simulator/Organisms/Plants/Grass/Grass.hpp"
 
 int main() {
@@ -27,9 +30,17 @@ int main() {
 
     World world(5, 5);
 
-    world.addOrganism(new Grass(1, 1, world));
+    world.addOrganism(new Wolf(4, 4, world));
+    int i = 0;
+    while (true) {
+        world.simulate();
+        system("clear");
+        cout << "Turn: " << i << endl;
+        world.draw();
 
-    world.draw();
+        sleep(1);
+        i++;
+    }
 
     return 0;
 }
