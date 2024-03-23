@@ -43,4 +43,6 @@ class World {
     void simulate();
 
     size_t getOrganimsCount() const;
+
+    void spreadOrganisms(Organism *organism, size_t count);
 };

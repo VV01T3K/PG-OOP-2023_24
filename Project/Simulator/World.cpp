@@ -91,3 +91,10 @@ void World::simulate() {
 }
 
 size_t World::getOrganimsCount() const { return organisms.size(); }
+
+void World::spreadOrganisms(Organism *organism, size_t count) {
+    for (size_t i = 0; i < count; i++) {
+        Tile *tile = tiles[rng.roll(0, width * height)];
+        if (tile->isFree()) addOrganism(organism->construct(), tile);
+    }
+}

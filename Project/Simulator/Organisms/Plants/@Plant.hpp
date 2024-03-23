@@ -10,7 +10,7 @@ class Plant : public Organism {
    public:
     Plant(int power, World& world) : Organism(power, 0, world) {}
     virtual void action() override {
-        if (rng.roll(0, 100) < 10) {
+        if (rng.roll(0, 100) < 5) {
             Tile* newtile = tile->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
             Plant* newPlant = construct();
