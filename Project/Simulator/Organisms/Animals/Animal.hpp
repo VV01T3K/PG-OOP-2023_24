@@ -7,7 +7,7 @@
 #include "../Organism.hpp"
 
 class Animal : public Organism {
-   private:
+   protected:
     RandGen& rng;
     Position oldPosition;
 
@@ -45,11 +45,11 @@ class Animal : public Organism {
                 rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
     }
-    virtual void undoAction() { position = oldPosition; }
+    virtual void undoMove() { position = oldPosition; }
     virtual void collision(Organism& other) override {
         if (other == *this) {
             world.addOrganism(new Animal(power, initiative, position, world));
-            this->undoAction();
+            this->undoMove();
             other.skipTurn();
         } else if (power < other.getPower()) {
             this->die();

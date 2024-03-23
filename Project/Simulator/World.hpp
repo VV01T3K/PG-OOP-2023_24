@@ -75,6 +75,15 @@ class World {
         return false;
     }
 
+    Organism *getOrganismAt(Position position) {
+        for (auto organism : organisms) {
+            if (organism->getPosition() == position) {
+                return organism;
+            }
+        }
+        return nullptr;
+    }
+
     void simulateOneRound() {
         simulate();
         display.draw(this);
