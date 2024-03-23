@@ -2,8 +2,6 @@
 
 #include "../Animal.hpp"
 class Fox : public Animal {
-   private:
-    /* data */
    public:
     Fox(int x, int y, World &world) : Animal(3, 7, x, y, world) {}
     Fox(Position position, World &world) : Animal(3, 7, position, world) {}
