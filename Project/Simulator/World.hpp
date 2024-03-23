@@ -71,12 +71,17 @@ class World {
     }
 
     void simulate() {
-        for (auto organism : organisms) {
-            if (organism->isSkipped()) {
-                organism->unskipTurn();
-                continue;
+        const auto compare = [](const auto &a, const auto &b) {
+            if (a->getInitiative() == b->getInitiative()) {
+                return a->getAge() > b->getAge();
             }
-            if (organism->isDead()) return;
+            return a->getInitiative() > b->getInitiative();
+        };
+        std::sort(organisms.begin(), organisms.end(), compare);
+
+        for (auto organism : organisms) {
+            if (organism->isSkipped()) continue;
+            if (organism->isDead()) continue;
             organism->action();
             for (auto other : organisms) {
                 if (other->isDead()) continue;
@@ -85,12 +90,20 @@ class World {
                     organism->collision(*other);
             }
         }
-        for (auto organism : organisms) {
-            organism->Age();
+
+        const auto handlePostRound = [](auto &organism) {
             if (organism->isDead()) {
-                delete organism;
+                organism->getTile()->removeOrganism(organism);
+                return true;
             }
-        }
+            organism->Age();
+            organism->unskipTurn();
+            return false;
+        };
+
+        organisms.erase(
+            std::remove_if(organisms.begin(), organisms.end(), handlePostRound),
+            organisms.end());
     }
 
     void printOrganisms() {

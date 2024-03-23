@@ -23,11 +23,14 @@ using namespace std;
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(5, 5);
+    World world(30, 30);
 
     world.addOrganism(new Sheep(world), world.getTile(0));
     world.addOrganism(new Sheep(world), world.getTile(1));
-    world.addOrganism(new Dog(world), world.getTile(8));
+    world.addOrganism(new Sheep(world), world.getTile(1));
+    world.addOrganism(new Sheep(world), world.getTile(1));
+    world.addOrganism(new Sheep(world), world.getTile(1));
+    world.addOrganism(new Dog(world), world.getTile(45));
 
     world.printOrganisms();
     while (true) {
