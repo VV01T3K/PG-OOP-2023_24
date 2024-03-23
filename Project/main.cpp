@@ -20,23 +20,24 @@ using namespace std;
 #include "Simulator/Organisms/Plants/Grass.hpp"
 #include "Simulator/Tile.hpp"
 #include "Simulator/World.hpp"
+#include "Utils/Display.hpp"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
     World world(10, 10);
+    Display display(world);
 
     world.addOrganism(new Grass(world), world.getTile(0));
     world.addOrganism(new Sheep(world), world.getTile(20));
     // world.addOrganism(new Dog(world), world.getTile(45));
 
-    world.printOrganisms();
     while (true) {
         system("clear");
 
         world.simulate();
 
-        world.printOrganisms();
+        display.printOrganisms();
 
         cout << world.getOrganimsCount() << endl;
 
