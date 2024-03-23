@@ -3,21 +3,23 @@
 #include <algorithm>
 #include <vector>
 
-#include "../Utils/Controler.hpp"
-#include "../Utils/Display.hpp"
+// #include "../Utils/Controler.hpp"
+// #include "../Utils/Display.hpp"
 #include "Organisms/Organism.hpp"
 #include "Position.hpp"
 
 class World {
    private:
-    std::vector<Organism *> organisms;
-    Display display;
-    Controler controler;
     int width;
     int height;
+    std::vector<Organism *> organisms;
+    // Display &display;
+    // Controler &controler;
 
    public:
-    World() {}
+    World(int width, int height) : width(width), height(height) {
+        std::cout << "World constructor" << std::endl;
+    };
     ~World() {
         for (auto organism : organisms) {
             delete organism;
@@ -86,7 +88,21 @@ class World {
 
     void simulateOneRound() {
         simulate();
-        display.draw(this);
-        controler.waitForInput();
+        // display.draw(this);
+        // controler.waitForInput();
+    }
+
+    void draw() {
+        std::cout << "World size: " << width << "x" << height << std::endl;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (isOccupied(Position(x, y))) {
+                    std::cout << "1 ";
+                } else {
+                    std::cout << "0 ";
+                }
+            }
+            std::cout << std::endl;
+        }
     }
 };

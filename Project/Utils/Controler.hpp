@@ -3,11 +3,7 @@ class Controler {
    private:
     /* data */
    public:
-    void waitForInput();
+    // void waitForInput(){};
     Controler(/* args */);
     ~Controler();
 };
-
-Controler::Controler(/* args */) {}
-
-Controler::~Controler() {}

@@ -13,8 +13,23 @@
 #include <vector>  // STL dynamic array (vector) class template.
 using namespace std;
 
+#include "Simulator/World.hpp"
+// #include "Utils/Controler.hpp"
+// #include "Utils/Display.hpp"
+
+#include "Simulator/Organisms/Plants/Grass/Grass.hpp"
+
 int main() {
     std::ios::sync_with_stdio(false);
+
+    // Display display;
+    // Controler controler;
+
+    World world(5, 5);
+
+    world.addOrganism(new Grass(1, 1, world));
+
+    world.draw();
 
     return 0;
 }

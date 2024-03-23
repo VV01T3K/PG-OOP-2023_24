@@ -5,6 +5,8 @@
 #include "../Position.hpp"
 #include "../World.hpp"
 
+class World;  // Forward declaration of World
+
 class Organism {
    protected:
     int power;

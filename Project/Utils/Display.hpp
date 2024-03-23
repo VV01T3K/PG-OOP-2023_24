@@ -6,11 +6,7 @@ class Display {
    private:
     /* data */
    public:
-    void draw(World &world);
+    // void draw(World *world){};
     Display(/* args */);
     ~Display();
 };
-
-Display::Display(/* args */) {}
-
-Display::~Display() {}
