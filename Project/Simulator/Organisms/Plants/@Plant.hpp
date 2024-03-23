@@ -4,7 +4,7 @@
 #include <random>
 
 #include "../../World.hpp"
-#include "../Organism.hpp"
+#include "../@Organism.hpp"
 
 class Plant : public Organism {
    public:

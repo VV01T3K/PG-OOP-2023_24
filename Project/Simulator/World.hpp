@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../Utils/RandGen.hpp"
-#include "Organisms/Organism.hpp"
+#include "Organisms/@Organism.hpp"
 #include "Tile.hpp"
 
 class World {
