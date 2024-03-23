@@ -21,10 +21,13 @@ class World {
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;  // custom array of tiles (mainly for random
                                 // spwaning of organisms)
+    size_t time = 0;
 
    public:
     World(size_t width, size_t height);
     ~World();
+
+    size_t checkTime() const;
 
     size_t getWidth() const;
     size_t getHeight() const;

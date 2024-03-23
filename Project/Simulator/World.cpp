@@ -33,6 +33,7 @@ World::~World() {
         delete tile;
     }
 }
+size_t World::checkTime() const { return time; }
 
 size_t World::getWidth() const { return width; }
 size_t World::getHeight() const { return height; }
@@ -52,6 +53,8 @@ void World::addOrganism(Organism *organism, Tile *tile) {
 }
 
 void World::simulate() {
+    time++;
+
     const auto compare = [](const auto &a, const auto &b) {
         if (a->getInitiative() == b->getInitiative()) {
             return a->getAge() > b->getAge();

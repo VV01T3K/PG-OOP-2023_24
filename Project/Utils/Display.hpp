@@ -15,5 +15,6 @@ class Display {
     Display(World &world);
     ~Display();
 
-    void printOrganisms() const;
+    void log(const std::string &message) const;
+    void update() const;
 };
