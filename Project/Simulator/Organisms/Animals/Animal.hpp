@@ -12,7 +12,6 @@ class Animal : public Organism {
 
     void move(Tile* newtile) {
         if (newtile == nullptr) return;
-        std::cout << "Moving";
         oldTile = tile;
         tile = newtile;
         tile->placeOrganism(this);
@@ -25,8 +24,9 @@ class Animal : public Organism {
         : Organism(power, initiative, world) {}
     virtual void action() override { move(tile->getRandomNeighbour()); }
     virtual void collision(Organism& other) override {
-        if (typeid(*this) == typeid(other) && breed_cooldown == 0) {
+        if (typeid(*this) == typeid(other)) {
             this->undoMove();
+            if (breed_cooldown > 0) return;
             Tile* newtile = other.getTile()->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
             other.collision(static_cast<const Organism&>(*this));
@@ -37,8 +37,11 @@ class Animal : public Organism {
             other.setBreedCooldown(5);
             newAnimal->setBreedCooldown(10);
 
-        } else
-            undoMove();
+        } else if (power > other.getPower()) {
+            other.Die();
+        } else {
+            this->Die();
+        }
     }
     virtual void collision(const Organism& other) override { this->skipTurn(); }
 

@@ -79,20 +79,15 @@ class World {
             if (organism->isDead()) return;
             organism->action();
             for (auto other : organisms) {
-                if (organism != other &&
-                    organism->getTile() == other->getTile()) {
+                if (other->isDead()) continue;
+                if (organism == other) continue;
+                if (organism->getTile() == other->getTile())
                     organism->collision(*other);
-                }
             }
         }
         for (auto organism : organisms) {
             organism->Age();
             if (organism->isDead()) {
-                Tile *tile = organism->getTile();
-                tile->clear();
-                organisms.erase(
-                    std::remove(organisms.begin(), organisms.end(), organism),
-                    organisms.end());
                 delete organism;
             }
         }
