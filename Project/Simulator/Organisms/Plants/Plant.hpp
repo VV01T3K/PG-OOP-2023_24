@@ -36,6 +36,7 @@ class Plant : public Organism {
                         break;
                 }
             }
+            world.addOrganism(new Plant(power, newPosition, world));
         }
     }
     virtual void collision(Organism& other) {}
