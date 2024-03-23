@@ -12,16 +12,16 @@ class Animal : public Organism {
 
     void move(Direction direction) {
         switch (direction) {
-            case Direction::UP:
+            case Direction::NORTH:
                 if (position.y > 0) position.y--;
                 break;
-            case Direction::DOWN:
+            case Direction::SOUTH:
                 if (position.y < world.getHeight() - 1) position.y++;
                 break;
-            case Direction::LEFT:
+            case Direction::WEST:
                 if (position.x > 0) position.x--;
                 break;
-            case Direction::RIGHT:
+            case Direction::EAST:
                 if (position.x < world.getWidth() - 1) position.x++;
                 break;
         }

@@ -66,7 +66,10 @@ class World {
     void setWidth(int width) { this->width = width; }
     void setHeight(int height) { this->height = height; }
 
-    void addOrganism(Organism *organism) { organisms.push_back(organism); }
+    void addOrganism(Organism *organism) {
+        organisms.push_back(organism);
+        getTile(organism->getPosition()).setOrganism(organism);
+    }
     void removeOrganism(Organism *organism) {
         organisms.erase(
             std::remove(organisms.begin(), organisms.end(), organism),
@@ -127,9 +130,20 @@ class World {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Tile *tile = tiles[y * width + x];
-                std::cout << tile->test << " ";
+                if (tile->getOrganism() != nullptr) {
+                    std::cout << "1 ";
+                } else {
+                    std::cout << "0 ";
+                }
             }
             std::cout << std::endl;
+        }
+    }
+
+    void printOrganisms() {
+        for (auto organism : organisms) {
+            std::cout << "Organism at " << organism->getPosition() << " is "
+                      << (organism->isAlive() ? "alive" : "dead") << std::endl;
         }
     }
 };

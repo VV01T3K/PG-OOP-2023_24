@@ -14,16 +14,18 @@
 using namespace std;
 
 #include "Simulator/World.hpp"
+//
+#include "Simulator/Organisms/Animals/Sheep.hpp"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
     World world(4, 4);
 
-    world.getTile(0, 1)[Direction::EAST][Direction::SOUTH][Direction::EAST]
-        .test = true;
+    world.addOrganism(new Sheep(0, 0, world));
 
     world.printTiles();
+    world.printOrganisms();
 
     return 0;
 }
