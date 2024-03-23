@@ -12,9 +12,9 @@ class Organism {
    protected:
     int power;
     int initiative;
-    size_t age = 0;
+    u_int32_t age = 0;
     bool alive = true;
-    int breed_cooldown;
+    int reproduction_cooldown;
     bool skip = false;
     Tile *tile = nullptr;
     World &world;
@@ -28,10 +28,10 @@ class Organism {
     void setTile(Tile *tile) { this->tile = tile; }
 
     void Age() {
-        if (breed_cooldown > 0) breed_cooldown--;
+        if (reproduction_cooldown > 0) reproduction_cooldown--;
         age++;
     }
-    void setBreedCooldown(size_t turns = 5) { breed_cooldown = turns; }
+    void setBreedCooldown(size_t turns = 5) { reproduction_cooldown = turns; }
     void Die() { alive = false; }
     bool isDead() { return !alive; }
     bool isAlive() const { return alive; }

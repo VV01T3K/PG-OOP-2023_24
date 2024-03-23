@@ -17,20 +17,18 @@ using namespace std;
 
 #include "Simulator/Organisms/Animals/Dog.hpp"
 #include "Simulator/Organisms/Animals/Sheep.hpp"
+#include "Simulator/Organisms/Plants/Grass.hpp"
 #include "Simulator/Tile.hpp"
 #include "Simulator/World.hpp"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(30, 30);
+    World world(10, 10);
 
-    world.addOrganism(new Sheep(world), world.getTile(0));
-    world.addOrganism(new Sheep(world), world.getTile(1));
-    world.addOrganism(new Sheep(world), world.getTile(1));
-    world.addOrganism(new Sheep(world), world.getTile(1));
-    world.addOrganism(new Sheep(world), world.getTile(1));
-    world.addOrganism(new Dog(world), world.getTile(45));
+    world.addOrganism(new Grass(world), world.getTile(0));
+    world.addOrganism(new Sheep(world), world.getTile(20));
+    // world.addOrganism(new Dog(world), world.getTile(45));
 
     world.printOrganisms();
     while (true) {

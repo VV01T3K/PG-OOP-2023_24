@@ -26,7 +26,7 @@ class Animal : public Organism {
     virtual void collision(Organism& other) override {
         if (typeid(*this) == typeid(other)) {
             this->undoMove();
-            if (breed_cooldown > 0) return;
+            if (reproduction_cooldown > 0) return;
             Tile* newtile = other.getTile()->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
             other.collision(static_cast<const Organism&>(*this));
@@ -45,8 +45,10 @@ class Animal : public Organism {
     }
     virtual void collision(const Organism& other) override { this->skipTurn(); }
 
-    void setBreedCooldown(int cooldown = 5) { breed_cooldown = cooldown; }
-    int getBreedCooldown() const { return breed_cooldown; }
+    void setBreedCooldown(int cooldown = 5) {
+        reproduction_cooldown = cooldown;
+    }
+    int getBreedCooldown() const { return reproduction_cooldown; }
 
     virtual void undoMove() {
         if (oldTile == nullptr) return;
