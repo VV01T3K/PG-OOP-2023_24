@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Animal.hpp"
+#include "Animal.hpp"
 class Wolf : public Animal {
    public:
     Wolf(int x, int y, World &world) : Animal(9, 5, x, y, world) {}

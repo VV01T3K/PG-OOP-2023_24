@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Plant.hpp"
+#include "Plant.hpp"
 class Grass : public Plant {
    public:
     Grass(int x, int y, World &world) : Plant(0, x, y, world) {}

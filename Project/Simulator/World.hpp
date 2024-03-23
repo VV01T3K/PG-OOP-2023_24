@@ -1,29 +1,67 @@
 #pragma once
 
 #include <algorithm>
+#include <iostream>
+#include <random>
 #include <vector>
 
-// #include "../Utils/Controler.hpp"
-// #include "../Utils/Display.hpp"
+#include "../Utils/RandGen.hpp"
 #include "Organisms/Organism.hpp"
 #include "Position.hpp"
+#include "Tile.hpp"
 
 class World {
    private:
     int width;
     int height;
-    std::vector<Organism *> organisms;
-    // Display &display;
-    // Controler &controler;
+    std::vector<Organism *> organisms;  // sorted by initiative and age
+    std::vector<Tile *> tiles;  // custom array of tiles (mainly for random
+                                // spwaning of organisms)
 
    public:
     RandGen &rng = RandGen::getInstance();
+
+    Tile &getTile(Position position) {
+        return *tiles[position.y * width + position.x];
+    }
+    Tile &getTile(int x, int y) { return *tiles[y * width + x]; }
+
     World(int width, int height) : width(width), height(height) {
         std::cout << "World constructor" << std::endl;
+        tiles.reserve(width * height);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                tiles.push_back(new Tile(x, y));
+            }
+        }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                Tile *tile = tiles[y * width + x];
+                if (y > 0) {
+                    tile->setLink(Tile::Direction::NORTH,
+                                  tiles[(y - 1) * width + x]);
+                }
+                if (x < width - 1) {
+                    tile->setLink(Tile::Direction::EAST,
+                                  tiles[y * width + x + 1]);
+                }
+                if (y < height - 1) {
+                    tile->setLink(Tile::Direction::SOUTH,
+                                  tiles[(y + 1) * width + x]);
+                }
+                if (x > 0) {
+                    tile->setLink(Tile::Direction::WEST,
+                                  tiles[y * width + x - 1]);
+                }
+            }
+        }
     };
     ~World() {
         for (auto organism : organisms) {
             delete organism;
+        }
+        for (auto tile : tiles) {
+            delete tile;
         }
     }
 
@@ -87,21 +125,14 @@ class World {
         return nullptr;
     }
 
-    void simulateOneRound() {
-        simulate();
-        // display.draw(this);
-        // controler.waitForInput();
-    }
+    void simulateOneRound() { simulate(); }
 
-    void draw() {
+    void printTiles() {
         std::cout << "World size: " << width << "x" << height << std::endl;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (isOccupied(Position(x, y))) {
-                    std::cout << "1 ";
-                } else {
-                    std::cout << "0 ";
-                }
+                Tile *tile = tiles[y * width + x];
+                std::cout << tile->test << " ";
             }
             std::cout << std::endl;
         }

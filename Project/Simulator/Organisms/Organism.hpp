@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "../../Utils/RandGen.hpp"
 #include "../Position.hpp"
 #include "../World.hpp"
 
@@ -16,8 +15,6 @@ class Organism {
     bool alive;
     Position position;
     World &world;
-
-    enum class Direction : uint8_t { UP, DOWN, LEFT, RIGHT };
 
    public:
     Organism(int power, int initiative, int x, int y, World &world)

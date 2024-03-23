@@ -14,45 +14,13 @@
 using namespace std;
 
 #include "Simulator/World.hpp"
-// #include "Utils/Controler.hpp"
-// #include "Utils/Display.hpp"
-
-#include <unistd.h>
-
-#include "Simulator/Organisms/Animals/Sheep/Sheep.hpp"
-#include "Simulator/Organisms/Animals/Wolf/Wolf.hpp"
-#include "Simulator/Organisms/Plants/Grass/Grass.hpp"
 
 int main() {
     std::ios::sync_with_stdio(false);
 
-    // Display display;
-    // Controler controler;
+    World world(4, 4);
 
-    // TODO - implement controler and display
-    // TODO - implement world generation
-    // TODO - implement world simulation
-    // TODO - implement world drawing
-    // TODO - implement world statistics
-    // TODO - implement world save/load
-    // TODO - fix overflow when generating new organisms
-    // TODO!! - constant time for accessing directions
-
-    World world(3, 3);
-
-    world.addOrganism(new Wolf(2, 2, world));
-    world.addOrganism(new Sheep(0, 0, world));
-
-    int i = 0;
-    while (true) {
-        system("clear");
-        world.simulate();
-        cout << "Turn: " << i << endl;
-        world.draw();
-
-        sleep(1);
-        i++;
-    }
+    world.printTiles();
 
     return 0;
 }
