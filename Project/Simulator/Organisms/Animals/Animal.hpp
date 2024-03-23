@@ -40,15 +40,15 @@ class Animal : public Organism {
           rng(RandGen::getInstance()),
           oldPosition(position) {}
 
-    void action() override {
+    virtual void action() override {
         oldPosition = position;
         while (oldPosition == position) {
             move(static_cast<Direction>(
                 rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
     }
-    void undoAction() override { position = oldPosition; }
-    void collision(Organism& other) override {
+    virtual void undoAction() override { position = oldPosition; }
+    virtual void collision(Organism& other) override {
         if (other == *this) {
             world.addOrganism(new Animal(power, initiative, position, world));
             this->undoAction();
@@ -59,5 +59,5 @@ class Animal : public Organism {
             other.die();
         }
     }
-    void draw() override {}
+    virtual void draw() override {}
 };
