@@ -14,9 +14,10 @@ class Turtle : public Animal {
     void collision(Organism &other) override {
         if (typeid(other) == typeid(Animal)) {
             if (other.getPower() < 5) {
-                Animal::collision(other);
                 static_cast<Animal &>(other).undoMove();
             }
+        } else {
+            Animal::collision(other);
         }
     }
 };
