@@ -14,6 +14,8 @@ class Organism {
     Position position;
     World &world;
 
+    enum class Direction : uint8_t { UP, DOWN, LEFT, RIGHT };
+
    public:
     Organism(int power, int initiative, int x, int y, World &world)
         : power(power),
@@ -49,7 +51,6 @@ class Organism {
     void skipTurn() {}
     virtual ~Organism() { std::cout << "Organism destructor" << std::endl; }
     virtual void action() = 0;
-    virtual void undoAction() = 0;
     virtual void collision(Organism &other) = 0;
     virtual void draw() = 0;
     virtual void die() { alive = false; }

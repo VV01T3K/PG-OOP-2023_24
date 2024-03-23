@@ -11,8 +11,6 @@ class Animal : public Organism {
     RandGen& rng;
     Position oldPosition;
 
-    enum class Direction : uint8_t { UP, DOWN, LEFT, RIGHT };
-
     void move(Direction direction) {
         switch (direction) {
             case Direction::UP:
@@ -47,7 +45,7 @@ class Animal : public Organism {
                 rng.roll(0, 3)));  // 0-UP, 1-DOWN, 2-LEFT, 3-RIGHT
         }
     }
-    virtual void undoAction() override { position = oldPosition; }
+    virtual void undoAction() { position = oldPosition; }
     virtual void collision(Organism& other) override {
         if (other == *this) {
             world.addOrganism(new Animal(power, initiative, position, world));
