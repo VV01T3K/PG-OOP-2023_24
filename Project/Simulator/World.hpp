@@ -27,7 +27,6 @@ class World {
     Tile &getTile(int x, int y) { return *tiles[y * width + x]; }
 
     World(int width, int height) : width(width), height(height) {
-        std::cout << "World constructor" << std::endl;
         tiles.reserve(width * height);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {

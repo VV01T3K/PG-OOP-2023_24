@@ -1,27 +1,21 @@
 #pragma once
 
+#include <array>
+
 #include "Organisms/Organism.hpp"
 #include "Position.hpp"
 
-enum class Direction : uint8_t { SELF, NORTH, EAST, SOUTH, WEST };
+enum class Direction : uint8_t { NORTH, EAST, SOUTH, WEST, SELF };
 class Tile {
    private:
     Position position;
     Organism *organism;
-    Tile *north;
-    Tile *east;
-    Tile *south;
-    Tile *west;
+    std::array<Tile *, 4> directions;
 
    public:
     bool test = false;
 
-    Tile()
-        : north(nullptr),
-          east(nullptr),
-          south(nullptr),
-          west(nullptr),
-          organism(nullptr) {}
+    Tile() : organism(nullptr) { directions.fill(nullptr); }
 
     Tile(Position position) : Tile() { this->position = position; }
     Tile(int x, int y) : Tile() { position = Position(x, y); }
@@ -29,20 +23,7 @@ class Tile {
     ~Tile(){};
 
     void setLink(Direction direction, Tile *tile) {
-        switch (direction) {
-            case Direction::NORTH:
-                north = tile;
-                break;
-            case Direction::EAST:
-                east = tile;
-                break;
-            case Direction::SOUTH:
-                south = tile;
-                break;
-            case Direction::WEST:
-                west = tile;
-                break;
-        }
+        directions[static_cast<uint8_t>(direction)] = tile;
     }
 
     Position getPosition() { return position; }
@@ -50,26 +31,16 @@ class Tile {
     Organism *getOrganism() { return organism; }
     void setOrganism(Organism *organism) { this->organism = organism; }
     Tile &operator[](Direction direction) {
-        switch (direction) {
-            case Direction::SELF:
-                return *this;
-            case Direction::NORTH:
-                return *north;
-            case Direction::EAST:
-                return *east;
-            case Direction::SOUTH:
-                return *south;
-            case Direction::WEST:
-                return *west;
-        }
-        return *this;
+        if (direction == Direction::SELF) return *this;
+        return *directions[static_cast<uint8_t>(direction)];
     }
     Tile *getRandomNeighbour() {
         std::vector<Tile *> neighbours;
-        if (north != nullptr) neighbours.push_back(north);
-        if (east != nullptr) neighbours.push_back(east);
-        if (south != nullptr) neighbours.push_back(south);
-        if (west != nullptr) neighbours.push_back(west);
+        for (auto &direction : directions) {
+            if (direction != nullptr) {
+                neighbours.push_back(direction);
+            }
+        }
         if (neighbours.empty()) return nullptr;
         return neighbours[RandGen::getInstance().roll(0,
                                                       neighbours.size() - 1)];
