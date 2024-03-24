@@ -78,3 +78,11 @@ std::vector<Tile *> Tile::getOccupiedNeighbours() const {
 }
 
 size_t Tile::getOrganismCount() const { return organisms.size(); }
+
+size_t Tile::getDistanceTo(const Tile *tile, size_t width) const {
+    const long long x1 = index % width;
+    const long long y1 = index / width;
+    const long long x2 = tile->index % width;
+    const long long y2 = tile->index / width;
+    return std::abs(x1 - x2) + std::abs(y1 - y2);
+}

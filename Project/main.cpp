@@ -22,11 +22,11 @@ using namespace std;
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(10, 10);
+    World world(30, 30);
     Display display(world);
     Controller controller;
 
-    // world.spreadOrganisms(new SosnowskyHogweed(world), 1);
+    world.spreadOrganisms(new SosnowskyHogweed(world), 20);
     // world.spreadOrganisms(new Grass(world), 4);
     // world.spreadOrganisms(new Guarana(world), 4);
     // world.spreadOrganisms(new Milkweed(world), 2);
@@ -34,20 +34,17 @@ int main() {
 
     // world.spreadOrganisms(new Wolf(world), 2);
     // world.spreadOrganisms(new Sheep(world), 1);
-    // world.spreadOrganisms(new CyberSheep(world), 1);
+    world.spreadOrganisms(new CyberSheep(world), 1);
     // world.spreadOrganisms(new Fox(world), 2);
     // world.spreadOrganisms(new Turtle(world), 1);
-    world.spreadOrganisms(new Antelope(world), 10);
+    // world.spreadOrganisms(new Antelope(world), 10);
 
-    display.update();
-    controller.PressToContinue();
+    // world.addOrganism(new SosnowskyHogweed(world), world.getTile(18));
 
     while (true) {
-        world.simulate();
-
         display.update();
 
-        // cout << world.getOrganism(0)->getPower() << endl;
+        world.simulate();
 
         controller.PressToContinue();
     }

@@ -23,18 +23,14 @@ class CyberSheep : public Animal {
     }
 
    private:
-    size_t getDistanceTo(Tile* tile) {
-        return tile->index -
-               (world.getWidth() * (tile->index / world.getWidth()));
-    }
-
     size_t seekClosestSosnowskyHogweed() {
         size_t index = -1;
         size_t min_distance = -1;
         for (size_t i = 0; i < world.getOrganimsCount(); i++) {
             Organism* target = world.getOrganism(i);
             if (target->type == Type::SOSNOWSKY_HOGWEED) {
-                size_t distance = getDistanceTo(target->getTile());
+                size_t distance =
+                    tile->getDistanceTo(target->getTile(), world.getWidth());
                 if (distance < min_distance) {
                     min_distance = distance;
                     index = i;
@@ -46,11 +42,11 @@ class CyberSheep : public Animal {
 
     Tile* nextTileToSosnowskyHogweed(size_t index) {
         Tile* target = world.getOrganism(index)->getTile();
-        const size_t distance = getDistanceTo(target);
+        const size_t distance = tile->getDistanceTo(target, world.getWidth());
         std::vector<Tile*> possible_moves;
-        std::vector<Tile*> neighbours = target->getNeighbours();
+        std::vector<Tile*> neighbours = tile->getNeighbours();
         for (auto neighbour : neighbours) {
-            if (getDistanceTo(neighbour) < distance) {
+            if (neighbour->getDistanceTo(target, world.getWidth()) < distance) {
                 possible_moves.push_back(neighbour);
             }
         }

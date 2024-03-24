@@ -40,4 +40,6 @@ class Tile {
     bool isFree() const;
 
     size_t getOrganismCount() const;
+
+    size_t getDistanceTo(const Tile *tile, size_t width) const;
 };
