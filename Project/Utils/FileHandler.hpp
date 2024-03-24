@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "../Simulator/Organisms/@Organism.hpp"
-#include "../Simulator/Organisms/OrganismFactory.hpp"
+#include "../Simulator/Organisms/OrganismFactoryJson.hpp"
 #include "../Simulator/World.hpp"
 
 enum class Mode : uint8_t { R, W, A, RW };
@@ -18,26 +18,35 @@ class FileHandler {
     std::fstream file;
 
    public:
-    void saveOrganisms(std::vector<Organism*> organisms) {
-        if (organisms.empty()) return;
+    void saveWorld(const World& world) {
         nlohmann::json json;
+        nlohmann::json jsonOrganisms = nlohmann::json::array();
+        const auto organisms = world.getOrganisms();
+        if (organisms.empty()) return;
         for (auto organism : organisms) {
-            json.push_back(organism->toJson());
+            jsonOrganisms.push_back(organism->toJson());
         }
-        file << json.dump(4);
+        json["organisms"] = jsonOrganisms;
+        json["time"] = world.checkTime();
+        json["width"] = world.getWidth();
+        json["height"] = world.getHeight();
+        file << json.dump(2);
     };
-    std::vector<Organism*> loadOrganisms(World& world) {
+
+    void loadWorld(World& world) {
+        OrganismFactoryJson factory;
         nlohmann::json json;
         file >> json;
-        OrganismFactoryJson factory;
+        size_t width = json["width"];
+        size_t height = json["height"];
+        size_t time = json["time"];
+        world.setWorld(width, height, time);
         std::vector<Organism*> organisms;
-        for (auto& organismJson : json) {
-            Organism::Type type = Organism::Type(organismJson["type"]);
-            Organism* organism = factory.create(type, organismJson, world);
-            organisms.push_back(organism);
+        for (auto& organism : json["organisms"]) {
+            organisms.push_back(factory.create(
+                organism["type"].get<Organism::Type>(), organism, world));
         }
         world.setOrganisms(organisms);
-        return organisms;
     };
     FileHandler(std::string targetFilename, Mode mode = Mode::RW)
         : filename("../Project/" + targetFilename) {

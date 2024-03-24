@@ -1,6 +1,6 @@
 #include "World.hpp"
 
-World::World(size_t width, size_t height) : width(width), height(height) {
+void World::createBoard(size_t width, size_t height) {
     tiles.reserve(width * height);
     for (size_t i = 0; i < width * height; i++) {
         tiles.push_back(new Tile(i));
@@ -22,7 +22,20 @@ World::World(size_t width, size_t height) : width(width), height(height) {
             }
         }
     }
+}
+
+World::World(size_t width, size_t height) : width(width), height(height) {
+    createBoard(width, height);
 };
+
+void World::setWorld(size_t width, size_t height, size_t time) {
+    this->clearTiles();
+    this->width = width;
+    this->height = height;
+    this->time = time;
+    createBoard(width, height);
+}
+
 World::~World() {
     for (auto organism : organisms) {
         delete organism;
@@ -109,8 +122,23 @@ void World::linkOrganismsWithTiles() {
     }
 }
 
+std::vector<Organism *> World::getOrganisms() const { return organisms; }
+
 void World::setOrganisms(std::vector<Organism *> organisms) {
-    this->organisms.clear();
+    this->clearOrganisms();
     this->organisms = organisms;
     linkOrganismsWithTiles();
+}
+
+void World::clearOrganisms() {
+    for (auto organism : organisms) {
+        delete organism;
+    }
+    organisms.clear();
+}
+void World::clearTiles() {
+    for (auto tile : tiles) {
+        delete tile;
+    }
+    tiles.clear();
 }

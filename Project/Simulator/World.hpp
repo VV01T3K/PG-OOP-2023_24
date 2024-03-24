@@ -16,14 +16,18 @@ class World {
    private:
     size_t width;
     size_t height;
-    std::vector<Tile *> tiles;  // custom array of tiles (mainly for random
-                                // spwaning of organisms)
     size_t time = 0;
+    std::vector<Organism *> organisms;  // sorted by initiative and age
+    std::vector<Tile *> tiles;
 
    public:
-    std::vector<Organism *> organisms;  // sorted by initiative and age
+    World() = default;
     World(size_t width, size_t height);
     ~World();
+
+    void setWorld(size_t width, size_t height, size_t time);
+
+    void createBoard(size_t width, size_t height);
 
     size_t checkTime() const;
 
@@ -44,7 +48,10 @@ class World {
 
     void spreadOrganisms(Organism *organism, size_t count);
 
-    void linkOrganismsWithTiles();
+    void clearOrganisms();
+    void clearTiles();
 
+    void linkOrganismsWithTiles();
     void setOrganisms(std::vector<Organism *> organisms);
+    std::vector<Organism *> getOrganisms() const;
 };
