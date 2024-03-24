@@ -13,9 +13,7 @@
 #include <vector>  // STL dynamic array (vector) class template.
 using namespace std;
 
-#include <unistd.h>
-
-#include "Simulator/Organisms/@[Organism].hpp"
+#include "Simulator/Organisms/@[OrganismPack].hpp"
 #include "Simulator/Tile.hpp"
 #include "Simulator/World.hpp"
 #include "Utils/Controller.hpp"
@@ -24,11 +22,18 @@ using namespace std;
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(10, 10);
+    World world(20, 20);
     Display display(world);
     Controller controller;
 
-    world.spreadOrganisms(new Grass(world), 10);
+    // !! fix world.spreadOrganisms(new SosnowskyHogweed(world), 2);
+    world.spreadOrganisms(new Grass(world), 2);
+    world.spreadOrganisms(new Guarana(world), 2);
+    // world.spreadOrganisms(new Milkweed(world), 2);
+    world.spreadOrganisms(new WolfBerries(world), 2);
+
+    display.update();
+    controller.PressToContinue();
 
     while (true) {
         world.simulate();
