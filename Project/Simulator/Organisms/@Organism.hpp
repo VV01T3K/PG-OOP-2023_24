@@ -1,10 +1,8 @@
 #pragma once
 
-#include <iostream>
+#include <nlohmann/json.hpp>
 
 #include "../GlobalSettings.hpp"
-#include "../Tile.hpp"
-#include "../World.hpp"
 
 class World;
 class Tile;
@@ -19,6 +17,8 @@ class Organism {
     bool skip = false;
     Tile *tile = nullptr;
     World &world;
+
+   public:
     enum class Type : u_int8_t {
         ANTELOPE,
         CYBER_SHEEP,
@@ -33,36 +33,32 @@ class Organism {
         SOSNOWSKY_HOGWEED,
         WOLF_BERRIES
     };
-
-   public:
     const Type type;
-    Organism(Type type, int power, int initiative, World &world)
-        : type(type), power(power), initiative(initiative), world(world) {}
+    Organism(Type type, int power, int initiative, World &world);
 
-    Tile *getTile() const { return tile; }
-    void setTile(Tile *tile) { this->tile = tile; }
+    Tile *getTile() const;
+    void setTile(Tile *tile);
 
-    void Age() {
-        if (reproduction_cooldown > 0) reproduction_cooldown--;
-        age++;
-    }
+    void Age();
     void setBreedCooldown(size_t turns = 5) { reproduction_cooldown = turns; }
-    void Die() { alive = false; }
-    bool isDead() { return !alive; }
-    bool isAlive() const { return alive; }
-    void skipTurn() { skip = true; }
-    void unskipTurn() { skip = false; }
-    bool isSkipped() { return skip; }
+    void Die();
+    bool isDead() const;
+    bool isAlive() const;
+    void skipTurn();
+    void unskipTurn();
+    bool isSkipped() const;
 
-    int getPower() const { return power; }
-    int getInitiative() const { return initiative; }
-    int getAge() const { return age; }
-    void setPower(int power) { this->power = power; }
-    void setInitiative(int initiative) { this->initiative = initiative; }
-    ~Organism() {}
+    int getPower() const;
+    int getInitiative() const;
+    int getAge() const;
+    void setPower(int power);
+    void setInitiative(int initiative);
+    ~Organism();
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
     virtual bool collisionReaction(Organism &other) = 0;
     virtual void draw() = 0;
     virtual Organism *construct() const = 0;
+    virtual nlohmann::json toJson() const;
+    Organism(nlohmann::json j, World &world);
 };

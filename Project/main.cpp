@@ -13,16 +13,27 @@
 #include <vector>  // STL dynamic array (vector) class template.
 using namespace std;
 
+#include <fstream>
+#include <nlohmann/json.hpp>
+
 #include "Simulator/Organisms/@[OrganismPack].hpp"
+#include "Simulator/Organisms/OrganismFactory.hpp"
 #include "Simulator/Tile.hpp"
 #include "Simulator/World.hpp"
 #include "Utils/Controller.hpp"
 #include "Utils/Display.hpp"
 
+void saveToJsonFile(const nlohmann::json& j, const std::string& filename) {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        file << j.dump(4);  // 4 spaces for indentation
+    }
+}
+
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(3, 1);
+    World world(3, 3);
     Display display(world);
     Controller controller;
 
@@ -42,16 +53,43 @@ int main() {
     // world.spreadOrganisms(new Human(world), 1);
 
     // world.addOrganism(new Wolf(world), world.getTile(1, 0));
-    world.addOrganism(new Human(world), world.getTile(0, 0));
+    // world.addOrganism(new Human(world), world.getTile(0, 0));
+
+    // Organism* organism = new Grass(world);
+    // world.addOrganism(organism, world.getTile(5));
+
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+    // organism->Age();
+
+    // nlohmann::json j = organism->toJson();
+    // saveToJsonFile(j, "organism.json");
+
+    std::ifstream file("organism.json");
+    nlohmann::json j;
+    file >> j;
+
+    OrganismFactory factory;
+
+    Organism* organism =
+        factory.createOrganism(Organism::Type::GRASS, j, world);
+
+    world.addOrganism(organism, organism->getTile());
 
     display.update();
-
     controller.PressToContinue();
+
     while (true) {
         world.simulate();
 
         display.update();
-
         controller.PressToContinue();
     }
 
