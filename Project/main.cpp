@@ -13,66 +13,49 @@
 #include <vector>  // STL dynamic array (vector) class template.
 using namespace std;
 
-#include <fstream>
-#include <nlohmann/json.hpp>
-
-#include "Simulator/Organisms/@[OrganismPack].hpp"
-#include "Simulator/Tile.hpp"
+#include "Simulator/Organisms/[OrganismPack].hpp"
 #include "Simulator/World.hpp"
 #include "Utils/Controller.hpp"
 #include "Utils/Display.hpp"
 #include "Utils/FileHandler.hpp"
 
-void saveToJsonFile(const nlohmann::json& json, const std::string& filename) {
-    std::ofstream file(filename);
-    if (file.is_open()) {
-        file << json.dump(4);
-    }
-}
-
 int main() {
     std::ios::sync_with_stdio(false);
 
-    // World world(10, 10);
-    // Display display(world);
-    // Controller controller;
+    World world(5, 5);
+    Display display(world);
+    Controller controller;
 
     // world.spreadOrganisms(new SosnowskyHogweed(world), 1);
-    // world.spreadOrganisms(new Grass(world), 1);
-    // world.spreadOrganisms(new Guarana(world), 1);
-    // world.spreadOrganisms(new Milkweed(world), 1);
-    // world.spreadOrganisms(new WolfBerries(world), 1);
+    world.spreadOrganisms(new Grass(world), 1);
+    world.spreadOrganisms(new Guarana(world), 5);
+    world.spreadOrganisms(new Milkweed(world), 1);
+    world.spreadOrganisms(new WolfBerries(world), 1);
 
-    // world.spreadOrganisms(new Wolf(world), 1);
-    // world.spreadOrganisms(new Sheep(world), 1);
-    // world.spreadOrganisms(new CyberSheep(world), 1);
-    // world.spreadOrganisms(new Fox(world), 1);
-    // world.spreadOrganisms(new Turtle(world), 1);
+    world.spreadOrganisms(new Wolf(world), 1);
+    world.spreadOrganisms(new Sheep(world), 1);
+    world.spreadOrganisms(new CyberSheep(world), 1);
+    world.spreadOrganisms(new Fox(world), 1);
+    world.spreadOrganisms(new Turtle(world), 1);
     // world.spreadOrganisms(new Antelope(world), 1);
     // world.spreadOrganisms(new Human(world), 1);
     // world.simulate();
+
     // {
-    //     FileHandler fileHandler("organisms.json", Mode::W);
-    //     fileHandler.saveWorld(world);
+    //     FileHandler fileHandler("SavedWorld.json");
+    //     fileHandler.loadWorld(world);
     // }
-
-    World world;
-
-    FileHandler fileHandler("organisms.json", Mode::R);
-    fileHandler.loadWorld(world);
-
-    Display display(world);
 
     display.update();
+    controller.PressToContinue();
 
-    // controller.PressToContinue();
-
-    // while (true) {
-    // world.simulate();
-
-    // display.update();
-    // controller.PressToContinue();
-    // }
+    FileHandler fileHandler("SavedWorld.json");
+    while (true) {
+        world.simulate();
+        display.update();
+        controller.PressToContinue();
+        fileHandler.saveWorld(world);
+    }
 
     return 0;
 }

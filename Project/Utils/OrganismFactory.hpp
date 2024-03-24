@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "../World.hpp"
-#include "@[OrganismPack].hpp"
+#include "../Simulator/Organisms/[OrganismPack].hpp"
+#include "../Simulator/World.hpp"
 
-class OrganismFactoryJson {
+class OrganismFactory {
    public:
     Organism* create(Organism::Type type, const nlohmann::json& json,
                      World& world) {

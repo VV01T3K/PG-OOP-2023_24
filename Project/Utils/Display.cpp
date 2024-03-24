@@ -10,7 +10,6 @@ Display::Display(World &world) : world(world) {}
 Display::~Display(){};
 
 void Display::update() const {
-    cout << "\033[2J\033[1;1H";
     cout << "Time: " << world.checkTime() << '\n';
     cout << "World size: " << world.getWidth() << "x" << world.getHeight()
          << '\n';
@@ -20,7 +19,6 @@ void Display::update() const {
             if (!tile->isFree()) {
                 tile->getOrganism()->draw();
             } else {
-                // 🟫 🔳
                 cout << "🔳";
             }
         }
