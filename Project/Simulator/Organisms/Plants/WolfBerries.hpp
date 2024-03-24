@@ -7,8 +7,9 @@ class WolfBerries : public Plant {
     void draw() override { std::cout << "🫐 "; }
     Plant* construct() const override { return new WolfBerries(world); }
 
-    void collisionReaction(Organism& other) override {
+    bool collisionReaction(Organism& other) override {
         other.Die();
         Die();
+        return true;
     }
 };

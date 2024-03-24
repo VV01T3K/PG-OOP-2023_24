@@ -7,7 +7,9 @@ class Guarana : public Plant {
     void draw() override { std::cout << "🍅"; }
     Plant* construct() const override { return new Guarana(world); }
 
-    void collisionReaction(Organism& other) override {
+    bool collisionReaction(Organism& other) override {
         other.setPower(other.getPower() + 3);
+        Die();
+        return true;
     }
 };

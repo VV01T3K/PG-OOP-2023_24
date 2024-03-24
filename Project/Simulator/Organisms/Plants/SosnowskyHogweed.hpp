@@ -19,9 +19,11 @@ class SosnowskyHogweed : public Plant {
         }
     }
 
-    void collisionReaction(Organism& other) override {
-        if (dynamic_cast<Plant*>(&other) != nullptr) return;
-        if (typeid(other) == typeid(CyberSheep)) return;
+    bool collisionReaction(Organism& other) override {
+        if (dynamic_cast<Plant*>(&other) != nullptr) return false;
+        if (typeid(other) == typeid(CyberSheep)) return false;
         other.Die();
+        Die();
+        return true;
     }
 };

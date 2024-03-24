@@ -16,8 +16,12 @@ class Fox : public Animal {
                 std::remove(neighbours.begin(), neighbours.end(), neighbour),
                 neighbours.end());
         }
-        if (neighbours.empty()) return;
-        Tile* target = neighbours[rng.roll(0, neighbours.size())];
+        Tile* target;
+        if (neighbours.empty()) {
+            target = tile->getRandomFreeNeighbour();
+        } else {
+            target = neighbours[rng.roll(0, neighbours.size() - 1)];
+        }
         move(target);
     };
 };
