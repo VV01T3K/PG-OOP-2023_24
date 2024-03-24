@@ -21,8 +21,8 @@ class Animal : public Organism {
    public:
     Animal(int power, int initiative, World& world, Type type)
         : Organism(type, power, initiative, world) {}
-    Animal(nlohmann::json j, World& world) : Organism(j, world) {
-        int32_t index = j["old_tile_index"];
+    Animal(nlohmann::json json, World& world) : Organism(json, world) {
+        int32_t index = json["old_tile_index"];
         oldTile = index == -1 ? nullptr : world.getTile(index);
     }
     virtual void action() override { move(tile->getRandomNeighbour()); }
@@ -66,8 +66,8 @@ class Animal : public Organism {
     virtual Animal* construct() const = 0;
 
     virtual nlohmann::json toJson() const override {
-        nlohmann::json j = Organism::toJson();
-        j["old_tile_index"] = oldTile == nullptr ? -1 : oldTile->index;
-        return j;
+        nlohmann::json json = Organism::toJson();
+        json["old_tile_index"] = oldTile == nullptr ? -1 : oldTile->index;
+        return json;
     }
 };

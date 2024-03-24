@@ -4,10 +4,10 @@
 class Human : public Animal {
    public:
     Human(World& world) : Animal(5, 4, world, Type::HUMAN) {}
-    Human(nlohmann::json j, World& world)
-        : Animal(j, world),
-          ability_cooldown(j["ability_cooldown"]),
-          immortality_left(j["immortality_left"]) {}
+    Human(nlohmann::json json, World& world)
+        : Animal(json, world),
+          ability_cooldown(json["ability_cooldown"]),
+          immortality_left(json["immortality_left"]) {}
     void draw() override { std::cout << "🧑"; }
     Animal* construct() const override { return new Human(world); }
 
@@ -65,9 +65,9 @@ class Human : public Animal {
     }
 
     nlohmann::json toJson() const override {
-        nlohmann::json j = Animal::toJson();
-        j["ability_cooldown"] = ability_cooldown;
-        j["immortality_left"] = immortality_left;
-        return j;
+        nlohmann::json json = Animal::toJson();
+        json["ability_cooldown"] = ability_cooldown;
+        json["immortality_left"] = immortality_left;
+        return json;
     }
 };

@@ -9,7 +9,7 @@ class Plant : public Organism {
    public:
     Plant(int power, World& world, Type type)
         : Organism(type, power, 0, world) {}
-    Plant(nlohmann::json j, World& world) : Organism(j, world) {}
+    Plant(nlohmann::json json, World& world) : Organism(json, world) {}
     virtual void action() override {
         if (!GlobalSettings::REPRODUCTION_ENABLED) return;
         if (RNG::roll(0, 100) < 5) {

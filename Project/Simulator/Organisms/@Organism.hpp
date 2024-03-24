@@ -60,5 +60,5 @@ class Organism {
     virtual void draw() = 0;
     virtual Organism *construct() const = 0;
     virtual nlohmann::json toJson() const;
-    Organism(nlohmann::json j, World &world);
+    Organism(nlohmann::json json, World &world);
 };

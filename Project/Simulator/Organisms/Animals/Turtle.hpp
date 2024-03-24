@@ -4,7 +4,7 @@
 class Turtle : public Animal {
    public:
     Turtle(World& world) : Animal(2, 1, world, Type::TURTLE) {}
-    Turtle(nlohmann::json j, World& world) : Animal(j, world) {}
+    Turtle(nlohmann::json json, World& world) : Animal(json, world) {}
     void draw() override { std::cout << "🐢"; }
     Animal* construct() const override { return new Turtle(world); }
 

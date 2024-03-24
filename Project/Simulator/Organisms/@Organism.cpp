@@ -5,16 +5,16 @@
 #include "../Tile.hpp"
 #include "../World.hpp"
 
-Organism::Organism(nlohmann::json j, World &world)
-    : type(static_cast<Type>(j["type"].get<u_int8_t>())),
-      power(j["power"].get<int>()),
-      initiative(j["initiative"].get<int>()),
-      age(j["age"].get<u_int32_t>()),
-      alive(j["alive"].get<bool>()),
-      reproduction_cooldown(j["reproduction_cooldown"].get<int>()),
-      skip(j["skip"].get<bool>()),
+Organism::Organism(nlohmann::json json, World &world)
+    : type(static_cast<Type>(json["type"].get<u_int8_t>())),
+      power(json["power"].get<int>()),
+      initiative(json["initiative"].get<int>()),
+      age(json["age"].get<u_int32_t>()),
+      alive(json["alive"].get<bool>()),
+      reproduction_cooldown(json["reproduction_cooldown"].get<int>()),
+      skip(json["skip"].get<bool>()),
       world(world),
-      tile(world.getTile(j["tile_index"].get<size_t>())) {}
+      tile(world.getTile(json["tile_index"].get<size_t>())) {}
 
 Organism::Organism(Type type, int power, int initiative, World &world)
     : type(type), power(power), initiative(initiative), world(world) {}

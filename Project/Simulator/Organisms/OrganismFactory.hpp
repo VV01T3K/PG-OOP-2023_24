@@ -10,33 +10,33 @@
 
 class OrganismFactoryJson {
    public:
-    Organism* createOrganism(Organism::Type type, const nlohmann::json& j,
+    Organism* createOrganism(Organism::Type type, const nlohmann::json& json,
                              World& world) {
         switch (type) {
             case Organism::Type::ANTELOPE:
-                return new Antelope(j, world);
+                return new Antelope(json, world);
             case Organism::Type::CYBER_SHEEP:
-                return new CyberSheep(j, world);
+                return new CyberSheep(json, world);
             case Organism::Type::FOX:
-                return new Fox(j, world);
+                return new Fox(json, world);
             case Organism::Type::HUMAN:
-                return new Human(j, world);
+                return new Human(json, world);
             case Organism::Type::SHEEP:
-                return new Sheep(j, world);
+                return new Sheep(json, world);
             case Organism::Type::TURTLE:
-                return new Turtle(j, world);
+                return new Turtle(json, world);
             case Organism::Type::WOLF:
-                return new Wolf(j, world);
+                return new Wolf(json, world);
             case Organism::Type::GRASS:
-                return new Grass(j, world);
+                return new Grass(json, world);
             case Organism::Type::GUARANA:
-                return new Guarana(j, world);
+                return new Guarana(json, world);
             case Organism::Type::MILKWEED:
-                return new Milkweed(j, world);
+                return new Milkweed(json, world);
             case Organism::Type::SOSNOWSKY_HOGWEED:
-                return new SosnowskyHogweed(j, world);
+                return new SosnowskyHogweed(json, world);
             case Organism::Type::WOLF_BERRIES:
-                return new WolfBerries(j, world);
+                return new WolfBerries(json, world);
             default:
                 throw std::invalid_argument("Invalid type");
         }

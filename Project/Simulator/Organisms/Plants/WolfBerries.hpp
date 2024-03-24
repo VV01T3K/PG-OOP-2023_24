@@ -4,7 +4,7 @@
 class WolfBerries : public Plant {
    public:
     WolfBerries(World& world) : Plant(99, world, Type::WOLF_BERRIES) {}
-    WolfBerries(nlohmann::json j, World& world) : Plant(j, world) {}
+    WolfBerries(nlohmann::json json, World& world) : Plant(json, world) {}
     void draw() override { std::cout << "🫐 "; }
     Plant* construct() const override { return new WolfBerries(world); }
 

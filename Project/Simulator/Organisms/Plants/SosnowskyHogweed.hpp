@@ -6,7 +6,7 @@ class SosnowskyHogweed : public Plant {
    public:
     SosnowskyHogweed(World& world)
         : Plant(10, world, Type::SOSNOWSKY_HOGWEED) {}
-    SosnowskyHogweed(nlohmann::json j, World& world) : Plant(j, world) {}
+    SosnowskyHogweed(nlohmann::json json, World& world) : Plant(json, world) {}
     void draw() override { std::cout << "🍁"; }
     Plant* construct() const override { return new SosnowskyHogweed(world); }
 

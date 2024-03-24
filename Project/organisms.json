@@ -1,0 +1,22 @@
+[
+    {
+        "age": 0,
+        "alive": true,
+        "initiative": 0,
+        "power": 0,
+        "reproduction_cooldown": 0,
+        "skip": false,
+        "tile_index": 2,
+        "type": 7
+    },
+    {
+        "age": 0,
+        "alive": true,
+        "initiative": 0,
+        "power": 0,
+        "reproduction_cooldown": 0,
+        "skip": false,
+        "tile_index": 7,
+        "type": 7
+    }
+]

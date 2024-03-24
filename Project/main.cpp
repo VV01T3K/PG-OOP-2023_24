@@ -22,11 +22,12 @@ using namespace std;
 #include "Simulator/World.hpp"
 #include "Utils/Controller.hpp"
 #include "Utils/Display.hpp"
+#include "Utils/FileHandler.hpp"
 
-void saveToJsonFile(const nlohmann::json& j, const std::string& filename) {
+void saveToJsonFile(const nlohmann::json& json, const std::string& filename) {
     std::ofstream file(filename);
     if (file.is_open()) {
-        file << j.dump(4);  // 4 spaces for indentation
+        file << json.dump(4);  // 4 spaces for indentation
     }
 }
 
@@ -38,7 +39,7 @@ int main() {
     Controller controller;
 
     // world.spreadOrganisms(new SosnowskyHogweed(world), 3);
-    // world.spreadOrganisms(new Grass(world), 2);
+    world.spreadOrganisms(new Grass(world), 2);
     // world.spreadOrganisms(new Guarana(world), 4);
     // world.spreadOrganisms(new Milkweed(world), 0);
     // world.spreadOrganisms(new WolfBerries(world), 1);
@@ -50,48 +51,18 @@ int main() {
     // world.spreadOrganisms(new Turtle(world), 3);
     // world.spreadOrganisms(new Antelope(world), 3);
 
-    // world.spreadOrganisms(new Human(world), 1);
-
-    // world.addOrganism(new Wolf(world), world.getTile(1, 0));
-    // world.addOrganism(new Human(world), world.getTile(0, 0));
-
-    // Organism* organism = new Grass(world);
-    // world.addOrganism(organism, world.getTile(5));
-
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-    // organism->Age();
-
-    // nlohmann::json j = organism->toJson();
-    // saveToJsonFile(j, "organism.json");
-
-    std::ifstream file("organism.json");
-    nlohmann::json j;
-    file >> j;
-
-    OrganismFactoryJson factory;
-
-    Organism* organism =
-        factory.createOrganism(Organism::Type::GRASS, j, world);
-
-    world.addOrganism(organism, organism->getTile());
+    FileHandler fileHandler("organisms.json", Mode::RW);
+    fileHandler.saveOrganisms(world.organisms);
 
     display.update();
-    controller.PressToContinue();
+    // controller.PressToContinue();
 
-    while (true) {
-        world.simulate();
+    // while (true) {
+    // world.simulate();
 
-        display.update();
-        controller.PressToContinue();
-    }
+    // display.update();
+    // controller.PressToContinue();
+    // }
 
     return 0;
 }

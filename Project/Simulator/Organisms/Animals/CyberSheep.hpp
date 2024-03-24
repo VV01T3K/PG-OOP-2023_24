@@ -5,7 +5,7 @@
 class CyberSheep : public Animal {
    public:
     CyberSheep(World& world) : Animal(11, 4, world, Type::CYBER_SHEEP) {}
-    CyberSheep(nlohmann::json j, World& world) : Animal(j, world) {}
+    CyberSheep(nlohmann::json json, World& world) : Animal(json, world) {}
     void draw() override { std::cout << "🤖"; }
     Animal* construct() const override { return new CyberSheep(world); }
 
