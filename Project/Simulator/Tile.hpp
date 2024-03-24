@@ -31,5 +31,7 @@ class Tile {
     Tile *getRandomNeighbour() const;
     Direction getRandomDirection() const;
 
+    std::array<Tile *, 4> getNeighbours() const;
+
     bool isFree() const;
 };

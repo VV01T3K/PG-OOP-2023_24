@@ -4,6 +4,6 @@
 class Grass : public Plant {
    public:
     Grass(World& world) : Plant(0, world) {}
-    void draw() override { std::cout << "🌾"; }
+    void draw() override { std::cout << "🌿"; }
     Plant* construct() const override { return new Grass(world); }
 };

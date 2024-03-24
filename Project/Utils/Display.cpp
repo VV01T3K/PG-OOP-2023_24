@@ -22,7 +22,7 @@ void Display::update() const {
                     cout << "";
                 }
             } else {
-                cout << "☐ ";
+                cout << " ☐ ";
             }
         }
         cout << '\n';

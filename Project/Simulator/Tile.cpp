@@ -56,3 +56,5 @@ Direction Tile::getRandomDirection() const {
 }
 
 bool Tile::isFree() const { return organisms.empty(); }
+
+std::array<Tile *, 4> Tile::getNeighbours() const { return directions; }

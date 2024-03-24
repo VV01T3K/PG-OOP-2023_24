@@ -24,12 +24,12 @@ class Animal : public Organism {
         : Organism(power, initiative, world) {}
     virtual void action() override { move(tile->getRandomNeighbour()); }
     virtual void collision(Organism& other) override {
+        other.collisionReaction(*this);
         if (typeid(*this) == typeid(other)) {
             this->undoMove();
             if (reproduction_cooldown > 0) return;
             Tile* newtile = other.getTile()->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
-            other.collision(static_cast<const Organism&>(*this));
             Animal* newAnimal = construct();
             newAnimal->skipTurn();
             world.addOrganism(newAnimal, newtile);
@@ -43,7 +43,9 @@ class Animal : public Organism {
             this->Die();
         }
     }
-    virtual void collision(const Organism& other) override { this->skipTurn(); }
+    virtual void collisionReaction(Organism& other) override {
+        this->skipTurn();
+    }
 
     void setBreedCooldown(int cooldown = 5) {
         reproduction_cooldown = cooldown;

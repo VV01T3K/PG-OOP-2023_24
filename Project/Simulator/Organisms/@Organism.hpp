@@ -47,7 +47,7 @@ class Organism {
     ~Organism() {}
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
-    virtual void collision(const Organism &other) = 0;
+    virtual void collisionReaction(Organism &other) = 0;
     virtual void draw() = 0;
     virtual Organism *construct() const = 0;
 };

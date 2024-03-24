@@ -21,7 +21,7 @@ class Plant : public Organism {
         }
     }
     virtual void collision(Organism& other) override {}
-    virtual void collision(const Organism& other) override {}
+    virtual void collisionReaction(Organism& other) override {}
 
     void setSpreadCooldown(int cooldown = 5) {
         reproduction_cooldown = cooldown;

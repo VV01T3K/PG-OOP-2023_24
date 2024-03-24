@@ -15,9 +15,7 @@ using namespace std;
 
 #include <unistd.h>
 
-#include "Simulator/Organisms/Animals/Dog.hpp"
-#include "Simulator/Organisms/Animals/Sheep.hpp"
-#include "Simulator/Organisms/Plants/Grass.hpp"
+#include "Simulator/Organisms/@[Organism].hpp"
 #include "Simulator/Tile.hpp"
 #include "Simulator/World.hpp"
 #include "Utils/Controller.hpp"
