@@ -7,7 +7,8 @@
 
 class Plant : public Organism {
    public:
-    Plant(int power, World& world) : Organism(power, 0, world) {}
+    Plant(int power, World& world, Type type)
+        : Organism(type, power, 0, world) {}
     virtual void action() override {
         if (!GlobalSettings::REPRODUCTION_ENABLED) return;
         if (rng.roll(0, 100) < 5) {

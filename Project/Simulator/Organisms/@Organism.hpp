@@ -20,10 +20,25 @@ class Organism {
     Tile *tile = nullptr;
     World &world;
     RandGen &rng = RandGen::getInstance();
+    enum class Type : u_int8_t {
+        ANTELOPE,
+        CYBER_SHEEP,
+        FOX,
+        HUMAN,
+        SHEEP,
+        TURTLE,
+        WOLF,
+        GRASS,
+        GUARANA,
+        MILKWEED,
+        SOSNOWSKY_HOGWEED,
+        WOLF_BERRIES
+    };
 
    public:
-    Organism(int power, int initiative, World &world)
-        : power(power), initiative(initiative), world(world) {}
+    const Type type;
+    Organism(Type type, int power, int initiative, World &world)
+        : type(type), power(power), initiative(initiative), world(world) {}
 
     Tile *getTile() const { return tile; }
     void setTile(Tile *tile) { this->tile = tile; }

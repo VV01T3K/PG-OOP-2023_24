@@ -20,8 +20,8 @@ class Animal : public Organism {
     void move(Direction direction) { move(tile->getNeighbour(direction)); }
 
    public:
-    Animal(int power, int initiative, World& world)
-        : Organism(power, initiative, world) {}
+    Animal(int power, int initiative, World& world, Type type)
+        : Organism(type, power, initiative, world) {}
     virtual void action() override { move(tile->getRandomNeighbour()); }
     virtual void collision(Organism& other) override {
         if (other.collisionReaction(*this)) return;

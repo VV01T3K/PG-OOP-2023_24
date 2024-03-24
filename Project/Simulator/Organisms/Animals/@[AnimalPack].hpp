@@ -1,6 +1,6 @@
 #pragma once
 #include "Antelope.hpp"
-#include "CyberSheep/CyberSheep.hpp"
+#include "CyberSheep.hpp"
 #include "Fox.hpp"
 #include "Human.hpp"
 #include "Sheep.hpp"

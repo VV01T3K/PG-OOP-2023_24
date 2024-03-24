@@ -3,7 +3,7 @@
 #include "@Animal.hpp"
 class Turtle : public Animal {
    public:
-    Turtle(World& world) : Animal(2, 1, world) {}
+    Turtle(World& world) : Animal(2, 1, world, Type::TURTLE) {}
     void draw() override { std::cout << "🐢"; }
     Animal* construct() const override { return new Turtle(world); }
 
