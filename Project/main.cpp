@@ -26,13 +26,14 @@ int main() {
     Display display(world);
     Controller controller;
 
-    // !! fix world.spreadOrganisms(new SosnowskyHogweed(world), 2);
+    world.spreadOrganisms(new SosnowskyHogweed(world), 10);
     // world.spreadOrganisms(new Grass(world), 4);
     // world.spreadOrganisms(new Guarana(world), 4);
-    // world.spreadOrganisms(new Milkweed(world), 1);
+    // world.spreadOrganisms(new Milkweed(world), 2);
     // world.spreadOrganisms(new WolfBerries(world), 2);
 
-    world.spreadOrganisms(new Sheep(world), 1);
+    world.spreadOrganisms(new Sheep(world), 23);
+    // world.spreadOrganisms(new CyberSheep(world), 1);
 
     display.update();
     controller.PressToContinue();

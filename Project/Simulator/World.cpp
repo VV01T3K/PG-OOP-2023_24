@@ -93,8 +93,13 @@ void World::simulate() {
 size_t World::getOrganimsCount() const { return organisms.size(); }
 
 void World::spreadOrganisms(Organism *organism, size_t count) {
-    for (size_t i = 0; i < count; i++) {
-        Tile *tile = tiles[rng.roll(0, width * height)];
-        if (tile->isFree()) addOrganism(organism->construct(), tile);
+    const size_t max = width * height;
+    while (true) {
+        if (getOrganimsCount() == max) break;
+        Tile *tile = tiles[RandGen::getInstance().roll(0, tiles.size() - 1)];
+        if (tile->isFree()) {
+            addOrganism(organism->construct(), tile);
+            if (!--count) break;
+        }
     }
 }

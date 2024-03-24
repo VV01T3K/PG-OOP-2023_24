@@ -57,4 +57,22 @@ Direction Tile::getRandomDirection() const {
 
 bool Tile::isFree() const { return organisms.empty(); }
 
-std::array<Tile *, 4> Tile::getNeighbours() const { return directions; }
+std::vector<Tile *> Tile::getNeighbours() const {
+    std::vector<Tile *> neighbours;
+    for (auto &direction : directions) {
+        if (direction != nullptr) {
+            neighbours.push_back(direction);
+        }
+    }
+    return neighbours;
+}
+
+std::vector<Tile *> Tile::getOccupiedNeighbours() const {
+    std::vector<Tile *> neighbours;
+    for (auto &direction : directions) {
+        if (direction != nullptr && !direction->isFree()) {
+            neighbours.push_back(direction);
+        }
+    }
+    return neighbours;
+}
