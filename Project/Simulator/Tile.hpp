@@ -6,6 +6,8 @@
 #include "../Utils/RandGen.hpp"
 #include "Organisms/@Organism.hpp"
 
+class Organism;
+
 enum class Direction : size_t { UP, DOWN, RIGHT, LEFT, SELF };
 class Tile {
    private:
