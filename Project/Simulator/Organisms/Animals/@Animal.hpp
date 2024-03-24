@@ -19,6 +19,10 @@ class Animal : public Organism {
    public:
     Animal(int power, int initiative, World& world, Type type)
         : Organism(type, power, initiative, world) {}
+    Animal(nlohmann::json j, World& world)
+        : Organism(j, world),
+          oldTile(world.getTile(j["tile_index"].get<size_t>())) {}
+
     virtual void action() override { move(tile->getRandomNeighbour()); }
     virtual void collision(Organism& other) override {
         if (other.collisionReaction(*this)) return;

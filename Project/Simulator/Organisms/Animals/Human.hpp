@@ -4,6 +4,10 @@
 class Human : public Animal {
    public:
     Human(World& world) : Animal(5, 4, world, Type::HUMAN) {}
+    Human(nlohmann::json j, World& world)
+        : Animal(j, world),
+          ability_cooldown(j["ability_cooldown"]),
+          immortality_left(j["immortality_left"]) {}
     void draw() override { std::cout << "🧑"; }
     Animal* construct() const override { return new Human(world); }
 

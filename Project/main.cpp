@@ -76,7 +76,7 @@ int main() {
     nlohmann::json j;
     file >> j;
 
-    OrganismFactory factory;
+    OrganismFactoryJson factory;
 
     Organism* organism =
         factory.createOrganism(Organism::Type::GRASS, j, world);
