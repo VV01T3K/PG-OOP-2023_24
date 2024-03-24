@@ -63,4 +63,11 @@ class Human : public Animal {
         } else
             return false;
     }
+
+    nlohmann::json toJson() const override {
+        nlohmann::json j = Animal::toJson();
+        j["ability_cooldown"] = ability_cooldown;
+        j["immortality_left"] = immortality_left;
+        return j;
+    }
 };
