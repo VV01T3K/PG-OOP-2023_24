@@ -8,8 +8,10 @@
 #include <vector>
 
 #include "../Simulator/Organisms/@Organism.hpp"
+#include "../Simulator/Organisms/OrganismFactory.hpp"
+#include "../Simulator/World.hpp"
 
-enum class Mode : uint8_t { R, W, A, RW, RA };
+enum class Mode : uint8_t { R, W, A, RW };
 class FileHandler {
    private:
     std::string filename;
@@ -17,13 +19,27 @@ class FileHandler {
 
    public:
     void saveOrganisms(std::vector<Organism*> organisms) {
+        if (organisms.empty()) return;
         nlohmann::json json;
         for (auto organism : organisms) {
             json.push_back(organism->toJson());
         }
         file << json.dump(4);
     };
-    // std::vector<Organism*> loadOrganisms();
+    std::vector<Organism*> loadOrganisms(World& world) {
+        nlohmann::json json;
+        file >> json;
+        OrganismFactoryJson factory;
+        std::vector<Organism*> organisms;
+        for (auto& organismJson : json) {
+            Organism::Type type = Organism::Type(organismJson["type"]);
+            Organism* organism = factory.create(type, organismJson, world);
+            organisms.push_back(organism);
+        }
+        world.organisms = organisms;
+        world.linkOrganismsWithTiles();
+        return organisms;
+    };
     FileHandler(std::string targetFilename, Mode mode = Mode::RW)
         : filename("../Project/" + targetFilename) {
         switch (mode) {
@@ -36,15 +52,11 @@ class FileHandler {
             case Mode::A:
                 file.open(filename, std::ios::app);
                 break;
-            case Mode::RW:
+            default:
                 file.open(filename, std::ios::in | std::ios::out);
                 break;
-            case Mode::RA:
-                file.open(filename, std::ios::in | std::ios::app);
-                break;
-            default:
-                throw std::invalid_argument("Invalid mode");
         }
+
         if (!file.is_open()) throw std::runtime_error("File not opened");
     };
 

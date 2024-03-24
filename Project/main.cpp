@@ -39,7 +39,7 @@ int main() {
     Controller controller;
 
     // world.spreadOrganisms(new SosnowskyHogweed(world), 3);
-    world.spreadOrganisms(new Grass(world), 2);
+    // world.spreadOrganisms(new Grass(world), 2);
     // world.spreadOrganisms(new Guarana(world), 4);
     // world.spreadOrganisms(new Milkweed(world), 0);
     // world.spreadOrganisms(new WolfBerries(world), 1);
@@ -50,9 +50,15 @@ int main() {
     // world.spreadOrganisms(new Fox(world), 2);
     // world.spreadOrganisms(new Turtle(world), 3);
     // world.spreadOrganisms(new Antelope(world), 3);
+    // {
+    //     FileHandler fileHandler("organisms.json", Mode::RW);
+    //     fileHandler.saveOrganisms(world.organisms);
+    // }
 
-    FileHandler fileHandler("organisms.json", Mode::RW);
-    fileHandler.saveOrganisms(world.organisms);
+    {
+        FileHandler fileHandler("organisms.json", Mode::R);
+        fileHandler.loadOrganisms(world);
+    }
 
     display.update();
     // controller.PressToContinue();

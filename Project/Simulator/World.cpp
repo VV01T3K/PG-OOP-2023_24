@@ -102,3 +102,9 @@ void World::spreadOrganisms(Organism *organism, size_t count) {
         }
     }
 }
+
+void World::linkOrganismsWithTiles() {
+    for (auto organism : organisms) {
+        getTile(organism->getTile()->index)->placeOrganism(organism);
+    }
+}

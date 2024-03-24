@@ -10,8 +10,8 @@
 
 class OrganismFactoryJson {
    public:
-    Organism* createOrganism(Organism::Type type, const nlohmann::json& json,
-                             World& world) {
+    Organism* create(Organism::Type type, const nlohmann::json& json,
+                     World& world) {
         switch (type) {
             case Organism::Type::ANTELOPE:
                 return new Antelope(json, world);

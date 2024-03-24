@@ -43,4 +43,6 @@ class World {
     size_t getOrganimsCount() const;
 
     void spreadOrganisms(Organism *organism, size_t count);
+
+    void linkOrganismsWithTiles();
 };
