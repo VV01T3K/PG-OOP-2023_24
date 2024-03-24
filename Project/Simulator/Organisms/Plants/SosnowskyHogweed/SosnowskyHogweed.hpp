@@ -2,6 +2,8 @@
 
 #include "../../Animals/CyberSheep/CyberSheep.hpp"
 #include "../@Plant.hpp"
+
+class CyberSheep;
 class SosnowskyHogweed : public Plant {
    public:
     SosnowskyHogweed(World& world) : Plant(10, world) {}

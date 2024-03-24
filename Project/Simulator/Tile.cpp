@@ -1,6 +1,6 @@
 #include "Tile.hpp"
 
-Tile::Tile() {
+Tile::Tile(size_t index) : index(index) {
     directions.fill(nullptr);
     organisms.reserve(1);
 }

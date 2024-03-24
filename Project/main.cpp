@@ -26,6 +26,8 @@ int main() {
     Display display(world);
     Controller controller;
 
+    // TODO change tile organisims to private
+
     // world.spreadOrganisms(new SosnowskyHogweed(world), 1);
     // world.spreadOrganisms(new Grass(world), 4);
     // world.spreadOrganisms(new Guarana(world), 4);

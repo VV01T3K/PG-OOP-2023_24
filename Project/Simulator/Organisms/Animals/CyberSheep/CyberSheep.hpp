@@ -4,7 +4,7 @@
 #include "../@Animal.hpp"
 class CyberSheep : public Animal {
    private:
-    size_t getDistanceTo(size_t index);
+    size_t getDistanceTo(Tile* tile);
     size_t seekClosestSosnowskyHogweed();
     Tile* nextTileToSosnowskyHogweed(size_t index);
 

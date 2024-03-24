@@ -15,8 +15,9 @@ class Tile {
 
    public:
     std::vector<Organism *> organisms;
+    const size_t index;
 
-    Tile();
+    Tile(size_t index);
     ~Tile();
 
     void clear();

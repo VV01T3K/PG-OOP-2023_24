@@ -2,10 +2,8 @@
 
 World::World(size_t width, size_t height) : width(width), height(height) {
     tiles.reserve(width * height);
-    for (size_t y = 0; y < height; y++) {
-        for (size_t x = 0; x < width; x++) {
-            tiles.push_back(new Tile());
-        }
+    for (size_t i = 0; i < width * height; i++) {
+        tiles.push_back(new Tile(i));
     }
     for (size_t y = 0; y < height; y++) {
         for (size_t x = 0; x < width; x++) {
