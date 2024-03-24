@@ -14,7 +14,7 @@
 enum class Mode : uint8_t { R, W, A, RW };
 class FileHandler {
    private:
-    std::string filename;
+    const std::string filename;
     std::fstream file;
 
    public:
@@ -36,8 +36,7 @@ class FileHandler {
             Organism* organism = factory.create(type, organismJson, world);
             organisms.push_back(organism);
         }
-        world.organisms = organisms;
-        world.linkOrganismsWithTiles();
+        world.setOrganisms(organisms);
         return organisms;
     };
     FileHandler(std::string targetFilename, Mode mode = Mode::RW)

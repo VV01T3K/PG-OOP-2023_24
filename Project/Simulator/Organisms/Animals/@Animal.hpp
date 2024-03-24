@@ -67,7 +67,8 @@ class Animal : public Organism {
 
     virtual nlohmann::json toJson() const override {
         nlohmann::json json = Organism::toJson();
-        json["old_tile_index"] = oldTile == nullptr ? -1 : oldTile->index;
+        int32_t index = oldTile == nullptr ? -1 : oldTile->index;
+        json["old_tile_index"] = index;
         return json;
     }
 };

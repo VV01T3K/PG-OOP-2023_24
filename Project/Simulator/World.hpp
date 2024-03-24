@@ -45,4 +45,6 @@ class World {
     void spreadOrganisms(Organism *organism, size_t count);
 
     void linkOrganismsWithTiles();
+
+    void setOrganisms(std::vector<Organism *> organisms);
 };

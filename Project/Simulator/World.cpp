@@ -108,3 +108,9 @@ void World::linkOrganismsWithTiles() {
         getTile(organism->getTile()->index)->placeOrganism(organism);
     }
 }
+
+void World::setOrganisms(std::vector<Organism *> organisms) {
+    this->organisms.clear();
+    this->organisms = organisms;
+    linkOrganismsWithTiles();
+}

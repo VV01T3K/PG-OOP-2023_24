@@ -27,33 +27,35 @@ using namespace std;
 void saveToJsonFile(const nlohmann::json& json, const std::string& filename) {
     std::ofstream file(filename);
     if (file.is_open()) {
-        file << json.dump(4);  // 4 spaces for indentation
+        file << json.dump(4);
     }
 }
 
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(3, 3);
+    World world(10, 10);
     Display display(world);
     Controller controller;
 
-    // world.spreadOrganisms(new SosnowskyHogweed(world), 3);
-    // world.spreadOrganisms(new Grass(world), 2);
-    // world.spreadOrganisms(new Guarana(world), 4);
-    // world.spreadOrganisms(new Milkweed(world), 0);
-    // world.spreadOrganisms(new WolfBerries(world), 1);
+    world.spreadOrganisms(new SosnowskyHogweed(world), 1);
+    world.spreadOrganisms(new Grass(world), 1);
+    world.spreadOrganisms(new Guarana(world), 1);
+    world.spreadOrganisms(new Milkweed(world), 1);
+    world.spreadOrganisms(new WolfBerries(world), 1);
 
-    // world.spreadOrganisms(new Wolf(world), 2);
-    // world.spreadOrganisms(new Sheep(world), 3);
-    // world.spreadOrganisms(new CyberSheep(world), 1);
-    // world.spreadOrganisms(new Fox(world), 2);
-    // world.spreadOrganisms(new Turtle(world), 3);
-    // world.spreadOrganisms(new Antelope(world), 3);
-    // {
-    //     FileHandler fileHandler("organisms.json", Mode::RW);
-    //     fileHandler.saveOrganisms(world.organisms);
-    // }
+    world.spreadOrganisms(new Wolf(world), 1);
+    world.spreadOrganisms(new Sheep(world), 1);
+    world.spreadOrganisms(new CyberSheep(world), 1);
+    world.spreadOrganisms(new Fox(world), 1);
+    world.spreadOrganisms(new Turtle(world), 1);
+    world.spreadOrganisms(new Antelope(world), 1);
+    world.spreadOrganisms(new Human(world), 1);
+    world.simulate();
+    {
+        FileHandler fileHandler("organisms.json", Mode::W);
+        fileHandler.saveOrganisms(world.organisms);
+    }
 
     {
         FileHandler fileHandler("organisms.json", Mode::R);
