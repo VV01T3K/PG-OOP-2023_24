@@ -76,3 +76,5 @@ std::vector<Tile *> Tile::getOccupiedNeighbours() const {
     }
     return neighbours;
 }
+
+size_t Tile::getOrganismCount() const { return organisms.size(); }

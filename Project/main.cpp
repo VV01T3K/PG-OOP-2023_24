@@ -22,7 +22,7 @@ using namespace std;
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(3, 2);
+    World world(10, 10);
     Display display(world);
     Controller controller;
 
@@ -35,9 +35,9 @@ int main() {
     // world.spreadOrganisms(new Wolf(world), 2);
     // world.spreadOrganisms(new Sheep(world), 1);
     // world.spreadOrganisms(new CyberSheep(world), 1);
-    world.spreadOrganisms(new Fox(world), 2);
-    world.spreadOrganisms(new Turtle(world), 1);
-    // world.spreadOrganisms(new Antelope(world), 1);
+    // world.spreadOrganisms(new Fox(world), 2);
+    // world.spreadOrganisms(new Turtle(world), 1);
+    world.spreadOrganisms(new Antelope(world), 10);
 
     display.update();
     controller.PressToContinue();

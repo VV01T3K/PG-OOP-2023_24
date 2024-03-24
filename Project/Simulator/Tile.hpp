@@ -35,4 +35,6 @@ class Tile {
     std::vector<Tile *> getOccupiedNeighbours() const;
 
     bool isFree() const;
+
+    size_t getOrganismCount() const;
 };
