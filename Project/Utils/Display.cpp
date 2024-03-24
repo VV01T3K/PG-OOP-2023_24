@@ -15,14 +15,9 @@ void Display::update() const {
             Tile *tile = world.getTile(x, y);
             if (!tile->isFree()) {
                 tile->getOrganism()->draw();
-                cout << " ";
-                if (tile->organisms.size() > 1) {
-                    cout << "+";
-                } else {
-                    cout << "";
-                }
             } else {
-                cout << " ☐ ";
+                // 🟫 🔳
+                cout << "🔳";
             }
         }
         cout << '\n';

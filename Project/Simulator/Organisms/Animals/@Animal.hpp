@@ -27,6 +27,7 @@ class Animal : public Organism {
         other.collisionReaction(*this);
         if (typeid(*this) == typeid(other)) {
             this->undoMove();
+            if (!GlobalSettings::REPRODUCTION_ENABLED) return;
             if (reproduction_cooldown > 0) return;
             Tile* newtile = other.getTile()->getRandomFreeNeighbour();
             if (newtile == nullptr) return;

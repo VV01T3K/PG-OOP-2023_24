@@ -4,7 +4,7 @@
 class SosnowskyHogweed : public Plant {
    public:
     SosnowskyHogweed(World& world) : Plant(10, world) {}
-    void draw() override { std::cout << " ⚛"; }
+    void draw() override { std::cout << "🍁"; }
     Plant* construct() const override { return new SosnowskyHogweed(world); }
 
     void action() override {

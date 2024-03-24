@@ -4,8 +4,11 @@
 class WolfBerries : public Plant {
    public:
     WolfBerries(World& world) : Plant(99, world) {}
-    void draw() override { std::cout << "🫐"; }
+    void draw() override { std::cout << "🫐 "; }
     Plant* construct() const override { return new WolfBerries(world); }
 
-    void collisionReaction(Organism& other) override { other.Die(); }
+    void collisionReaction(Organism& other) override {
+        other.Die();
+        Die();
+    }
 };

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../GlobalSettings.hpp"
 #include "../Tile.hpp"
 #include "../World.hpp"
 

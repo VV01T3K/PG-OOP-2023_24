@@ -1,8 +1,8 @@
 #pragma once
+#include "Antelope.hpp"
 #include "CyberSheep.hpp"
+#include "Fox.hpp"
+#include "Human.hpp"
 #include "Sheep.hpp"
+#include "Turtle.hpp"
 #include "Wolf.hpp"
-// #include "Fox.hpp"
-// #include "Turtle.hpp"
-// #include "Antelope.hpp"
-// #include "Human.hpp"

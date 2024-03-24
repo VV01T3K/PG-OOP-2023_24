@@ -3,13 +3,13 @@
 #include <iostream>
 #include <random>
 
-#include "../../World.hpp"
 #include "../@Organism.hpp"
 
 class Plant : public Organism {
    public:
     Plant(int power, World& world) : Organism(power, 0, world) {}
     virtual void action() override {
+        if (!GlobalSettings::REPRODUCTION_ENABLED) return;
         if (rng.roll(0, 100) < 5) {
             Tile* newtile = tile->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
