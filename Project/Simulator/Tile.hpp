@@ -12,9 +12,9 @@ enum class Direction : size_t { UP, DOWN, RIGHT, LEFT, SELF };
 class Tile {
    private:
     std::array<Tile *, 4> directions;
+    std::vector<Organism *> organisms;
 
    public:
-    std::vector<Organism *> organisms;
     const size_t index;
 
     Tile(size_t index);

@@ -17,7 +17,6 @@ class World {
    private:
     size_t width;
     size_t height;
-    RandGen &rng = RandGen::getInstance();
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;  // custom array of tiles (mainly for random
                                 // spwaning of organisms)
