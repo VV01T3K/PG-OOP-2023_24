@@ -1,5 +1,9 @@
 #include "Display.hpp"
 
+#include <iostream>
+
+#include "../Simulator/Organisms/Animals/Human.hpp"
+
 using namespace std;
 
 Display::Display(World &world) : world(world) {}

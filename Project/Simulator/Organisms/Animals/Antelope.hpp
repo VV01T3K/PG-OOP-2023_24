@@ -24,7 +24,10 @@ class Antelope : public Animal {
             Animal::collision(other);
         else if (rng.roll(0, 100) < 50) {
             Tile* newTile = tile->getRandomFreeNeighbour();
-            if (newTile == nullptr) return;
+            if (newTile == nullptr) {
+                Animal::collision(other);
+                return;
+            }
             move(newTile);
         } else
             Animal::collision(other);
