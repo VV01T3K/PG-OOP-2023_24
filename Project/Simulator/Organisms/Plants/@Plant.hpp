@@ -11,7 +11,7 @@ class Plant : public Organism {
         : Organism(type, power, 0, world) {}
     virtual void action() override {
         if (!GlobalSettings::REPRODUCTION_ENABLED) return;
-        if (rng.roll(0, 100) < 5) {
+        if (RNG::roll(0, 100) < 5) {
             Tile* newtile = tile->getRandomFreeNeighbour();
             if (newtile == nullptr) return;
             Plant* newPlant = construct();

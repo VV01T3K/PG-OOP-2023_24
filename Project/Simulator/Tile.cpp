@@ -27,7 +27,7 @@ Tile *Tile::getRandomFreeNeighbour() const {
         }
     }
     if (neighbours.empty()) return nullptr;
-    return neighbours[RandGen::getInstance().roll(0, neighbours.size() - 1)];
+    return neighbours[RNG::roll(0, neighbours.size() - 1)];
 }
 
 Tile *Tile::getNeighbour(Direction direction) const {
@@ -41,7 +41,7 @@ Tile *Tile::getRandomNeighbour() const {
         }
     }
     if (neighbours.empty()) return nullptr;
-    return neighbours[RandGen::getInstance().roll(0, neighbours.size() - 1)];
+    return neighbours[RNG::roll(0, neighbours.size() - 1)];
 }
 Direction Tile::getRandomDirection() const {
     std::vector<Direction> directions;
@@ -52,7 +52,7 @@ Direction Tile::getRandomDirection() const {
         }
     }
     if (directions.empty()) return Direction::SELF;
-    return directions[RandGen::getInstance().roll(0, directions.size() - 1)];
+    return directions[RNG::roll(0, directions.size() - 1)];
 }
 
 bool Tile::isFree() const { return organisms.empty(); }
@@ -79,6 +79,7 @@ std::vector<Tile *> Tile::getOccupiedNeighbours() const {
 
 size_t Tile::getOrganismCount() const { return organisms.size(); }
 
+// TODO Refactor getDistanceTo
 size_t Tile::getDistanceTo(const Tile *tile, size_t width) const {
     const long long x1 = index % width;
     const long long y1 = index / width;

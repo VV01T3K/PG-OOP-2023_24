@@ -9,7 +9,7 @@ class Turtle : public Animal {
 
     void action() override {
         // 75% chance to skip turn
-        if (rng.roll(0, 100) < 75) return;
+        if (RNG::roll(0, 100) < 75) return;
         Animal::action();
     };
 

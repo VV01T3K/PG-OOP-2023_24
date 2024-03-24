@@ -19,7 +19,6 @@ class Organism {
     bool skip = false;
     Tile *tile = nullptr;
     World &world;
-    RandGen &rng = RandGen::getInstance();
     enum class Type : u_int8_t {
         ANTELOPE,
         CYBER_SHEEP,

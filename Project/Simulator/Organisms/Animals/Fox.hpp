@@ -20,7 +20,7 @@ class Fox : public Animal {
         if (neighbours.empty()) {
             target = tile->getRandomFreeNeighbour();
         } else {
-            target = neighbours[rng.roll(0, neighbours.size() - 1)];
+            target = neighbours[RNG::roll(0, neighbours.size() - 1)];
         }
         move(target);
     };

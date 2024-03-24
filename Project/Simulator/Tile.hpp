@@ -3,7 +3,7 @@
 #include <array>
 #include <vector>
 
-#include "../Utils/RandGen.hpp"
+#include "../Utils/RNG.hpp"
 #include "Organisms/@Organism.hpp"
 
 class Organism;

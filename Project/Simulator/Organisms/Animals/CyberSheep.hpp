@@ -51,6 +51,6 @@ class CyberSheep : public Animal {
             }
         }
         if (possible_moves.empty()) return nullptr;
-        return possible_moves[rng.roll(0, possible_moves.size() - 1)];
+        return possible_moves[RNG::roll(0, possible_moves.size() - 1)];
     }
 };

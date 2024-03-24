@@ -2,11 +2,10 @@
 
 #include <algorithm>
 #include <iostream>
-#include <random>
 #include <vector>
 
 #include "../Utils/Display.hpp"
-#include "../Utils/RandGen.hpp"
+#include "../Utils/RNG.hpp"
 #include "Organisms/@Organism.hpp"
 #include "Tile.hpp"
 

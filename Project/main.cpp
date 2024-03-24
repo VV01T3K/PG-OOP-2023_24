@@ -19,8 +19,6 @@ using namespace std;
 #include "Utils/Controller.hpp"
 #include "Utils/Display.hpp"
 
-// TODO Refactor getDistanceTo
-
 int main() {
     std::ios::sync_with_stdio(false);
 

@@ -15,14 +15,14 @@ class Antelope : public Animal {
             std::remove(neighbours.begin(), neighbours.end(), oldTile),
             neighbours.end());
         if (neighbours.empty()) return;
-        Tile* newTile = neighbours[rng.roll(0, neighbours.size() - 1)];
+        Tile* newTile = neighbours[RNG::roll(0, neighbours.size() - 1)];
         move(newTile);
     }
 
     void collision(Organism& other) override {
         if (typeid(other) == typeid(Antelope))
             Animal::collision(other);
-        else if (rng.roll(0, 100) < 50) {
+        else if (RNG::roll(0, 100) < 50) {
             Tile* newTile = tile->getRandomFreeNeighbour();
             if (newTile == nullptr) {
                 Animal::collision(other);
@@ -34,7 +34,7 @@ class Antelope : public Animal {
     }
 
     bool collisionReaction(Organism& other) override {
-        if (rng.roll(0, 100) < 50) {
+        if (RNG::roll(0, 100) < 50) {
             Tile* newTile = tile->getRandomFreeNeighbour();
             if (newTile == nullptr) return false;
             move(newTile);

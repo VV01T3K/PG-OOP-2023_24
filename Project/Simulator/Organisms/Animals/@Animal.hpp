@@ -1,8 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <random>
-
 #include "../../World.hpp"
 #include "../@Organism.hpp"
 
