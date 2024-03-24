@@ -2,5 +2,5 @@
 
 class GlobalSettings {
    public:
-    static const bool REPRODUCTION_ENABLED = false;
+    static const bool REPRODUCTION_ENABLED = true;
 };

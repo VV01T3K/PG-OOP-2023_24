@@ -17,8 +17,6 @@ class Turtle : public Animal {
         if (typeid(other) == typeid(Turtle)) return false;
         if (other.getPower() < 5) {
             dynamic_cast<Animal*>(&other)->undoMove();
-            std::cout << "Turtle blocked the attack!\n";
-            std::cin.get();
             return true;
         }
         return false;
