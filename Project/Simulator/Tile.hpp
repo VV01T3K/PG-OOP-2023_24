@@ -8,7 +8,7 @@
 
 class Organism;
 
-enum class Direction : size_t { UP, DOWN, RIGHT, LEFT, SELF };
+enum class Direction : u_int8_t { UP, DOWN, RIGHT, LEFT, SELF };
 class Tile {
    private:
     std::array<Tile *, 4> directions;

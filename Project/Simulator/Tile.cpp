@@ -9,7 +9,7 @@ Tile::~Tile(){};
 void Tile::clear() { organisms.clear(); }
 
 void Tile::setLink(Direction direction, Tile *tile) {
-    directions[static_cast<size_t>(direction)] = tile;
+    directions[static_cast<u_int8_t>(direction)] = tile;
 }
 
 Organism *Tile::getOrganism() const { return organisms[0]; }
@@ -31,7 +31,7 @@ Tile *Tile::getRandomFreeNeighbour() const {
 }
 
 Tile *Tile::getNeighbour(Direction direction) const {
-    return directions[static_cast<size_t>(direction)];
+    return directions[static_cast<u_int8_t>(direction)];
 }
 Tile *Tile::getRandomNeighbour() const {
     std::vector<Tile *> neighbours;
