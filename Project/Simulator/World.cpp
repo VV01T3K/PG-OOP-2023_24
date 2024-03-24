@@ -91,6 +91,7 @@ void World::simulate() {
 size_t World::getOrganimsCount() const { return organisms.size(); }
 
 void World::spreadOrganisms(Organism *organism, size_t count) {
+    if (count <= 0) return;
     const size_t max = width * height;
     while (true) {
         if (getOrganimsCount() == max) break;

@@ -24,29 +24,27 @@ using namespace std;
 int main() {
     std::ios::sync_with_stdio(false);
 
-    World world(5, 5);
+    World world(20, 20);
     Display display(world);
     Controller controller;
 
-    world.spreadOrganisms(new SosnowskyHogweed(world), 20);
-    // world.spreadOrganisms(new Grass(world), 4);
-    // world.spreadOrganisms(new Guarana(world), 4);
-    // world.spreadOrganisms(new Milkweed(world), 2);
-    // world.spreadOrganisms(new WolfBerries(world), 1);
+    world.spreadOrganisms(new SosnowskyHogweed(world), 3);
+    world.spreadOrganisms(new Grass(world), 2);
+    world.spreadOrganisms(new Guarana(world), 4);
+    world.spreadOrganisms(new Milkweed(world), 0);
+    world.spreadOrganisms(new WolfBerries(world), 1);
 
-    // world.spreadOrganisms(new Wolf(world), 2);
-    // world.spreadOrganisms(new Sheep(world), 1);
+    world.spreadOrganisms(new Wolf(world), 2);
+    world.spreadOrganisms(new Sheep(world), 3);
     world.spreadOrganisms(new CyberSheep(world), 1);
-    // world.spreadOrganisms(new Fox(world), 2);
-    // world.spreadOrganisms(new Turtle(world), 1);
-    // world.spreadOrganisms(new Antelope(world), 10);
-
-    // world.addOrganism(new SosnowskyHogweed(world), world.getTile(18));
+    world.spreadOrganisms(new Fox(world), 2);
+    world.spreadOrganisms(new Turtle(world), 3);
+    world.spreadOrganisms(new Antelope(world), 3);
 
     while (true) {
-        display.update();
-
         world.simulate();
+
+        display.update();
 
         controller.PressToContinue();
     }
