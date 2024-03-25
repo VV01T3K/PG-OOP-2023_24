@@ -89,7 +89,8 @@ public class JavaLab2 {
         ret.dodajElementWycieczki(new Tory(1.0));
         ret.dodajElementWycieczki(new Droga(5.0));
         ret.dodajElementWycieczki(new Las(3));
-        ret.dodajElementWycieczki(new GestyLas(4));
+        ret.dodajElementWycieczki(new GestyLas(3));
+        ret.dodajElementWycieczki(new PoleBarszczuSosnowskiego(0.5));
         ret.dodajElementWycieczki(new Schronisko("Cyrla"));
         ret.dodajElementWycieczki(new Droga(3.0));
         ret.dodajElementWycieczki(new PrzeprawaPrzezRzeke(0.5));
