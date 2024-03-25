@@ -15,6 +15,7 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.StudentKSG;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.DrewnianaCerkiew;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.GestyLas;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.Panorama;
+import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.PrzeprawaPrzezRzeke;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.Schronisko;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.ElektrowniaWodna;
 import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.gory.beskidy.Tory;
@@ -31,7 +32,8 @@ import pl.edu.pg.eti.ksg.po.lab2.symulatorwycieczki.ludzie.BeskidzkiPiechur;
 public class JavaLab2 {
     public static void main(String[] args) {
         // Wycieczka w = doDydiowki();
-        Wycieczka w = doSchroniska();
+        // Wycieczka w = doSchroniska();
+        Wycieczka w = PiwnicznaZdrójToRytro();
 
         PrzewodnikStudencki przewodnik = new PrzewodnikStudencki("Stefan", "Długonogi", Czlowiek.Plec.MEZCZYZNA);
         Set<Uczestnik> uczestnicy = new HashSet<>();
@@ -77,6 +79,22 @@ public class JavaLab2 {
         ret.dodajElementWycieczki(new Panorama());
         ret.dodajElementWycieczki(new Droga(8.0));
         ret.dodajElementWycieczki(new Schronisko("Klimczok"));
+
+        return ret;
+    }
+
+    public static Wycieczka PiwnicznaZdrójToRytro() {
+        Wycieczka ret = new Wycieczka("Rytro, Zazamcze");
+        ret.dodajElementWycieczki(new Droga(1.0));
+        ret.dodajElementWycieczki(new Tory(1.0));
+        ret.dodajElementWycieczki(new Droga(5.0));
+        ret.dodajElementWycieczki(new Las(3));
+        ret.dodajElementWycieczki(new GestyLas(4));
+        ret.dodajElementWycieczki(new Schronisko("Cyrla"));
+        ret.dodajElementWycieczki(new Droga(3.0));
+        ret.dodajElementWycieczki(new PrzeprawaPrzezRzeke(0.5));
+        ret.dodajElementWycieczki(new Droga(0.5));
+        ret.dodajElementWycieczki(new Panorama());
 
         return ret;
     }
