@@ -6,6 +6,18 @@ set(CMAKE_CXX_STANDARD 17)
 include(FetchContent)
 
 FetchContent_Declare(
+    ftxui
+    GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI
+    GIT_TAG v5.0.0
+)
+
+FetchContent_GetProperties(ftxui)
+if(NOT ftxui_POPULATED)
+    FetchContent_Populate(ftxui)
+    add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR})
+endif()
+
+FetchContent_Declare(
     json
     URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
 )
@@ -23,4 +35,4 @@ file(GLOB_RECURSE  SOURCES
 
 add_executable(OOP ${SOURCES})
 
-target_link_libraries(OOP PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(OOP PRIVATE nlohmann_json::nlohmann_json ftxui::dom ftxui::screen)
