@@ -62,7 +62,6 @@ class Animal : public Organism {
         tile = oldTile;
         oldTile = nullptr;
     }
-    virtual void draw() = 0;
     virtual Animal* construct() const = 0;
 
     virtual nlohmann::json toJson() const override {

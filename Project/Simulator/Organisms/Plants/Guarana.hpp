@@ -5,7 +5,6 @@ class Guarana : public Plant {
    public:
     Guarana(World& world) : Plant(0, world, Type::GUARANA) {}
     Guarana(nlohmann::json json, World& world) : Plant(json, world) {}
-    void draw() override { std::cout << "🍅"; }
     Plant* construct() const override { return new Guarana(world); }
 
     bool collisionReaction(Organism& other) override {

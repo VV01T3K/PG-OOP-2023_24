@@ -8,7 +8,6 @@ class Human : public Animal {
         : Animal(json, world),
           ability_cooldown(json["ability_cooldown"]),
           immortality_left(json["immortality_left"]) {}
-    void draw() override { std::cout << "🧑"; }
     Animal* construct() const override { return new Human(world); }
 
     int ability_cooldown = 0;

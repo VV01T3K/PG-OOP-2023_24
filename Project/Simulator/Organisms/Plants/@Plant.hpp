@@ -30,6 +30,5 @@ class Plant : public Organism {
     }
     int getSpreadCooldown() const { return reproduction_cooldown; }
 
-    virtual void draw() = 0;
     virtual Plant* construct() const = 0;
 };

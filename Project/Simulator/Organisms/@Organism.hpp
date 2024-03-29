@@ -1,6 +1,9 @@
 #pragma once
 
+#include <iostream>
+#include <map>
 #include <nlohmann/json.hpp>
+#include <string>
 
 #include "../GlobalSettings.hpp"
 
@@ -19,7 +22,7 @@ class Organism {
     World &world;
 
    public:
-    enum class Type : u_int8_t {
+    enum class Type {
         ANTELOPE,
         CYBER_SHEEP,
         FOX,
@@ -33,6 +36,20 @@ class Organism {
         SOSNOWSKY_HOGWEED,
         WOLF_BERRIES
     };
+    const std::map<Type, std::string> TypeSymbols = {
+        {Type::ANTELOPE, "🦌"},
+        {Type::CYBER_SHEEP, "🤖"},
+        {Type::FOX, "🦊"},
+        {Type::HUMAN, "🧑"},
+        {Type::SHEEP, "🐑"},
+        {Type::TURTLE, "🐢"},
+        {Type::WOLF, "🐺"},
+        {Type::GRASS, "🌿"},
+        {Type::GUARANA, "🍅"},
+        {Type::MILKWEED, "🌾"},
+        {Type::SOSNOWSKY_HOGWEED, "🍁"},
+        {Type::WOLF_BERRIES, "🫐 "}};
+
     const Type type;
     Organism(Type type, int power, int initiative, World &world);
 
@@ -57,7 +74,8 @@ class Organism {
     virtual void action() = 0;
     virtual void collision(Organism &other) = 0;
     virtual bool collisionReaction(Organism &other) = 0;
-    virtual void draw() = 0;
+    std::string getSymbol() const { return TypeSymbols.at(type); }
+    virtual void draw() { std::cout << TypeSymbols.at(type); }
     virtual Organism *construct() const = 0;
     virtual nlohmann::json toJson() const;
     Organism(nlohmann::json json, World &world);

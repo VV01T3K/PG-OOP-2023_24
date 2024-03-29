@@ -5,7 +5,6 @@ class Fox : public Animal {
    public:
     Fox(World& world) : Animal(3, 7, world, Type::FOX) {}
     Fox(nlohmann::json json, World& world) : Animal(json, world) {}
-    void draw() override { std::cout << "🦊"; }
     Animal* construct() const override { return new Fox(world); }
 
     void action() override {
