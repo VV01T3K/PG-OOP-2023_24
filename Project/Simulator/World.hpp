@@ -19,11 +19,16 @@ class World {
     size_t time = 0;
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;
+    std::vector<std::string> logs;
 
    public:
     World() = default;
     World(size_t width, size_t height);
     ~World();
+
+    void addLog(std::string log);
+    const std::vector<std::string> &getLogs() const;
+    void clearLogs();
 
     void setWorld(size_t width, size_t height, size_t time);
 

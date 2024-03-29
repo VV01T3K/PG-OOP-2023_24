@@ -28,11 +28,10 @@ if(NOT json_POPULATED)
 endif()
 
 file(GLOB_RECURSE  SOURCES
-# "Project/*.hpp"
-# "Project/*.cpp"
+"Project/*.hpp"
+"Project/*.cpp"
 FtxDisplay.hpp
 main.cpp
-# 1.cpp
 )
 
 add_executable(OOP ${SOURCES})

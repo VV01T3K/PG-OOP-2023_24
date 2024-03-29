@@ -142,3 +142,7 @@ void World::clearTiles() {
     }
     tiles.clear();
 }
+
+void World::addLog(std::string log) { logs.push_back(log); }
+const std::vector<std::string> &World::getLogs() const { return logs; }
+void World::clearLogs() { logs.clear(); }
