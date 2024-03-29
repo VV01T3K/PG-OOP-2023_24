@@ -16,6 +16,8 @@ if(NOT json_POPULATED)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR})
 endif()
 
+find_library(NCURSESW_LIBRARY NAMES ncursesw)
+
 file(GLOB_RECURSE  SOURCES
 "Project/*.hpp"
 "Project/*.cpp"
@@ -24,5 +26,6 @@ file(GLOB_RECURSE  SOURCES
 add_executable(OOP ${SOURCES})
 
 target_link_libraries(OOP 
-    PRIVATE nlohmann_json::nlohmann_json 
+    PRIVATE nlohmann_json::nlohmann_json
+    PRIVATE ${NCURSESW_LIBRARY}  # Link ncursesw library
 )

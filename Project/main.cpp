@@ -24,13 +24,13 @@ int main() {
 
     World world(15, 11);
 
+    Display display(world);
+
     world.addLog("Hello World!");
 
     world.spreadOrganisms(new Sheep(world), 5);
 
-        // display.menu();
-
-    // display.worldView(world);
+    display.menu();
 
     return EXIT_SUCCESS;
 }

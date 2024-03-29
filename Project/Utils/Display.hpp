@@ -1,6 +1,11 @@
 #pragma once
 
+#include <locale.h>
+#include <ncurses.h>
+
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "../Simulator/Tile.hpp"
 #include "../Simulator/World.hpp"  // Include the World class definition
@@ -15,6 +20,8 @@ class Display {
     Display(World &world);
     ~Display();
 
-    void log(const std::string &message) const;
-    void update() const;
+    void menu() const;
+    void gameView() const;
+    // void saveGame() const;
+    // void loadGame() const;
 };
