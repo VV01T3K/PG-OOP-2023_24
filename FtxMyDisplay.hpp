@@ -116,26 +116,28 @@ class FtxMyDisplay {
             logs->Add(component);
         }
 
+        auto board = Container::Horizontal({});
+        for (size_t i = 0; i < world.getWidth(); i++) {
+            auto column = Container::Vertical({});
+            for (size_t j = 0; j < world.getHeight(); j++) {
+                auto tile = world.getTile(i, j);
+                auto organism = tile->getOrganism();
+                auto component = Renderer([organism] {
+                    if (organism == nullptr) {
+                        return text("🔳");
+                    }
+                    return text(organism->getSymbol());
+                });
+                column->Add(component);
+            }
+            board->Add(column);
+        }
+
         auto layout = Container::Vertical({
             button,
             header,
             logs,
         });
-
-        // auto board = Container::Horizontal({});
-        // for (size_t i = 0; i < world.getWidth(); i++) {
-        //     auto column = Container::Vertical({});
-        //     for (size_t j = 0; j < world.getHeight(); j++) {
-        //         auto tile = world.getTile(i, j);
-        //         auto organisms = tile->getOrganisms();
-        //         auto organism = organisms.empty() ? " " : "🦌";
-        //         auto component = Renderer([organism] {
-        //             return text(organism) | size(WIDTH, EQUAL, 4);
-        //         });
-        //         column->Add(component);
-        //     }
-        //     board->Add(column);
-        // }
 
         const auto renderer = Renderer(layout, [&] {
             return vbox({
@@ -143,12 +145,15 @@ class FtxMyDisplay {
                            header->Render(),
                        }) | flex,
                        hbox({
+                           board->Render() | flex,
                            logs->Render() | flex,
                        }) | flex,
                    }) |
                    center;
         });
 
-        screen.Loop(renderer);
+        // run once
+
+        screen.Loop::RunOnce(renderer);
     }
 };

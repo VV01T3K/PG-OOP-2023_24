@@ -18,22 +18,19 @@ using namespace std;
 #include "Utils/Controller.hpp"
 #include "Utils/Display.hpp"
 #include "Utils/FileHandler.hpp"
-#include "Utils/FtxMyDisplay.hpp"
 
 int main() {
-    using namespace ftxui;
     using namespace std;
-    FtxMyDisplay display;
 
-    World world(5, 5);
+    World world(15, 11);
 
     world.addLog("Hello World!");
 
     world.spreadOrganisms(new Sheep(world), 5);
 
-    // display.menu();
+        // display.menu();
 
-    display.worldView(world);
+    // display.worldView(world);
 
     return EXIT_SUCCESS;
 }
