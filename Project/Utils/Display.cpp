@@ -16,6 +16,16 @@ Display::Display(World &world) : world(world) {
     keypad(stdscr, TRUE);   // Enable function and arrow keys
     noecho();               // Don't echo any keypresses
     curs_set(0);            // Hide the cursor
+
+    const char *title = "Wojciech Siwiec s197815";
+    mvwprintw(stdscr, 0, 0, title);
+    refresh();
+
+    // Create three windows
+    left = newwin(LINES - 1, COLS / 2, 1, 0);
+    topRight = newwin(LINES / 2 - 1, COLS / 2, 1, COLS / 2);
+    bottomRight =
+        newwin(LINES - (LINES / 2 + 1) + 1, COLS / 2, LINES / 2, COLS / 2);
 }
 
 Display::~Display() {
@@ -23,25 +33,46 @@ Display::~Display() {
     refresh();                   // Refresh the screen to show the new state
     mvprintw(0, 0, "Goodbye!");  // Print a goodbye message
     getch();                     // Wait for a key press
-    endwin();
+    delwin(left);                // Delete the left window
+    delwin(topRight);            // Delete the topRight window
+    delwin(bottomRight);         // Delete the bottomRight window
+    endwin();                    // End the library
+}
+
+void Display::refreshWindows() const {
+    box(left, 0, 0);
+    box(topRight, 0, 0);
+    box(bottomRight, 0, 0);
+
+    wrefresh(left);
+    wrefresh(topRight);
+    wrefresh(bottomRight);
+}
+
+void Display::clearWindows() const {
+    werase(left);         // Clear the left window
+    werase(topRight);     // Clear the topRight window
+    werase(bottomRight);  // Clear the bottomRight window
 }
 
 void Display::menu() const {
     // menu with ncurses
 
+    clearWindows();  // Clear the windows
+
     int choice;
     bool exit = false;
 
     while (!exit) {
-        clear();
+        // Print the menu in the left window
+        mvwprintw(left, 1, 1, "1. Start the game");
+        mvwprintw(left, 2, 1, "2. Load the game");
+        mvwprintw(left, 3, 1, "3. Save the game");
+        mvwprintw(left, 4, 1, "4. Exit");
 
-        // Print the menu
-        mvprintw(0, 0, "1. Start the game");
-        mvprintw(1, 0, "2. Load the game");
-        mvprintw(2, 0, "3. Save the game");
-        mvprintw(3, 0, "4. Exit");
+        refreshWindows();  // Refresh the windows
 
-        choice = getch();  // Get the user's choice
+        choice = wgetch(left);  // Get the user's choice from the left window
 
         switch (choice) {
             case '1':
@@ -64,52 +95,54 @@ void Display::menu() const {
 }
 void Display::gameView() const {
     bool exit = false;
-    // while (!exit) {
-    clear();  // Clear the screen
 
-    // Print time and world size
-    mvprintw(0, 0, "Time: %d", world.checkTime());
-    mvprintw(1, 0, "World size: %dx%d", world.getWidth(), world.getHeight());
+    clearWindows();  // Clear the windows
 
-    // Print the world
-    for (size_t y = 0; y < world.getHeight(); y++) {
-        for (size_t x = 0; x < world.getWidth(); x++) {
+    // Get the maximum window size
+    int max_y = 0, max_x = 0;
+    getmaxyx(left, max_y, max_x);
+
+    // Print time and world size in the top right window
+    mvwprintw(topRight, 1, 1, "Time: %d", world.checkTime());
+    mvwprintw(topRight, 2, 1, "World size: %dx%d", world.getWidth(),
+              world.getHeight());
+
+    int shift_x = (max_x - world.getWidth() * 2) / 2;
+    int shift_y = (max_y - world.getHeight()) / 2;
+
+    // print error
+    if (shift_x < 0 || shift_y < 0) {
+        mvwprintw(left, 1, 1, "Window too small");
+        refreshWindows();
+        getch();
+        return;
+    }
+
+    // Print the world in the left window
+    for (size_t y = 0; y < std::min(max_y, (int)world.getHeight()); y++) {
+        for (size_t x = 0; x < std::min(max_x, (int)world.getWidth()); x++) {
             Tile *tile = world.getTile(x, y);
             if (!tile->isFree()) {
-                mvaddwstr(y + 3, x,
-                          tile->getOrganism()
-                              ->getSymbol()
-                              .c_str());  // Draw the organism
+                mvwaddwstr(left, y + shift_y,
+                           x + shift_x,  // Shifted one to the right
+                           tile->getOrganism()
+                               ->getSymbol()
+                               .c_str());  // Draw the organism
             } else {
-                mvaddwstr(y + 3, x, L"🔳");  // Draw an empty tile
+                mvwaddwstr(
+                    left, y + shift_y, x + shift_x,
+                    L"🔳");  // Shifted one to the right, Draw an empty tile
             }
         }
     }
 
-    // Print the number of entities
-    mvprintw(world.getHeight() + 3, 0, "Entities: %d",
-             world.getOrganimsCount());
+    // Print the number of entities in the bottom right window
+    mvwprintw(bottomRight, world.getHeight() + 3, 1, "Entities: %d",
+              world.getOrganimsCount());
 
-    refresh();  // Refresh the screen to show the new state
-    // }
+    refreshWindows();  // Refresh the windows
 
     getch();  // Wait for a key press
-}
 
-// void Display::update() const {
-//     cout << "Time: " << world.checkTime() << '\n';
-//     cout << "World size: " << world.getWidth() << "x" << world.getHeight()
-//          << '\n';
-//     for (size_t y = 0; y < world.getHeight(); y++) {
-//         for (size_t x = 0; x < world.getWidth(); x++) {
-//             Tile *tile = world.getTile(x, y);
-//             if (!tile->isFree()) {
-//                 tile->getOrganism()->draw();
-//             } else {
-//                 cout << "🔳";
-//             }
-//         }
-//         cout << '\n';
-//     }
-//     cout << "Entities: " << world.getOrganimsCount() << '\n';
-// }
+    // Delete the windows when you're done with them
+}

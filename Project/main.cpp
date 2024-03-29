@@ -22,7 +22,7 @@ using namespace std;
 int main() {
     using namespace std;
 
-    World world(15, 11);
+    World world(30, 30);
 
     Display display(world);
 

@@ -15,11 +15,16 @@ class World;
 class Display {
    private:
     World &world;
+    // Create three windows
+    WINDOW *left;
+    WINDOW *topRight;
+    WINDOW *bottomRight;
 
    public:
     Display(World &world);
     ~Display();
-
+    void refreshWindows() const;
+    void clearWindows() const;
     void menu() const;
     void gameView() const;
     // void saveGame() const;
