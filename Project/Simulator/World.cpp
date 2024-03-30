@@ -68,7 +68,7 @@ void World::addOrganism(Organism *organism, Tile *tile) {
 
 void World::simulate() {
     time++;
-    this->clearLogs();
+    clearLogs();
     const auto compare = [](const auto &a, const auto &b) {
         if (a->getInitiative() == b->getInitiative()) {
             return a->getAge() > b->getAge();
@@ -148,22 +148,36 @@ void World::clearTiles() {
     }
     tiles.clear();
 }
+void World::cleanTiles() {
+    for (auto tile : tiles) {
+        tile->clear();
+    }
+}
+
+void World::resetWorld() {
+    clearOrganisms();
+    cleanTiles();
+    clearLogs();
+    time = 0;
+}
+
+void World::populateWorld() {
+    resetWorld();
+    spreadOrganisms(new SosnowskyHogweed(*this), 5);
+    spreadOrganisms(new Grass(*this), 2);
+    spreadOrganisms(new Guarana(*this), 2);
+    spreadOrganisms(new Milkweed(*this), 1);
+    spreadOrganisms(new WolfBerries(*this), 1);
+
+    spreadOrganisms(new Wolf(*this), 1);
+    spreadOrganisms(new Sheep(*this), 1);
+    spreadOrganisms(new CyberSheep(*this), 1);
+    spreadOrganisms(new Fox(*this), 2);
+    spreadOrganisms(new Turtle(*this), 2);
+    spreadOrganisms(new Antelope(*this), 1);
+    spreadOrganisms(new Human(*this), 1);
+}
 
 void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
-
-void World::generateOrganisms() {
-    // spreadOrganisms(new SosnowskyHogweed(*this), 5);
-    // spreadOrganisms(new Grass(*this), 2);
-    // spreadOrganisms(new Guarana(*this), 2);
-    // spreadOrganisms(new Milkweed(*this), 1);
-    // spreadOrganisms(new WolfBerries(*this), 1);
-
-    // spreadOrganisms(new Wolf(*this), 1);
-    // spreadOrganisms(new Sheep(*this), 1);
-    // spreadOrganisms(new CyberSheep(*this), 1);
-    // spreadOrganisms(new Fox(*this), 2);
-    // spreadOrganisms(new Turtle(*this), 2);
-    spreadOrganisms(new Antelope(*this), 10);
-}

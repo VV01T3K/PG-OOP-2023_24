@@ -80,20 +80,33 @@ void Display::menu(bool &endFlag) const {
                 break;
             case '1':
                 exitFlag = true;
-                world.setWorld(world.getWidth(), world.getHeight(), 0);
-                world.setOrganisms({});
-                world.generateOrganisms();
-                world.clearLogs();
+                world.resetWorld();
+                world.populateWorld();
                 gameView();
                 break;
             case '2': {
-                FileHandler fileHandler("save.json");
-                fileHandler.loadWorld(world);
+                std::vector<std::string> files = FileHandler::listSaves();
+                if (files.empty()) {
+                    mvwprintw(left, 1, 1, "No save files found");
+                    getch();
+                    break;
+                }
+                int i = 0;
+                eraseWindows();
+                for (auto &file : files) {
+                    mvwprintw(left, i + 1, 1, to_string(i + 1).c_str());
+                    mvwprintw(left, i + 1, 3, file.c_str());
+                    i++;
+                }
+                refreshWindows();
             } break;
             case '3': {
                 std::string fileName = getSaveFileName();
-                FileHandler fileHandler(fileName);
-                fileHandler.saveWorld(world);
+                if (fileName != "") {
+                    FileHandler fileHandler(fileName);
+                    fileHandler.saveWorld(world);
+                }
+
             } break;
             case '4':
             case KEY_EXIT:
@@ -162,6 +175,9 @@ std::string Display::getSaveFileName() const {
     echo();
     mvwscanw(left, 2, 1, "%255s", fileNameC);
     noecho();
+    if (fileNameC[0] == '\0') {
+        return "";
+    }
     string fileName = fileNameC + string(".json");
 
     curs_set(0);

@@ -29,7 +29,7 @@ int main() {
 
     Display display(world);
 
-    world.generateOrganisms();
+    world.populateWorld();
 
     bool endFlag = false;
     display.menu(endFlag);

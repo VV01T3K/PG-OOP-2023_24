@@ -1,5 +1,7 @@
 #pragma once
 
+#include <dirent.h>
+
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -85,8 +87,26 @@ class FileHandler {
         world.clearLogs();
         closeFile();
     };
+
+    static std::vector<std::string> listSaves() {
+        DIR* dir;
+        struct dirent* ent;
+        std::vector<std::string> files;
+
+        if ((dir = opendir("../Project/Saves/")) != NULL) {
+            while ((ent = readdir(dir)) != NULL) {
+                files.push_back(std::string(ent->d_name));
+            }
+            closedir(dir);
+        } else {
+            throw std::runtime_error("Failed to open directory");
+        }
+
+        return files;
+    }
+
     FileHandler(std::string targetFilename, Mode mode = Mode::RW)
-        : filename("../Project/" + targetFilename){};
+        : filename("../Project/Saves/" + targetFilename){};
 
     ~FileHandler() { closeFile(); };
 };
