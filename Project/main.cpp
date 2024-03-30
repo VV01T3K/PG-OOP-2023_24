@@ -26,27 +26,49 @@ int main() {
 
     Display display(world);
 
+    world.addLog("1ello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
+    world.addLog("Hello World!");
     world.addLog("Hello World!");
 
-    world.spreadOrganisms(new Milkweed(world), 1);
+    // world.spreadOrganisms(new Milkweed(world), 1);
 
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
-    world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
+    // world.simulate();
 
     display.menu();
 

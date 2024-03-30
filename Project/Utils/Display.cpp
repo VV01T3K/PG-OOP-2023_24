@@ -23,9 +23,9 @@ Display::Display(World &world) : world(world) {
 
     // Create three windows
     left = newwin(LINES - 1, COLS / 2, 1, 0);
-    topRight = newwin(LINES / 2 - 1, COLS / 2, 1, COLS / 2);
-    bottomRight =
-        newwin(LINES - (LINES / 2 + 1) + 1, COLS / 2, LINES / 2, COLS / 2);
+    topRight = newwin(LINES / 1.5 + .5, COLS / 2, 1, COLS / 2);
+    bottomRight = newwin(LINES - (LINES / 1.5) - 1, COLS / 2,
+                         (LINES + 1) / 1.5 + 1, COLS / 2);
 }
 
 Display::~Display() {
