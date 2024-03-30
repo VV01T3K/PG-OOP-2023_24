@@ -1,20 +1,15 @@
 
-[] - Menu
-[] - name
-    [] - continue
-    [] - new world
-    [] - settings modal
-        [] - close button
-        [] - checkboxes
-    [] - load world modal
-    [] - save world modal
-    [] - exit
+[x] - Menu
+[x] - name
+    [x] - continue
+    [x] - new world
+    [x] - load world modal
+    [x] - save world modal
+    [x] - exit
 
-[] - world
-    [] - world stats
-    [] - settings
-        [] - reset
-    [] - name
-    [] - logs
-    [] - map
+[x] - world
+    [x] - world stats
+    [x] - name
+    [x] - logs
+    [x] - map
     [] - human
