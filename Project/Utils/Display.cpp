@@ -117,19 +117,28 @@ void Display::menu(bool &endFlag) const {
         }
     }
 }
+void Display::worldPanel() const {
+    werase(bottomRight);
+    std::string timeStr = "Time: " + to_string(world.checkTime());
+    std::string organismsStr =
+        "Organisms: " + to_string(world.getOrganimsCount());
+
+    mvwprintw(bottomRight, 1, 1, "World:");
+    mvwprintw(bottomRight, 2, 3, timeStr.c_str());
+    mvwprintw(bottomRight, 3, 3, organismsStr.c_str());
+
+    mvwprintw(bottomRight, 4, 1, "Human:");
+    mvwprintw(bottomRight, 5, 3, "Next move: ");
+    mvwprintw(bottomRight, 6, 3, world.getHuman()->getNextMove().c_str());
+
+    refreshWindows();
+}
+
 void Display::gameView() const {
     eraseWindows();
 
     int max_y = 0, max_x = 0;
     getmaxyx(left, max_y, max_x);
-
-    std::string timeStr = "Time: " + to_string(world.checkTime());
-    std::string organismsStr =
-        "Organisms: " + to_string(world.getOrganimsCount());
-
-    mvwprintw(left, 1, 1, "World:");
-    mvwprintw(bottomRight, 2, 4, timeStr.c_str());
-    mvwprintw(bottomRight, 3, 4, organismsStr.c_str());
 
     int shift_x = (max_x - world.getWidth() * 2) / 2;
     int shift_y = (max_y - world.getHeight()) / 2;
@@ -139,6 +148,8 @@ void Display::gameView() const {
         getch();
         return;
     }
+
+    worldPanel();
 
     for (size_t y = 0; y < (int)world.getHeight(); y++) {
         for (size_t x = 0; x < (int)world.getWidth(); x++) {

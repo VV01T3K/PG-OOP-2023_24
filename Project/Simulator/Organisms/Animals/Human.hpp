@@ -10,9 +10,33 @@ class Human : public Animal {
           immortality_left(json["immortality_left"]) {}
     Animal* construct() const override { return new Human(world); }
 
-   private:
     Direction nextMove = Direction::SELF;
     bool tryUseAbility = false;
+
+    std::string getNextMove() const {
+        switch (nextMove) {
+            case Direction::UP:
+                return "UP";
+            case Direction::DOWN:
+                return "DOWN";
+            case Direction::LEFT:
+                return "LEFT";
+            case Direction::RIGHT:
+                return "RIGHT";
+            default:
+                return "SELF";
+        }
+    }
+
+    std::string getAbiliyTime() const {
+        if (ability_cooldown > 0)
+            return std::to_string(ability_cooldown) + " (cooldown)";
+        if (immortality_left > 0)
+            return std::to_string(immortality_left) + " (immortality)";
+        return "Press SPACE to activate 🛡️immortality🛡️";
+    }
+
+   private:
     int ability_cooldown = 0;
     int immortality_left = 0;
 

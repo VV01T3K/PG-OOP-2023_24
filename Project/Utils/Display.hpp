@@ -27,6 +27,7 @@ class Display {
     void eraseWindows() const;
     void menu(bool &endFlag) const;
     void gameView() const;
+    void worldPanel() const;
     std::string getSaveFileName() const;
     std::string chooseSave() const;
 };

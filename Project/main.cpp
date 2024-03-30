@@ -27,7 +27,7 @@ int main() {
 
     World world(5, 5);
     Display display(world);
-    Controller controller(world);
+    Controller controller(world, display);
 
     world.populateWorld();
 
@@ -35,10 +35,7 @@ int main() {
     display.menu(endFlag);
     while (true) {
         if (endFlag) break;
-        char ch = getch();
-        if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
-            display.menu(endFlag);
-        // while (!controller.playerMove())
+        if (controller.playerMove()) display.menu(endFlag);
         display.gameView();
 
         world.simulate();
