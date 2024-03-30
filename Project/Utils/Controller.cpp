@@ -39,11 +39,12 @@ bool Controller::playerMove() {
             case KEY_SPACE:
                 world.getHuman()->switchAbility();
                 break;
-            default:
-                if (key == 'q' || key == KEY_EXIT || key == CTRL('c'))
-                    return true;
+            case 'q':
+            case KEY_EXIT:
+            case CTRL('c'):
+                return true;
         }
         display.worldPanel();
-    } while (key != '\n');
+    } while (key != '\n' || world.getHuman()->getNextMove() == Direction::SELF);
     return false;
 }

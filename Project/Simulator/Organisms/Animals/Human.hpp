@@ -13,7 +13,7 @@ class Human : public Animal {
     Direction nextMove = Direction::SELF;
     bool tryUseAbility = false;
 
-    std::string getNextMove() const {
+    std::string getNextMoveSTR() const {
         switch (nextMove) {
             case Direction::UP:
                 return "UP";
@@ -24,16 +24,19 @@ class Human : public Animal {
             case Direction::RIGHT:
                 return "RIGHT";
             default:
-                return "NONE";
+                return "Pls give me direction";
         }
     }
 
+    Direction getNextMove() const { return nextMove; }
+
     std::string getAbiliyInfo() const {
-        if (ability_cooldown > 0)
-            return std::to_string(ability_cooldown) + " (cooldown)";
         if (immortality_left > 0)
-            return std::to_string(immortality_left) + " (immortality)";
-        return "Press SPACE to activate 🛡️immortality🛡️";
+            return std::to_string(immortality_left) + " turns left";
+        if (ability_cooldown > 0)
+            return std::to_string(ability_cooldown) + " turns cooldown";
+        if (tryUseAbility) return "Using next turn";
+        return "Ready to use";
     }
 
    private:
