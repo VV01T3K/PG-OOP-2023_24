@@ -25,7 +25,7 @@ using namespace std;
 int main() {
     using namespace std;
 
-    World world(10, 10);
+    World world(20, 20);
 
     Display display(world);
 
