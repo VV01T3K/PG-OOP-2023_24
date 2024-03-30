@@ -55,16 +55,16 @@ nlohmann::json Organism::toJson() const {
 std::string Organism::getSymbol() const {
     static const std::map<Type, std::string> symbols = {
         {Type::ANTELOPE, "🦌"},
-        {Type::CYBER_SHEEP, "🐑"},
+        {Type::CYBER_SHEEP, "🤖"},
         {Type::FOX, "🦊"},
         {Type::HUMAN, "👨"},
         {Type::SHEEP, "🐑"},
         {Type::TURTLE, "🐢"},
         {Type::WOLF, "🐺"},
-        {Type::GRASS, "🌱"},
-        {Type::GUARANA, "🍒"},
-        {Type::MILKWEED, "🌿"},
-        {Type::SOSNOWSKY_HOGWEED, "🌿"},
+        {Type::GRASS, "🌿"},
+        {Type::GUARANA, "🍅"},
+        {Type::MILKWEED, "🌾"},
+        {Type::SOSNOWSKY_HOGWEED, "🍁"},
         {Type::WOLF_BERRIES, "🍇"}};
     return symbols.at(type);
 }
