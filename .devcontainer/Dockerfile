@@ -7,7 +7,7 @@ RUN apt update && apt upgrade -y && apt-get update && apt-get upgrade -y
 # Optionally install the cmake for vcpkg
 COPY ./reinstall-cmake.sh  /tmp/
 
- if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
+RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
         chmod +x /tmp/reinstall-cmake.sh && /tmp/reinstall-cmake.sh ${REINSTALL_CMAKE_VERSION_FROM_SOURCE}; \
     fi \
     && rm -f /tmp/reinstall-cmake.sh
@@ -16,7 +16,5 @@ COPY ./reinstall-cmake.sh  /tmp/
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 
 # [Optional] Uncomment this section to install additional packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-RUN apt-get -y install libncurses5-dev libncursesw5-dev
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends libncurses5-dev libncursesw5-dev
