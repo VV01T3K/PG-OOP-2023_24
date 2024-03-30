@@ -28,4 +28,5 @@ class Display {
     void menu(bool &endFlag) const;
     void gameView() const;
     std::string getSaveFileName() const;
+    std::string chooseSave() const;
 };

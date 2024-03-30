@@ -85,20 +85,13 @@ void Display::menu(bool &endFlag) const {
                 gameView();
                 break;
             case '2': {
-                std::vector<std::string> files = FileHandler::listSaves();
-                if (files.empty()) {
-                    mvwprintw(left, 1, 1, "No save files found");
-                    getch();
-                    break;
+                std::string saveName = chooseSave();
+                if (saveName != "") {
+                    FileHandler fileHandler(saveName);
+                    fileHandler.loadWorld(world);
+                    exitFlag = true;
+                    gameView();
                 }
-                int i = 0;
-                eraseWindows();
-                for (auto &file : files) {
-                    mvwprintw(left, i + 1, 1, to_string(i + 1).c_str());
-                    mvwprintw(left, i + 1, 3, file.c_str());
-                    i++;
-                }
-                refreshWindows();
             } break;
             case '3': {
                 std::string fileName = getSaveFileName();
@@ -106,7 +99,6 @@ void Display::menu(bool &endFlag) const {
                     FileHandler fileHandler(fileName);
                     fileHandler.saveWorld(world);
                 }
-
             } break;
             case '4':
             case KEY_EXIT:
@@ -174,6 +166,36 @@ std::string Display::getSaveFileName() const {
     char fileNameC[256];
     echo();
     mvwscanw(left, 2, 1, "%255s", fileNameC);
+    noecho();
+    if (fileNameC[0] == '\0') {
+        return "";
+    }
+    string fileName = fileNameC + string(".json");
+
+    curs_set(0);
+    eraseWindows();
+    return fileName;
+}
+
+std::string Display::chooseSave() const {
+    eraseWindows();
+    curs_set(1);
+
+    std::vector<std::string> saves = FileHandler::listSaves();
+    size_t i;
+    for (i = 0; i < saves.size(); i++) {
+        mvwprintw(left, i + 1, 1, saves[i].c_str());
+    }
+
+    int max_y = 0, max_x = 0;
+    getmaxyx(left, max_y, max_x);
+
+    mvwprintw(left, i + 2, 1, "Choose the save file:");
+    refreshWindows();
+
+    char fileNameC[256];
+    echo();
+    mvwscanw(left, i + 3, 1, "%255s", fileNameC);
     noecho();
     if (fileNameC[0] == '\0') {
         return "";

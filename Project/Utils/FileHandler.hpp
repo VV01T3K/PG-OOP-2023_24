@@ -2,6 +2,7 @@
 
 #include <dirent.h>
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -95,7 +96,12 @@ class FileHandler {
 
         if ((dir = opendir("../Project/Saves/")) != NULL) {
             while ((ent = readdir(dir)) != NULL) {
-                files.push_back(std::string(ent->d_name));
+                std::string filename(ent->d_name);
+                if (filename.size() >= 5 &&
+                    filename.substr(filename.size() - 5) == ".json") {
+                    filename = filename.substr(0, filename.size() - 5);
+                    files.push_back(filename);
+                }
             }
             closedir(dir);
         } else {
