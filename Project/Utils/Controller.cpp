@@ -14,7 +14,7 @@ Controller::~Controller(){};
 
 bool Controller::playerMove() {
     int key = 0;
-    while (key != '\n') {
+    do {
         key = getch();
         switch (key) {
             case KEY_UP:
@@ -37,13 +37,11 @@ bool Controller::playerMove() {
             case 32:
                 world.getHuman()->useAbility();
                 break;
-            case '\n':
-                return false;
             default:
                 if (key == 'q' || key == KEY_EXIT || key == CTRL('c'))
                     return true;
         }
         display.worldPanel();
-    }
+    } while (key != '\n');
     return false;
 }

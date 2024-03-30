@@ -36,9 +36,8 @@ int main() {
     while (true) {
         if (endFlag) break;
         if (controller.playerMove()) display.menu(endFlag);
-        display.gameView();
-
         world.simulate();
+        display.gameView();
     }
 
     return EXIT_SUCCESS;
