@@ -35,10 +35,10 @@ int main() {
     display.menu(endFlag);
     while (true) {
         if (endFlag) break;
-        display.gameView();
         char ch = getch();
         if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
             display.menu(endFlag);
+        display.gameView();
         world.simulate();
     }
 

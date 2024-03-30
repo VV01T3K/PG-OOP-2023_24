@@ -82,7 +82,7 @@ class FileHandler {
                 organism["type"].get<Organism::Type>(), organism, world));
         }
         world.setOrganisms(organisms);
-
+        world.clearLogs();
         closeFile();
     };
     FileHandler(std::string targetFilename, Mode mode = Mode::RW)

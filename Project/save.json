@@ -1,218 +1,152 @@
 {
   "organisms": [
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 0,
-      "power": 10,
+      "initiative": 7,
+      "old_tile_index": 91,
+      "power": 6,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 18,
-      "type": 10
+      "tile_index": 90,
+      "type": 2
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 0,
-      "power": 10,
+      "initiative": 5,
+      "old_tile_index": 18,
+      "power": 9,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 96,
-      "type": 10
+      "tile_index": 17,
+      "type": 6
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 0,
-      "power": 10,
+      "initiative": 4,
+      "old_tile_index": 67,
+      "power": 11,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 98,
-      "type": 10
+      "tile_index": 68,
+      "type": 1
     },
     {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 10,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 21,
-      "type": 10
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 10,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 52,
-      "type": 10
-    },
-    {
-      "age": 0,
+      "age": 10,
       "alive": true,
       "initiative": 0,
       "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 70,
+      "tile_index": 72,
       "type": 7
     },
     {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 0,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 15,
-      "type": 7
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 0,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 55,
-      "type": 8
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 0,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 66,
-      "type": 8
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 0,
-      "power": 0,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 32,
-      "type": 9
-    },
-    {
-      "age": 0,
+      "age": 10,
       "alive": true,
       "initiative": 0,
       "power": 99,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 29,
+      "tile_index": 88,
       "type": 11
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 5,
-      "old_tile_index": -1,
-      "power": 9,
+      "initiative": 0,
+      "power": 10,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 50,
-      "type": 6
+      "tile_index": 13,
+      "type": 10
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 4,
-      "old_tile_index": -1,
-      "power": 4,
+      "initiative": 0,
+      "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 49,
-      "type": 4
+      "tile_index": 73,
+      "type": 8
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 4,
-      "old_tile_index": -1,
-      "power": 11,
+      "initiative": 0,
+      "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 11,
-      "type": 1
+      "tile_index": 63,
+      "type": 7
     },
     {
-      "age": 0,
+      "age": 10,
       "alive": true,
-      "initiative": 7,
-      "old_tile_index": -1,
-      "power": 3,
+      "initiative": 0,
+      "power": 10,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 69,
+      "type": 10
+    },
+    {
+      "age": 10,
+      "alive": true,
+      "initiative": 0,
+      "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
       "tile_index": 62,
-      "type": 2
+      "type": 7
     },
     {
-      "age": 0,
+      "age": 8,
       "alive": true,
-      "initiative": 7,
-      "old_tile_index": -1,
-      "power": 3,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 98,
+      "type": 11
+    },
+    {
+      "age": 8,
+      "alive": true,
+      "initiative": 0,
+      "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
       "tile_index": 37,
-      "type": 2
+      "type": 8
     },
     {
-      "age": 0,
+      "age": 1,
       "alive": true,
-      "initiative": 1,
-      "old_tile_index": -1,
-      "power": 2,
-      "reproduction_cooldown": 0,
+      "initiative": 0,
+      "power": 0,
+      "reproduction_cooldown": 735174415,
       "skip": false,
-      "tile_index": 53,
-      "type": 5
+      "tile_index": 82,
+      "type": 7
     },
     {
-      "age": 0,
+      "age": 1,
       "alive": true,
-      "initiative": 1,
-      "old_tile_index": -1,
-      "power": 2,
+      "initiative": 0,
+      "power": 0,
       "reproduction_cooldown": 0,
       "skip": false,
-      "tile_index": 24,
-      "type": 5
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 4,
-      "old_tile_index": -1,
-      "power": 4,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 8,
-      "type": 0
-    },
-    {
-      "age": 0,
-      "alive": true,
-      "initiative": 4,
-      "old_tile_index": -1,
-      "power": 4,
-      "reproduction_cooldown": 0,
-      "skip": false,
-      "tile_index": 81,
-      "type": 0
+      "tile_index": 64,
+      "type": 7
     }
   ],
   "world": {
     "height": 10,
-    "time": 0,
+    "time": 10,
     "width": 10
   }
 }

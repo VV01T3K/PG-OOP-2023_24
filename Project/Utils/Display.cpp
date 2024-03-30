@@ -1,6 +1,5 @@
 #include "Display.hpp"
 
-#include <fstream>  // Include this for file operations
 #include <iostream>
 
 #include "../Simulator/Organisms/Animals/Human.hpp"
@@ -63,14 +62,10 @@ void Display::menu(bool &endFlag) const {
     int choice;
     bool exitFlag = false;
 
-    // Check if the game save file exists
-    std::ifstream ifile("../Project/save.json");
-    bool fileExists = ifile.good();
-
     while (!exitFlag) {
         // Print the menu in the left window
         bool shift = false;
-        if (fileExists) {
+        if (world.checkTime() > 0) {
             mvwprintw(left, 1, 1, "%d. Continue the game", 1);
             shift = true;
         }
@@ -90,6 +85,10 @@ void Display::menu(bool &endFlag) const {
                 break;
             case '2':
                 exitFlag = true;
+                world.setWorld(world.getWidth(), world.getHeight(), 0);
+                world.setOrganisms({});
+                world.generateOrganisms();
+                world.clearLogs();
                 gameView();
                 break;
             case '3': {
