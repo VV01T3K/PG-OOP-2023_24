@@ -81,8 +81,11 @@ void World::simulate() {
     for (auto organism : organisms) {
         if (organism->isSkipped()) continue;
         if (organism->isDead()) continue;
-        if (!GlobalSettings::AI_ACTION && organism != human) continue;
-        organism->action();
+        if (hasHuman() && organism == getHuman()) {
+            organism->action();
+        } else if (GlobalSettings::AI_ACTION)
+            organism->action();
+
         for (auto other : organisms) {
             if (other->isDead()) continue;
             if (organism == other) continue;
@@ -90,6 +93,8 @@ void World::simulate() {
                 organism->collision(*other);
         }
     }
+
+    if (hasHuman() && getHuman()->isDead()) unsetHuman();
 
     const auto handlePostRound = [](auto &organism) {
         if (organism->isDead()) {
@@ -143,7 +148,7 @@ void World::clearOrganisms() {
         delete organism;
     }
     organisms.clear();
-    human = nullptr;
+    unsetHuman();
 }
 void World::clearTiles() {
     for (auto tile : tiles) {
@@ -166,8 +171,8 @@ void World::resetWorld() {
 
 void World::populateWorld() {
     resetWorld();
-    this->human = new Human(*this);
-    addOrganism(this->human, getTile(RNG::roll(0, tiles.size() - 1)));
+    spreadOrganisms(new Human(*this), 1);
+    setHuman((Human *)organisms.back());
 
     spreadOrganisms(new SosnowskyHogweed(*this), 3);
     spreadOrganisms(new Grass(*this), 2);
@@ -187,8 +192,10 @@ void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
 
-void World::setHuman(Organism *human) {
-    this->human = dynamic_cast<Human *>(human);
+void World::setHuman(Human *human) {
+    this->human = human;
+    has_human = true;
 }
+void World::unsetHuman() { has_human = false; }
 Human *World::getHuman() const { return human; }
-bool World::hasHuman() const { return human != nullptr; }
+bool World::hasHuman() const { return has_human; }
