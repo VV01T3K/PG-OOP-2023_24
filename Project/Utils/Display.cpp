@@ -127,20 +127,13 @@ void Display::worldPanel() const {
     mvwprintw(bottomRight, 2, 3, timeStr.c_str());
     mvwprintw(bottomRight, 3, 3, organismsStr.c_str());
 
-    std::string nextMove = "Next move: " + world.getHuman()->getNextMoveSTR();
-    std::string ability =
-        "🔰 Immortality: " + world.getHuman()->getAbiliyInfo();
+    // std::string nextMove = "Next move: " +
+    // world.getHuman()->getNextMoveSTR(); std::string ability =
+    //     "🔰 Immortality: " + world.getHuman()->getAbiliyInfo();
 
-    mvwprintw(bottomRight, 4, 1, "Human:");
-    mvwprintw(bottomRight, 5, 3, nextMove.c_str());
-    mvwprintw(bottomRight, 6, 3, ability.c_str());
-
-    // has human
-    if (world.hasHuman()) {
-        // print humans address
-        mvwprintw(bottomRight, 7, 3, "Address: ");
-        wprintw(bottomRight, to_string((long)world.getHuman()).c_str());
-    }
+    // mvwprintw(bottomRight, 4, 1, "Human:");
+    // mvwprintw(bottomRight, 5, 3, nextMove.c_str());
+    // mvwprintw(bottomRight, 6, 3, ability.c_str());
 
     mvwprintw(bottomRight, 8, 1,
               "Press 'enter' to confirm the move or 'q' to exit");

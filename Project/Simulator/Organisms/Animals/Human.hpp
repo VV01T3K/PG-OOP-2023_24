@@ -20,12 +20,12 @@ class Human : public Animal {
    public:
     void action() override {
         if (GlobalSettings::HUMAN_AI) {
-            immortality.flipToggle();
             immortality.use();
-            Animal::action();
             immortality.update();
+            Animal::action();
             return;
         }
+        if (nextMove == Direction::SELF) return;
         if (immortality.checkToggle()) {
             immortality.use();
             immortality.flipToggle();

@@ -81,10 +81,9 @@ void World::simulate() {
     for (auto organism : organisms) {
         if (organism->isSkipped()) continue;
         if (organism->isDead()) continue;
-        if (hasHuman() && organism == getHuman()) {
-            organism->action();
-        } else if (GlobalSettings::AI_ACTION)
-            organism->action();
+        if (!GlobalSettings::AI_ACTION && typeid(*organism) != typeid(Human))
+            continue;
+        organism->action();
 
         for (auto other : organisms) {
             if (other->isDead()) continue;
@@ -94,11 +93,10 @@ void World::simulate() {
         }
     }
 
-    if (hasHuman() && getHuman()->isDead()) unsetHuman();
-
-    const auto handlePostRound = [](auto &organism) {
+    const auto handlePostRound = [&](auto &organism) {
         if (organism->isDead()) {
             organism->getTile()->removeOrganism(organism);
+            if (typeid(*organism) == typeid(Human)) human = nullptr;
             delete organism;
             return true;
         }
@@ -148,7 +146,7 @@ void World::clearOrganisms() {
         delete organism;
     }
     organisms.clear();
-    unsetHuman();
+    human = nullptr;
 }
 void World::clearTiles() {
     for (auto tile : tiles) {
@@ -171,8 +169,10 @@ void World::resetWorld() {
 
 void World::populateWorld() {
     resetWorld();
+
     spreadOrganisms(new Human(*this), 1);
-    setHuman((Human *)organisms.back());
+    Human *tempHuman = dynamic_cast<Human *>(organisms.back());
+    human = &tempHuman;
 
     spreadOrganisms(new SosnowskyHogweed(*this), 3);
     spreadOrganisms(new Grass(*this), 2);
@@ -192,10 +192,13 @@ void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
 
-void World::setHuman(Human *human) {
-    this->human = human;
-    has_human = true;
-}
-void World::unsetHuman() { has_human = false; }
-Human *World::getHuman() const { return human; }
-bool World::hasHuman() const { return has_human; }
+// void World::setHuman(Human *human) {
+//     this->human = human;
+//     has_human = true;
+// }
+// void World::unsetHuman() {
+//     has_human = false;
+//     if (human != nullptr) human->Die();
+// }
+// Human *World::getHuman() const { return human; }
+// bool World::hasHuman() const { return has_human; }
