@@ -49,7 +49,7 @@ void Display::refreshWindows() const {
     wrefresh(bottomRight);
 }
 
-void Display::clearWindows() const {
+void Display::eraseWindows() const {
     werase(left);         // Clear the left window
     werase(topRight);     // Clear the topRight window
     werase(bottomRight);  // Clear the bottomRight window
@@ -58,7 +58,7 @@ void Display::clearWindows() const {
 void Display::menu() const {
     // menu with ncurses
 
-    clearWindows();  // Clear the windows
+    eraseWindows();  // Clear the windows
 
     int choice;
     bool exit = false;
@@ -95,54 +95,58 @@ void Display::menu() const {
 }
 void Display::gameView() const {
     bool exit = false;
+    while (!exit) {
+        werase(left);  // Clear the left window
 
-    clearWindows();  // Clear the windows
+        // Get the maximum window size
+        int max_y = 0, max_x = 0;
+        getmaxyx(left, max_y, max_x);
 
-    // Get the maximum window size
-    int max_y = 0, max_x = 0;
-    getmaxyx(left, max_y, max_x);
+        mvwprintw(bottomRight, 1, 1, "Time: %d", world.checkTime());
+        mvwprintw(bottomRight, 2, 1, "Organisms: %d",
+                  world.getOrganisms().size());
 
-    // Print time and world size in the top right window
-    mvwprintw(topRight, 1, 1, "Time: %d", world.checkTime());
-    mvwprintw(topRight, 2, 1, "World size: %dx%d", world.getWidth(),
-              world.getHeight());
+        int shift_x = (max_x - world.getWidth() * 2) / 2;
+        int shift_y = (max_y - world.getHeight()) / 2;
 
-    int shift_x = (max_x - world.getWidth() * 2) / 2;
-    int shift_y = (max_y - world.getHeight()) / 2;
+        // print error
+        if (shift_x < 0 || shift_y < 0) {
+            mvwprintw(left, 1, 1, "Window too small");
+            refreshWindows();
+            getch();
+            return;
+        }
 
-    // print error
-    if (shift_x < 0 || shift_y < 0) {
-        mvwprintw(left, 1, 1, "Window too small");
-        refreshWindows();
-        getch();
-        return;
-    }
-
-    // Print the world in the left window
-    for (size_t y = 0; y < std::min(max_y, (int)world.getHeight()); y++) {
-        for (size_t x = 0; x < std::min(max_x, (int)world.getWidth()); x++) {
-            Tile *tile = world.getTile(x, y);
-            if (!tile->isFree()) {
-                mvwaddwstr(left, y + shift_y,
-                           x + shift_x,  // Shifted one to the right
-                           tile->getOrganism()
-                               ->getSymbol()
-                               .c_str());  // Draw the organism
-            } else {
-                mvwaddwstr(
-                    left, y + shift_y, x + shift_x,
-                    L"🔳");  // Shifted one to the right, Draw an empty tile
+        // Print the world in the left window
+        for (size_t y = 0; y < std::min(max_y, (int)world.getHeight()); y++) {
+            for (size_t x = 0; x < std::min(max_x, (int)world.getWidth());
+                 x++) {
+                Tile *tile = world.getTile(x, y);
+                if (!tile->isFree()) {
+                    std::string str = tile->getOrganism()->getSymbol();
+                    std::wstring wstr(str.length(),
+                                      L' ');  // Allocate enough space
+                    std::mbstowcs(&wstr[0], str.c_str(),
+                                  str.length());  // Convert
+                    mvwaddwstr(left, y + shift_y, x + shift_x,
+                               wstr.c_str());  // Draw the organism
+                } else {
+                    mvwaddwstr(
+                        left, y + shift_y, x + shift_x,
+                        L"🔳");  // Shifted one to the right, Draw an empty tile
+                }
             }
         }
+
+        // Print the logs in the topRight window
+        for (size_t i = 0; i < std::min(max_y, (int)world.getLogs().size());
+             i++) {
+            mvwprintw(topRight, i + 1, 1, world.getLogs()[i].c_str());
+        }
+
+        refreshWindows();  // Refresh the windows
+
+        getch();  // Wait for a key press
+        exit = true;
     }
-
-    // Print the number of entities in the bottom right window
-    mvwprintw(bottomRight, world.getHeight() + 3, 1, "Entities: %d",
-              world.getOrganimsCount());
-
-    refreshWindows();  // Refresh the windows
-
-    getch();  // Wait for a key press
-
-    // Delete the windows when you're done with them
 }

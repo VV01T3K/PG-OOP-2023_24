@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <random>
+#include <string>
 
 #include "../@Organism.hpp"
 
@@ -20,6 +21,8 @@ class Plant : public Organism {
             world.addOrganism(newPlant, newtile);
             // this->setSpreadCooldown(5);
             // newPlant->setSpreadCooldown(5);
+
+            world.addLog(getSymbol() + " is spreading!!");
         }
     }
     virtual void collision(Organism& other) override {}

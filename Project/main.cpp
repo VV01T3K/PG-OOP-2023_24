@@ -22,13 +22,31 @@ using namespace std;
 int main() {
     using namespace std;
 
-    World world(30, 30);
+    World world(2, 2);
 
     Display display(world);
 
     world.addLog("Hello World!");
 
-    world.spreadOrganisms(new Sheep(world), 5);
+    world.spreadOrganisms(new Milkweed(world), 1);
+
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
+    world.simulate();
 
     display.menu();
 

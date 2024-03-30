@@ -36,19 +36,19 @@ class Organism {
         SOSNOWSKY_HOGWEED,
         WOLF_BERRIES
     };
-    const std::map<Type, std::wstring> TypeSymbols = {
-        {Type::ANTELOPE, L"🦌"},
-        {Type::CYBER_SHEEP, L"🤖"},
-        {Type::FOX, L"🦊"},
-        {Type::HUMAN, L"🧑"},
-        {Type::SHEEP, L"🐑"},
-        {Type::TURTLE, L"🐢"},
-        {Type::WOLF, L"🐺"},
-        {Type::GRASS, L"🌿"},
-        {Type::GUARANA, L"🍅"},
-        {Type::MILKWEED, L"🌾"},
-        {Type::SOSNOWSKY_HOGWEED, L"🍁"},
-        {Type::WOLF_BERRIES, L"🫐 "}};
+    const std::map<Type, std::string> TypeSymbols = {
+        {Type::ANTELOPE, "🦌"},
+        {Type::CYBER_SHEEP, "🤖"},
+        {Type::FOX, "🦊"},
+        {Type::HUMAN, "🧑"},
+        {Type::SHEEP, "🐑"},
+        {Type::TURTLE, "🐢"},
+        {Type::WOLF, "🐺"},
+        {Type::GRASS, "🌿"},
+        {Type::GUARANA, "🍅"},
+        {Type::MILKWEED, "🌾"},
+        {Type::SOSNOWSKY_HOGWEED, "🍁"},
+        {Type::WOLF_BERRIES, "🫐 "}};
 
     const Type type;
     Organism(Type type, int power, int initiative, World &world);
@@ -75,8 +75,8 @@ class Organism {
     virtual void collision(Organism &other) = 0;
     virtual bool collisionReaction(Organism &other) = 0;
 
-    virtual std::wstring getSymbol() const { return TypeSymbols.at(type); }
-    virtual void draw() const { std::wcout << getSymbol(); }
+    virtual std::string getSymbol() const { return TypeSymbols.at(type); }
+    virtual void draw() const { std::cout << getSymbol(); }
 
     virtual Organism *construct() const = 0;
     virtual nlohmann::json toJson() const;

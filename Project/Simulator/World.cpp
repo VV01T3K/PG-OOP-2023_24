@@ -99,6 +99,8 @@ void World::simulate() {
     organisms.erase(
         std::remove_if(organisms.begin(), organisms.end(), handlePostRound),
         organisms.end());
+
+    // this->clearLogs();
 }
 
 size_t World::getOrganimsCount() const { return organisms.size(); }
