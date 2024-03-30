@@ -42,10 +42,17 @@ class Animal : public Organism {
             newAnimal->setBreedCooldown(10);
             world.addOrganism(newAnimal, newtile);
 
+            world.addLog(this->getSymbol() + " and " + other.getSymbol() +
+                         " bred a new " + newAnimal->getSymbol() + "!");
+
         } else if (power > other.getPower()) {
             other.Die();
+            world.addLog(this->getSymbol() + " killed " + other.getSymbol() +
+                         "!");
         } else {
             this->Die();
+            world.addLog(this->getSymbol() + " was killed by " +
+                         other.getSymbol() + "!");
         }
     }
     virtual bool collisionReaction(Organism& other) override { return false; }

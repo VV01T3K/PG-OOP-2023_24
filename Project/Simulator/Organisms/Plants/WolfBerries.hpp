@@ -10,6 +10,7 @@ class WolfBerries : public Plant {
     bool collisionReaction(Organism& other) override {
         other.Die();
         Die();
+        world.addLog(other.getSymbol() + " ate " + getSymbol() + " and died!");
         return true;
     }
 };

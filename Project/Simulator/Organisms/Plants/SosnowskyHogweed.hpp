@@ -3,6 +3,9 @@
 #include "@Plant.hpp"
 
 class SosnowskyHogweed : public Plant {
+   private:
+    std::vector<std::string> killed;
+
    public:
     SosnowskyHogweed(World& world)
         : Plant(10, world, Type::SOSNOWSKY_HOGWEED) {}
@@ -17,6 +20,16 @@ class SosnowskyHogweed : public Plant {
             if (neighbour->getOrganism()->type == Type::CYBER_SHEEP) continue;
 
             neighbour->getOrganism()->Die();
+            killed.push_back(neighbour->getOrganism()->getSymbol());
+        }
+        if (killed.size() > 0) {
+            std::string log = getSymbol() + " killed ";
+            for (size_t i = 0; i < killed.size(); i++) {
+                log += killed[i];
+                if (i != killed.size() - 1) log += ", ";
+            }
+            world.addLog(log + "!");
+            killed.clear();
         }
     }
 
@@ -25,6 +38,7 @@ class SosnowskyHogweed : public Plant {
         if (other.type == Type::CYBER_SHEEP) return false;
         other.Die();
         Die();
+        world.addLog(other.getSymbol() + " ate " + getSymbol() + " and died!");
         return true;
     }
 };

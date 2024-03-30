@@ -28,6 +28,8 @@ class Antelope : public Animal {
                 Animal::collision(other);
                 return;
             }
+            world.addLog(getSymbol() + " escaped from " + other.getSymbol() +
+                         "!");
             move(newTile);
         } else
             Animal::collision(other);
@@ -37,6 +39,8 @@ class Antelope : public Animal {
         if (RNG::roll(0, 100) < 50) {
             Tile* newTile = tile->getRandomFreeNeighbour();
             if (newTile == nullptr) return false;
+            world.addLog(getSymbol() + " escaped from " + other.getSymbol() +
+                         "!");
             move(newTile);
             return true;
         }

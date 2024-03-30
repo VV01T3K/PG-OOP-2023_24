@@ -10,6 +10,8 @@ class Guarana : public Plant {
     bool collisionReaction(Organism& other) override {
         other.setPower(other.getPower() + 3);
         Die();
+        world.addLog(other.getSymbol() + " ate " + getSymbol() +
+                     " and gained 3 power!");
         return true;
     }
 };

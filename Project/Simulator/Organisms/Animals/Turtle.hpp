@@ -17,6 +17,8 @@ class Turtle : public Animal {
         if (typeid(other) == typeid(Turtle)) return false;
         if (other.getPower() < 5) {
             dynamic_cast<Animal*>(&other)->undoMove();
+            world.addLog(other.getSymbol() + " tried to attack " + getSymbol() +
+                         " but failed!");
             return true;
         }
         return false;
