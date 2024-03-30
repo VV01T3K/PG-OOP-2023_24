@@ -29,28 +29,16 @@ int main() {
 
     Display display(world);
 
-    world.spreadOrganisms(new SosnowskyHogweed(world), 5);
-    world.spreadOrganisms(new Grass(world), 2);
-    world.spreadOrganisms(new Guarana(world), 2);
-    world.spreadOrganisms(new Milkweed(world), 1);
-    world.spreadOrganisms(new WolfBerries(world), 1);
-
-    world.spreadOrganisms(new Wolf(world), 1);
-    world.spreadOrganisms(new Sheep(world), 1);
-    world.spreadOrganisms(new CyberSheep(world), 1);
-    world.spreadOrganisms(new Fox(world), 2);
-    world.spreadOrganisms(new Turtle(world), 2);
-    world.spreadOrganisms(new Antelope(world), 2);
-
-    display.menu();
+    world.generateOrganisms();
 
     bool endFlag = false;
+    display.menu(endFlag);
     while (true) {
         if (endFlag) break;
         display.gameView();
         char ch = getch();
         if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
-            display.menu(&endFlag);
+            display.menu(endFlag);
         world.simulate();
     }
 

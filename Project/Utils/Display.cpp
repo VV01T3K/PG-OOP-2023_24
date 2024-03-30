@@ -1,8 +1,10 @@
 #include "Display.hpp"
 
+#include <fstream>  // Include this for file operations
 #include <iostream>
 
 #include "../Simulator/Organisms/Animals/Human.hpp"
+#include "FileHandler.hpp"
 
 using namespace std;
 
@@ -55,39 +57,52 @@ void Display::eraseWindows() const {
     werase(bottomRight);  // Clear the bottomRight window
 }
 
-void Display::menu(bool *endFlag) const {
-    // menu with ncurses
-
+void Display::menu(bool &endFlag) const {
     eraseWindows();  // Clear the windows
 
     int choice;
     bool exitFlag = false;
 
+    // Check if the game save file exists
+    std::ifstream ifile("../Project/save.json");
+    bool fileExists = ifile.good();
+
     while (!exitFlag) {
         // Print the menu in the left window
-        mvwprintw(left, 1, 1, "1. Start the game");
-        mvwprintw(left, 2, 1, "2. Load the game");
-        mvwprintw(left, 3, 1, "3. Save the game");
-        mvwprintw(left, 4, 1, "4. Exit");
+        bool shift = false;
+        if (fileExists) {
+            mvwprintw(left, 1, 1, "%d. Continue the game", 1);
+            shift = true;
+        }
+        mvwprintw(left, 1 + shift, 1, "%d. Start the game", 1 + shift);
+        mvwprintw(left, 2 + shift, 1, "%d. Load the game", 2 + shift);
+        mvwprintw(left, 3 + shift, 1, "%d. Save the game", 3 + shift);
+        mvwprintw(left, 4 + shift, 1, "%d. Exit", 4 + shift);
 
         refreshWindows();  // Refresh the windows
 
-        choice = wgetch(left);  // Get the user's choice from the left window
+        choice = wgetch(left);
 
-        switch (choice) {
+        switch (choice + !shift) {
             case '1':
                 exitFlag = true;
                 gameView();
                 break;
             case '2':
-                // loadGame();
-                break;
-            case '3':
-                // saveGame();
-                break;
-            case '4':
                 exitFlag = true;
-                *endFlag = true;
+                gameView();
+                break;
+            case '3': {
+                FileHandler fileHandler("save.json");
+                fileHandler.loadWorld(world);
+            } break;
+            case '4': {
+                FileHandler fileHandler("save.json");
+                fileHandler.saveWorld(world);
+            } break;
+            case '5':
+                exitFlag = true;
+                endFlag = true;
                 break;
             default:
                 break;

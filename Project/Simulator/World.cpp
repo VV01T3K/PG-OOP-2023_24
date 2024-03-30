@@ -1,5 +1,7 @@
 #include "World.hpp"
 
+#include "Organisms/[OrganismPack].hpp"
+
 void World::createBoard(size_t width, size_t height) {
     tiles.reserve(width * height);
     for (size_t i = 0; i < width * height; i++) {
@@ -146,3 +148,18 @@ void World::clearTiles() {
 void World::addLog(std::string log) { logs.push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return logs; }
 void World::clearLogs() { logs.clear(); }
+
+void World::generateOrganisms() {
+    spreadOrganisms(new SosnowskyHogweed(*this), 5);
+    spreadOrganisms(new Grass(*this), 2);
+    spreadOrganisms(new Guarana(*this), 2);
+    spreadOrganisms(new Milkweed(*this), 1);
+    spreadOrganisms(new WolfBerries(*this), 1);
+
+    spreadOrganisms(new Wolf(*this), 1);
+    spreadOrganisms(new Sheep(*this), 1);
+    spreadOrganisms(new CyberSheep(*this), 1);
+    spreadOrganisms(new Fox(*this), 2);
+    spreadOrganisms(new Turtle(*this), 2);
+    spreadOrganisms(new Antelope(*this), 2);
+}

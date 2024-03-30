@@ -17,7 +17,7 @@ class FileHandler {
     const std::string filename;
     std::fstream file;
 
-    void openFile(Mode mode) {
+    bool openFile(Mode mode) {
         if (file.is_open()) file.close();
 
         if (mode == Mode::R)
@@ -33,7 +33,8 @@ class FileHandler {
         else
             throw std::invalid_argument("Invalid mode");
 
-        if (!file.is_open()) throw std::runtime_error("Failed to open file");
+        // if (!file.is_open()) throw std::runtime_error("Failed to open file");
+        return file.is_open();
     }
 
     void closeFile() {
@@ -42,7 +43,7 @@ class FileHandler {
 
    public:
     void saveWorld(const World& world) {
-        openFile(Mode::W);
+        if (!openFile(Mode::W)) return;
 
         nlohmann::json json;
         nlohmann::json jsonOrganisms = nlohmann::json::array();
@@ -65,7 +66,7 @@ class FileHandler {
     };
 
     void loadWorld(World& world) {
-        openFile(Mode::R);
+        if (!openFile(Mode::R)) return;
 
         OrganismFactory factory;
         nlohmann::json json;
