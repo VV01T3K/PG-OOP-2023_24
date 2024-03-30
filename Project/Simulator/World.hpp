@@ -30,6 +30,10 @@ class World {
     const std::vector<std::string> &getLogs() const;
     void clearLogs();
 
+    void populateWorld();
+    void cleanTiles();
+    void resetWorld();
+
     void setWorld(size_t width, size_t height, size_t time);
 
     void createBoard(size_t width, size_t height);
