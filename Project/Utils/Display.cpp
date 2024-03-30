@@ -74,16 +74,19 @@ void Display::menu(bool &endFlag) const {
         int ch = wgetch(left);
 
         switch (ch) {
+            // case Continue the game
             case '0':
                 exitFlag = true;
                 gameView();
                 break;
+            // case Start the game
             case '1':
                 exitFlag = true;
                 world.resetWorld();
                 world.populateWorld();
                 gameView();
                 break;
+            // case Load the game
             case '2': {
                 std::string saveName = chooseSave();
                 if (saveName != "") {
@@ -93,6 +96,7 @@ void Display::menu(bool &endFlag) const {
                     gameView();
                 }
             } break;
+            // case Save the game
             case '3': {
                 std::string fileName = getSaveFileName();
                 if (fileName != "") {
@@ -100,6 +104,7 @@ void Display::menu(bool &endFlag) const {
                     fileHandler.saveWorld(world);
                 }
             } break;
+            // case Exit
             case '4':
             case KEY_EXIT:
             case CTRL('c'):
