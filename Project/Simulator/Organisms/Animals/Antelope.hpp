@@ -9,7 +9,8 @@ class Antelope : public Animal {
 
     void action() override {
         Animal::action();
-        if (tile->getOrganismCount() > 1) return;
+        if (tile->getOrganismCount() > 1)
+            if (tile->getOrganism()->isAlive()) return;
         std::vector<Tile*> neighbours = tile->getNeighbours();
         neighbours.erase(
             std::remove(neighbours.begin(), neighbours.end(), oldTile),
@@ -28,19 +29,18 @@ class Antelope : public Animal {
                 Animal::collision(other);
                 return;
             }
+            move(newTile);
             world.addLog(getSymbol() + " escaped from " + other.getSymbol() +
                          "!");
-            move(newTile);
         } else
             Animal::collision(other);
     }
 
     bool collisionReaction(Organism& other) override {
+        if (typeid(other) == typeid(Antelope)) return false;
         if (RNG::roll(0, 100) < 50) {
             Tile* newTile = tile->getRandomFreeNeighbour();
             if (newTile == nullptr) return false;
-            world.addLog(getSymbol() + " escaped from " + other.getSymbol() +
-                         "!");
             move(newTile);
             return true;
         }
