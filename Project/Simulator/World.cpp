@@ -91,6 +91,7 @@ void World::simulate() {
     const auto handlePostRound = [](auto &organism) {
         if (organism->isDead()) {
             organism->getTile()->removeOrganism(organism);
+            delete organism;
             return true;
         }
         organism->Age();
@@ -106,16 +107,18 @@ void World::simulate() {
 size_t World::getOrganimsCount() const { return organisms.size(); }
 
 void World::spreadOrganisms(Organism *organism, size_t count) {
-    if (count <= 0) return;
-    const size_t max = width * height;
-    while (true) {
-        if (getOrganimsCount() == max) break;
-        Tile *tile = tiles[RNG::roll(0, tiles.size() - 1)];
-        if (tile->isFree()) {
-            addOrganism(organism->construct(), tile);
-            if (!--count) break;
+    if (count > 0) {
+        const size_t max = width * height;
+        while (true) {
+            if (getOrganimsCount() == max) break;
+            Tile *tile = tiles[RNG::roll(0, tiles.size() - 1)];
+            if (tile->isFree()) {
+                addOrganism(organism->construct(), tile);
+                if (!--count) break;
+            }
         }
     }
+    delete organism;
 }
 
 void World::linkOrganismsWithTiles() {
