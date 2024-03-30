@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define KEY_SPACE 32
+
 Controller::Controller(World &world, Display &display)
     : world(world), display(display) {}
 Controller::~Controller(){};
@@ -34,8 +36,8 @@ bool Controller::playerMove() {
                 world.getHuman()->setNextMove(Direction::RIGHT);
                 break;
             // space
-            case 32:
-                world.getHuman()->useAbility();
+            case KEY_SPACE:
+                world.getHuman()->switchAbility();
                 break;
             default:
                 if (key == 'q' || key == KEY_EXIT || key == CTRL('c'))

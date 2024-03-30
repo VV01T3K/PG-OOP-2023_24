@@ -127,9 +127,11 @@ void Display::worldPanel() const {
     mvwprintw(bottomRight, 2, 3, timeStr.c_str());
     mvwprintw(bottomRight, 3, 3, organismsStr.c_str());
 
+    std::string nextMove = "Next move: " + world.getHuman()->getNextMove();
+    std::string ability = "Ability: " + world.getHuman()->getAbiliyInfo();
+
     mvwprintw(bottomRight, 4, 1, "Human:");
-    mvwprintw(bottomRight, 5, 3, "Next move: ");
-    mvwprintw(bottomRight, 6, 3, world.getHuman()->getNextMove().c_str());
+    mvwprintw(bottomRight, 5, 3, nextMove.c_str());
 
     refreshWindows();
 }

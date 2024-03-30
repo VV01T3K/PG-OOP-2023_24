@@ -24,11 +24,11 @@ class Human : public Animal {
             case Direction::RIGHT:
                 return "RIGHT";
             default:
-                return "SELF";
+                return "NONE";
         }
     }
 
-    std::string getAbiliyTime() const {
+    std::string getAbiliyInfo() const {
         if (ability_cooldown > 0)
             return std::to_string(ability_cooldown) + " (cooldown)";
         if (immortality_left > 0)
@@ -103,5 +103,5 @@ class Human : public Animal {
     }
 
     void setNextMove(Direction direction) { nextMove = direction; }
-    void useAbility() { tryUseAbility = true; }
+    void switchAbility() { tryUseAbility = !tryUseAbility; }
 };

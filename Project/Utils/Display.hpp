@@ -15,7 +15,6 @@ class World;
 class Display {
    private:
     World &world;
-    // Create three windows
     WINDOW *left;
     WINDOW *topRight;
     WINDOW *bottomRight;
