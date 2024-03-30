@@ -25,7 +25,7 @@ class Display {
     ~Display();
     void refreshWindows() const;
     void eraseWindows() const;
-    void menu() const;
+    void menu(bool *endFlag = nullptr) const;
     void gameView() const;
     // void saveGame() const;
     // void loadGame() const;

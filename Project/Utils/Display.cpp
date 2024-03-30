@@ -55,15 +55,15 @@ void Display::eraseWindows() const {
     werase(bottomRight);  // Clear the bottomRight window
 }
 
-void Display::menu() const {
+void Display::menu(bool *endFlag) const {
     // menu with ncurses
 
     eraseWindows();  // Clear the windows
 
     int choice;
-    bool exit = false;
+    bool exitFlag = false;
 
-    while (!exit) {
+    while (!exitFlag) {
         // Print the menu in the left window
         mvwprintw(left, 1, 1, "1. Start the game");
         mvwprintw(left, 2, 1, "2. Load the game");
@@ -76,7 +76,7 @@ void Display::menu() const {
 
         switch (choice) {
             case '1':
-                exit = true;
+                exitFlag = true;
                 gameView();
                 break;
             case '2':
@@ -86,7 +86,8 @@ void Display::menu() const {
                 // saveGame();
                 break;
             case '4':
-                exit = true;
+                exitFlag = true;
+                *endFlag = true;
                 break;
             default:
                 break;
@@ -94,8 +95,8 @@ void Display::menu() const {
     }
 }
 void Display::gameView() const {
-    // bool exit = false;
-    // while (!exit) {
+    // bool exitFlag = false;
+    // while (!exitFlag) {
     eraseWindows();  // Clear the windows
 
     // Get the maximum window size
@@ -143,6 +144,6 @@ void Display::gameView() const {
 
     refreshWindows();  // Refresh the windows
 
-    //     exit = true;
+    //     exitFlag = true;
     // }
 }

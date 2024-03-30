@@ -1,3 +1,6 @@
+#include <ncurses.h>
+#define CTRL(c) ((c) & 037)
+
 #include <algorithm>  // Algorithms library, provides a collection of functions especially designed to be used on ranges of elements.
 #include <cassert>  // Macro that can be used to verify assumptions made by the program and print a diagnostic message if this assumption is false.
 #include <cctype>  // Functions to determine the type contained in character data.
@@ -41,11 +44,14 @@ int main() {
 
     display.menu();
 
+    bool endFlag = false;
     while (true) {
-        world.simulate();
+        if (endFlag) break;
         display.gameView();
-        if (getch() == 'q') break;
-        // cin.get();
+        char ch = getch();
+        if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
+            display.menu(&endFlag);
+        world.simulate();
     }
 
     return EXIT_SUCCESS;

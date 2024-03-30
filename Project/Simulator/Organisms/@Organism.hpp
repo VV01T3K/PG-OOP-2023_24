@@ -48,7 +48,7 @@ class Organism {
         {Type::GUARANA, "🍅"},
         {Type::MILKWEED, "🌾"},
         {Type::SOSNOWSKY_HOGWEED, "🍁"},
-        {Type::WOLF_BERRIES, "🫐 "}};
+        {Type::WOLF_BERRIES, "🍇"}};
 
     const Type type;
     Organism(Type type, int power, int initiative, World &world);
