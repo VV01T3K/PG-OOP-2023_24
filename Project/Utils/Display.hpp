@@ -1,5 +1,5 @@
 #pragma once
-
+#define CTRL(c) ((c) & 037)
 #include <locale.h>
 #include <ncurses.h>
 

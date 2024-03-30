@@ -59,7 +59,6 @@ void Display::eraseWindows() const {
 void Display::menu(bool &endFlag) const {
     eraseWindows();  // Clear the windows
 
-    int choice;
     bool exitFlag = false;
 
     while (!exitFlag) {
@@ -76,9 +75,14 @@ void Display::menu(bool &endFlag) const {
 
         refreshWindows();  // Refresh the windows
 
-        choice = wgetch(left);
+        int ch = wgetch(left);
+        if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c')) {
+            endFlag = true;
+            exitFlag = true;
+            return;
+        }
 
-        switch (choice + !shift) {
+        switch (ch + !shift) {
             case '1':
                 exitFlag = true;
                 gameView();
