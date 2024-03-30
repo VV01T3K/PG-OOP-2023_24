@@ -163,6 +163,9 @@ void World::resetWorld() {
 
 void World::populateWorld() {
     resetWorld();
+    this->human = new Human(*this);
+    addOrganism(this->human, getTile(RNG::roll(0, tiles.size() - 1)));
+
     spreadOrganisms(new SosnowskyHogweed(*this), 5);
     spreadOrganisms(new Grass(*this), 2);
     spreadOrganisms(new Guarana(*this), 2);
@@ -175,7 +178,6 @@ void World::populateWorld() {
     spreadOrganisms(new Fox(*this), 2);
     spreadOrganisms(new Turtle(*this), 2);
     spreadOrganisms(new Antelope(*this), 1);
-    spreadOrganisms(new Human(*this), 1);
 }
 
 void World::addLog(std::string log) { logs->push_back(log); }

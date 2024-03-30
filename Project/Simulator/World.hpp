@@ -20,6 +20,7 @@ class World {
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;
     std::vector<std::string> *logs = new std::vector<std::string>();
+    Organism *human = nullptr;
 
    public:
     World() = default;
