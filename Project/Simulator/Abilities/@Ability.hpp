@@ -6,6 +6,7 @@ class Ability {
     const int default_duration;
     int cooldown = 0;
     int duration = 0;
+    bool toggle = false;
 
    public:
     Ability(int cooldown, int duration)
@@ -18,11 +19,14 @@ class Ability {
           default_duration(default_duration) {}
     ~Ability() = default;
 
-    bool isReady() { return cooldown == 0; }
-    bool isActive() { return duration > 0; }
+    bool isReady() const { return cooldown == 0; }
+    bool isActive() const { return duration > 0; }
 
     int getCooldown() const { return cooldown; }
     int getDuration() const { return duration; }
+    bool checkToggle() const { return toggle; }
+
+    void flipToggle() { toggle = !toggle; }
 
     void use() {
         if (isReady() && !isActive()) {

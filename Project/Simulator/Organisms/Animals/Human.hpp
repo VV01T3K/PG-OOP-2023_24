@@ -14,48 +14,34 @@ class Human : public Animal {
 
    private:
     Direction nextMove = Direction::SELF;
-    bool toggleAbility = false;
     friend class Immortality;
     Immortality immortality;
 
-    void immortalityEffect(Organism& other) {
-        Tile* newtile = tile->getRandomFreeNeighbour();
-        if (newtile == nullptr) tile->getRandomNeighbour();
-        if (newtile == nullptr) {
-            dynamic_cast<Animal*>(&other)->undoMove();
-            return;
-        }
-        move(newtile);
-        if (tile->getOrganismCount() > 1) this->collision(*tile->getOrganism());
-    }
-
    public:
     void action() override {
-        if (toggleAbility) {
-            toggleAbility = false;
-            // immortality();
+        if (immortality.checkToggle()) {
+            immortality.use();
+            immortality.flipToggle();
         }
-        // updateAbilities();
-        if (nextMove != Direction::SELF) {
-            move(nextMove);
-            nextMove = Direction::SELF;
-        }
+        immortality.update();
+        move(nextMove);
+        nextMove = Direction::SELF;
     }
 
     void collision(Organism& other) override {
-        // if (immortality()) {
-        immortalityEffect(other);
-        // }
-        // else
-        Animal::collision(other);
+        if (immortality.isActive()) {
+            immortality.effect(*this, other);
+            return;
+        } else
+            Animal::collision(other);
     }
 
     bool collisionReaction(Organism& other) override {
-        // if (immortality()) {
-        //     immortalityEffect(other);
-        //     return true;
-        // } else
-        return false;
+        if (immortality.isActive()) {
+            immortality.effect(*this, other);
+            return true;
+        } else
+            return false;
     }
 
     nlohmann::json toJson() const override {
@@ -66,7 +52,7 @@ class Human : public Animal {
     }
 
     void setNextMove(Direction direction) { nextMove = direction; }
-    void switchAbility() { toggleAbility = !toggleAbility; }
+    void toggleImortality() { immortality.flipToggle(); }
 
     std::string getNextMoveSTR() const {
         switch (nextMove) {
@@ -86,11 +72,12 @@ class Human : public Animal {
     Direction getNextMove() const { return nextMove; }
 
     std::string getAbiliyInfo() const {
-        // if (immortality_left > 0)
-        //     return std::to_string(immortality_left) + " turns left";
-        // if (ability_cooldown > 0)
-        //     return std::to_string(ability_cooldown) + " turns cooldown";
-        // if (toggleAbility) return "Using next turn";
+        if (immortality.isActive())
+            return std::to_string(immortality.getDuration()) + " turns left";
+        if (!immortality.isReady())
+            return std::to_string(immortality.getCooldown()) +
+                   " turns of cooldown";
+        if (immortality.checkToggle()) return "Using next turn";
         return "Ready to use";
     }
 };

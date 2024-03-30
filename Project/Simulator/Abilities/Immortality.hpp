@@ -4,7 +4,6 @@
 #include "@Ability.hpp"
 
 class Organism;
-
 class Immortality : public Ability {
    public:
     Immortality(int cooldown, int duration) : Ability(cooldown, duration) {}

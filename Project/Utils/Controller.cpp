@@ -37,7 +37,7 @@ bool Controller::playerMove() {
                 break;
             // space
             case KEY_SPACE:
-                world.getHuman()->switchAbility();
+                world.getHuman()->toggleImortality();
                 break;
             case 'q':
             case KEY_EXIT:
