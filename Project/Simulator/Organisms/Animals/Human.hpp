@@ -10,10 +10,12 @@ class Human : public Animal {
           immortality_left(json["immortality_left"]) {}
     Animal* construct() const override { return new Human(world); }
 
+   private:
+    Direction nextMove = Direction::SELF;
+    bool tryUseAbility = false;
     int ability_cooldown = 0;
     int immortality_left = 0;
 
-   private:
     bool immortality() {
         if (immortality_left > 0) return true;
         if (ability_cooldown > 0) return false;
@@ -43,9 +45,15 @@ class Human : public Animal {
 
    public:
     void action() override {
-        immortality();
+        if (tryUseAbility) {
+            tryUseAbility = false;
+            immortality();
+        }
         updateAbilities();
-        Animal::action();
+        if (nextMove != Direction::SELF) {
+            move(nextMove);
+            nextMove = Direction::SELF;
+        }
     }
 
     void collision(Organism& other) override {
@@ -69,4 +77,7 @@ class Human : public Animal {
         json["immortality_left"] = immortality_left;
         return json;
     }
+
+    void setNextMove(Direction direction) { nextMove = direction; }
+    void useAbility(bool value) { tryUseAbility = true; }
 };

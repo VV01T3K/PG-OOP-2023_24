@@ -11,6 +11,7 @@
 
 class Organism;
 class Tile;
+class Human;
 
 class World {
    private:
@@ -20,12 +21,14 @@ class World {
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;
     std::vector<std::string> *logs = new std::vector<std::string>();
-    Organism *human = nullptr;
+    Human *human = nullptr;
 
    public:
     World() = default;
     World(size_t width, size_t height);
     ~World();
+
+    Human *getHuman() const;
 
     void addLog(std::string log);
     const std::vector<std::string> &getLogs() const;

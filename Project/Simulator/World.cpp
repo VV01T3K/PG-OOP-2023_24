@@ -1,5 +1,6 @@
 #include "World.hpp"
 
+#include "Organisms/Animals/Human.hpp"
 #include "Organisms/[OrganismPack].hpp"
 
 void World::createBoard(size_t width, size_t height) {
@@ -183,3 +184,5 @@ void World::populateWorld() {
 void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
+
+Human *World::getHuman() const { return human; }

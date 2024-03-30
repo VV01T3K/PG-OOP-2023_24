@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "../Simulator/Tile.hpp"
-#include "../Simulator/World.hpp"  // Include the World class definition
+#include "../Simulator/World.hpp"
 
 class World;
 

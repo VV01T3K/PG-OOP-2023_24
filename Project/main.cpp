@@ -26,8 +26,8 @@ int main() {
     using namespace std;
 
     World world(30, 30);
-
     Display display(world);
+    Controller controller(world);
 
     world.populateWorld();
 
@@ -39,6 +39,7 @@ int main() {
         if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
             display.menu(endFlag);
         display.gameView();
+        controller.playerMove();
         world.simulate();
     }
 

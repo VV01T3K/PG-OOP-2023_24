@@ -2,9 +2,14 @@
 
 #include <iostream>
 
+#include "../Simulator/World.hpp"
+
 class Controller {
+   private:
+    World &world;
+
    public:
-    Controller();
+    Controller(World &world);
     ~Controller();
-    void PressToContinue() const;
+    void playerMove();
 };
