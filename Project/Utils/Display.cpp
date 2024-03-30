@@ -135,6 +135,13 @@ void Display::worldPanel() const {
     mvwprintw(bottomRight, 5, 3, nextMove.c_str());
     mvwprintw(bottomRight, 6, 3, ability.c_str());
 
+    // has human
+    if (world.hasHuman()) {
+        // print humans address
+        mvwprintw(bottomRight, 7, 3, "Address: ");
+        wprintw(bottomRight, to_string((long)world.getHuman()).c_str());
+    }
+
     mvwprintw(bottomRight, 8, 1,
               "Press 'enter' to confirm the move or 'q' to exit");
 

@@ -28,7 +28,9 @@ class World {
     World(size_t width, size_t height);
     ~World();
 
+    void setHuman(Organism *human);
     Human *getHuman() const;
+    bool hasHuman() const;
 
     void addLog(std::string log);
     const std::vector<std::string> &getLogs() const;

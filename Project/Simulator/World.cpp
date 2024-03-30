@@ -143,6 +143,7 @@ void World::clearOrganisms() {
         delete organism;
     }
     organisms.clear();
+    human = nullptr;
 }
 void World::clearTiles() {
     for (auto tile : tiles) {
@@ -186,4 +187,8 @@ void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
 
+void World::setHuman(Organism *human) {
+    this->human = dynamic_cast<Human *>(human);
+}
 Human *World::getHuman() const { return human; }
+bool World::hasHuman() const { return human != nullptr; }
