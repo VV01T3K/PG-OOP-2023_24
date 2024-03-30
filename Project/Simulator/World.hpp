@@ -32,6 +32,7 @@ class World {
     void setHuman(Organism *organism);
     Human *getHuman() const;
     bool hasHuman() const;
+    Human *findHuman() const;
 
     void addLog(std::string log);
     const std::vector<std::string> &getLogs() const;

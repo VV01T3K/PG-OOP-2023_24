@@ -197,3 +197,11 @@ void World::setHuman(Organism *organism) {
 }
 Human *World::getHuman() const { return human; }
 bool World::hasHuman() const { return human != nullptr; }
+Human *World::findHuman() const {
+    for (auto organism : organisms) {
+        if (typeid(*organism) == typeid(Human)) {
+            return dynamic_cast<Human *>(organism);
+        }
+    }
+    return nullptr;
+}

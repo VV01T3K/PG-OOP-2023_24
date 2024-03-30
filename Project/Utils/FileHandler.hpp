@@ -85,6 +85,7 @@ class FileHandler {
                 organism["type"].get<Organism::Type>(), organism, world));
         }
         world.setOrganisms(organisms);
+        world.setHuman(world.findHuman());
         world.clearLogs();
         closeFile();
     };
