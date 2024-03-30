@@ -8,7 +8,7 @@
 #include "Utils/FileHandler.hpp"
 
 int main() {
-    World world(20, 20);
+    World world(5, 5);
     Display display(world);
     Controller controller(world, display);
 

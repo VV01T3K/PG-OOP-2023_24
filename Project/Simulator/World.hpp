@@ -21,12 +21,17 @@ class World {
     std::vector<Organism *> organisms;  // sorted by initiative and age
     std::vector<Tile *> tiles;
     std::vector<std::string> *logs = new std::vector<std::string>();
+    Human *human = nullptr;
 
    public:
-    Human **human = nullptr;
     World() = default;
     World(size_t width, size_t height);
     ~World();
+
+    void setHuman(Human *human);
+    void setHuman(Organism *organism);
+    Human *getHuman() const;
+    bool hasHuman() const;
 
     void addLog(std::string log);
     const std::vector<std::string> &getLogs() const;

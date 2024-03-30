@@ -171,34 +171,29 @@ void World::populateWorld() {
     resetWorld();
 
     spreadOrganisms(new Human(*this), 1);
-    Human *tempHuman = dynamic_cast<Human *>(organisms.back());
-    human = &tempHuman;
+    setHuman(organisms.back());
 
-    spreadOrganisms(new SosnowskyHogweed(*this), 3);
-    spreadOrganisms(new Grass(*this), 2);
-    spreadOrganisms(new Guarana(*this), 2);
-    spreadOrganisms(new Milkweed(*this), 1);
-    spreadOrganisms(new WolfBerries(*this), 1);
+    // spreadOrganisms(new SosnowskyHogweed(*this), 3);
+    // spreadOrganisms(new Grass(*this), 2);
+    // spreadOrganisms(new Guarana(*this), 2);
+    // spreadOrganisms(new Milkweed(*this), 1);
+    // spreadOrganisms(new WolfBerries(*this), 1);
 
-    spreadOrganisms(new Wolf(*this), 4);
-    spreadOrganisms(new Sheep(*this), 4);
-    spreadOrganisms(new CyberSheep(*this), 1);
-    spreadOrganisms(new Fox(*this), 2);
-    spreadOrganisms(new Turtle(*this), 2);
-    spreadOrganisms(new Antelope(*this), 1);
+    // spreadOrganisms(new Wolf(*this), 4);
+    // spreadOrganisms(new Sheep(*this), 4);
+    spreadOrganisms(new CyberSheep(*this), 10);
+    // spreadOrganisms(new Fox(*this), 2);
+    // spreadOrganisms(new Turtle(*this), 2);
+    // spreadOrganisms(new Antelope(*this), 1);
 }
 
 void World::addLog(std::string log) { logs->push_back(log); }
 const std::vector<std::string> &World::getLogs() const { return *logs; }
 void World::clearLogs() { logs->clear(); }
 
-// void World::setHuman(Human *human) {
-//     this->human = human;
-//     has_human = true;
-// }
-// void World::unsetHuman() {
-//     has_human = false;
-//     if (human != nullptr) human->Die();
-// }
-// Human *World::getHuman() const { return human; }
-// bool World::hasHuman() const { return has_human; }
+void World::setHuman(Human *human) { this->human = human; }
+void World::setHuman(Organism *organism) {
+    human = dynamic_cast<Human *>(organism);
+}
+Human *World::getHuman() const { return human; }
+bool World::hasHuman() const { return human != nullptr; }
