@@ -10,7 +10,7 @@ class Ability {
 
    public:
     Ability(int cooldown, int duration)
-        : default_cooldown(cooldown), default_duration(duration) {}
+        : default_cooldown(cooldown), default_duration(duration + 1) {}
     Ability(int cooldown, int duration, int default_cooldown,
             int default_duration)
         : cooldown(cooldown),

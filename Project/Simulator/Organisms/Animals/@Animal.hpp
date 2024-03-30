@@ -10,7 +10,6 @@ class Animal : public Organism {
     Tile* oldTile = nullptr;
 
     void move(Tile* newtile) {
-        if (!GlobalSettings::AI_MOVE) return;
         if (newtile == nullptr) return;
         oldTile = tile;
         tile = newtile;

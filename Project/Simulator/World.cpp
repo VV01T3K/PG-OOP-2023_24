@@ -81,6 +81,7 @@ void World::simulate() {
     for (auto organism : organisms) {
         if (organism->isSkipped()) continue;
         if (organism->isDead()) continue;
+        if (!GlobalSettings::AI_ACTION && organism != human) continue;
         organism->action();
         for (auto other : organisms) {
             if (other->isDead()) continue;
@@ -173,8 +174,8 @@ void World::populateWorld() {
     // spreadOrganisms(new Milkweed(*this), 1);
     // spreadOrganisms(new WolfBerries(*this), 1);
 
-    // spreadOrganisms(new Wolf(*this), 1);
-    // spreadOrganisms(new Sheep(*this), 1);
+    spreadOrganisms(new Wolf(*this), 5);
+    // spreadOrganisms(new Sheep(*this), 4);
     // spreadOrganisms(new CyberSheep(*this), 1);
     // spreadOrganisms(new Fox(*this), 2);
     // spreadOrganisms(new Turtle(*this), 2);
