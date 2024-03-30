@@ -22,55 +22,31 @@ using namespace std;
 int main() {
     using namespace std;
 
-    World world(2, 2);
+    World world(10, 10);
 
     Display display(world);
 
-    world.addLog("1ello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
-    world.addLog("Hello World!");
+    world.spreadOrganisms(new SosnowskyHogweed(world), 5);
+    world.spreadOrganisms(new Grass(world), 2);
+    world.spreadOrganisms(new Guarana(world), 2);
+    world.spreadOrganisms(new Milkweed(world), 1);
+    world.spreadOrganisms(new WolfBerries(world), 1);
 
-    // world.spreadOrganisms(new Milkweed(world), 1);
-
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
-    // world.simulate();
+    world.spreadOrganisms(new Wolf(world), 1);
+    world.spreadOrganisms(new Sheep(world), 1);
+    world.spreadOrganisms(new CyberSheep(world), 1);
+    world.spreadOrganisms(new Fox(world), 2);
+    world.spreadOrganisms(new Turtle(world), 2);
+    world.spreadOrganisms(new Antelope(world), 2);
 
     display.menu();
+
+    while (true) {
+        world.simulate();
+        display.gameView();
+        if (getch() == 'q') break;
+        // cin.get();
+    }
 
     return EXIT_SUCCESS;
 }

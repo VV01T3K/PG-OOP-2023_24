@@ -65,7 +65,7 @@ void World::addOrganism(Organism *organism, Tile *tile) {
 
 void World::simulate() {
     time++;
-
+    this->clearLogs();
     const auto compare = [](const auto &a, const auto &b) {
         if (a->getInitiative() == b->getInitiative()) {
             return a->getAge() > b->getAge();
@@ -99,8 +99,6 @@ void World::simulate() {
     organisms.erase(
         std::remove_if(organisms.begin(), organisms.end(), handlePostRound),
         organisms.end());
-
-    // this->clearLogs();
 }
 
 size_t World::getOrganimsCount() const { return organisms.size(); }
