@@ -1,0 +1,122 @@
+{
+  "organisms": [
+    {
+      "ability_cooldown": 0,
+      "age": 0,
+      "alive": true,
+      "immortality_left": 0,
+      "initiative": 4,
+      "old_tile_index": -1,
+      "power": 5,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 31,
+      "type": 3
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 49,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 72,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 59,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 75,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 84,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 36,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 14,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 79,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 4,
+      "type": 11
+    },
+    {
+      "age": 0,
+      "alive": true,
+      "initiative": 0,
+      "power": 99,
+      "reproduction_cooldown": 0,
+      "skip": false,
+      "tile_index": 15,
+      "type": 11
+    }
+  ],
+  "world": {
+    "height": 10,
+    "time": 0,
+    "width": 10
+  }
+}

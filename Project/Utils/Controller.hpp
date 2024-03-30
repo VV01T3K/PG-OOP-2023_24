@@ -13,5 +13,5 @@ class Controller {
    public:
     Controller(World &world, Display &display);
     ~Controller();
-    bool playerMove();
+    bool input();
 };

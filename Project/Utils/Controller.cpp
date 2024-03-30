@@ -14,7 +14,7 @@ Controller::Controller(World &world, Display &display)
     : world(world), display(display) {}
 Controller::~Controller(){};
 
-bool Controller::playerMove() {
+bool Controller::input() {
     int key = 0;
     if (GlobalSettings::HUMAN_AI || !world.hasHuman()) {
         key = getch();

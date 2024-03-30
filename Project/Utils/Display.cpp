@@ -231,6 +231,8 @@ std::string Display::chooseSave() const {
     mvwscanw(left, i + 3, 1, "%255s", fileNameC);
     noecho();
     if (fileNameC[0] == '\0') {
+        curs_set(0);
+        eraseWindows();
         return "";
     }
     string fileName = fileNameC + string(".json");
