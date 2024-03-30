@@ -19,6 +19,13 @@ class Human : public Animal {
 
    public:
     void action() override {
+        if (GlobalSettings::HUMAN_AI) {
+            immortality.flipToggle();
+            immortality.use();
+            Animal::action();
+            immortality.update();
+            return;
+        }
         if (immortality.checkToggle()) {
             immortality.use();
             immortality.flipToggle();
@@ -55,6 +62,7 @@ class Human : public Animal {
     void toggleImortality() { immortality.flipToggle(); }
 
     std::string getNextMoveSTR() const {
+        if (GlobalSettings::HUMAN_AI) return "AI controlled";
         switch (nextMove) {
             case Direction::UP:
                 return "UP";

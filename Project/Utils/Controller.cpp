@@ -16,6 +16,11 @@ Controller::~Controller(){};
 
 bool Controller::playerMove() {
     int key = 0;
+    if (GlobalSettings::HUMAN_AI) {
+        key = getch();
+        if (key == KEY_EXIT || key == CTRL('c') || key == 'q') return true;
+        return false;
+    }
     do {
         key = getch();
         switch (key) {

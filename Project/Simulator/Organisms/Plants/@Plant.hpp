@@ -12,7 +12,7 @@ class Plant : public Organism {
         : Organism(type, power, 0, world) {}
     Plant(nlohmann::json json, World& world) : Organism(json, world) {}
     virtual void action() override {
-        if (!GlobalSettings::REPRODUCTION_ENABLED) return;
+        if (!GlobalSettings::AI_REPRODUCE) return;
         if (RNG::roll(0, 100) < 5) {
             Tile* newtile = tile->getRandomFreeNeighbour();
             if (newtile == nullptr) return;

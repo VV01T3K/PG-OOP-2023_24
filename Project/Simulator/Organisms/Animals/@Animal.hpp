@@ -10,6 +10,7 @@ class Animal : public Organism {
     Tile* oldTile = nullptr;
 
     void move(Tile* newtile) {
+        if (!GlobalSettings::AI_MOVE) return;
         if (newtile == nullptr) return;
         oldTile = tile;
         tile = newtile;
@@ -30,7 +31,7 @@ class Animal : public Organism {
         if (other.collisionReaction(*this)) return;
         if (typeid(*this) == typeid(other)) {
             this->undoMove();
-            if (!GlobalSettings::REPRODUCTION_ENABLED) return;
+            if (!GlobalSettings::AI_REPRODUCE) return;
             other.skipTurn();
             if (reproduction_cooldown > 0) return;
             Tile* newtile = other.getTile()->getRandomFreeNeighbour();
