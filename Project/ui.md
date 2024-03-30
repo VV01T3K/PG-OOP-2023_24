@@ -13,3 +13,5 @@
     [x] - logs
     [x] - map
     [] - human
+
+[] - add more global settings

@@ -79,7 +79,7 @@ std::vector<Tile *> Tile::getOccupiedNeighbours() const {
 
 size_t Tile::getOrganismCount() const { return organisms.size(); }
 
-// TODO Refactor getDistanceTo
+// This method calculates the Manhattan distance between two tiles
 size_t Tile::getDistanceTo(const Tile *tile, size_t width) const {
     const long long x1 = index % width;
     const long long y1 = index / width;
