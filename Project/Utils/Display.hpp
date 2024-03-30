@@ -29,4 +29,5 @@ class Display {
     void worldPanel() const;
     std::string getSaveFileName() const;
     std::string chooseSave() const;
+    std::pair<int, int> chooseWorldSize() const;
 };

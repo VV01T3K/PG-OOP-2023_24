@@ -71,8 +71,9 @@ void Display::menu(bool &endFlag) const {
 
         refreshWindows();
 
-        int ch = wgetch(left);
+        int width, height;
 
+        int ch = wgetch(left);
         switch (ch) {
             // case Continue the game
             case '0':
@@ -82,7 +83,9 @@ void Display::menu(bool &endFlag) const {
             // case Start the game
             case '1':
                 exitFlag = true;
+                std::tie(width, height) = chooseWorldSize();
                 world.resetWorld();
+                world.setWorld(width, height, 0);
                 world.populateWorld();
                 gameView();
                 break;
@@ -196,6 +199,8 @@ std::string Display::getSaveFileName() const {
     mvwscanw(left, 2, 1, "%255s", fileNameC);
     noecho();
     if (fileNameC[0] == '\0') {
+        curs_set(0);
+        eraseWindows();
         return "";
     }
     string fileName = fileNameC + string(".json");
@@ -233,4 +238,32 @@ std::string Display::chooseSave() const {
     curs_set(0);
     eraseWindows();
     return fileName;
+}
+
+std::pair<int, int> Display::chooseWorldSize() const {
+    eraseWindows();
+    curs_set(1);
+
+    int max_y = 0, max_x = 0;
+    getmaxyx(left, max_y, max_x);
+
+    mvwprintw(left, 1, 1, "Enter the width of the world:");
+    refreshWindows();
+
+    int width;
+    echo();
+    mvwscanw(left, 2, 1, "%d", &width);
+    noecho();
+
+    mvwprintw(left, 3, 1, "Enter the height of the world:");
+    refreshWindows();
+
+    int height;
+    echo();
+    mvwscanw(left, 4, 1, "%d", &height);
+    noecho();
+
+    curs_set(0);
+    eraseWindows();
+    return std::make_pair(width, height);
 }
