@@ -25,7 +25,7 @@ using namespace std;
 int main() {
     using namespace std;
 
-    World world(30, 30);
+    World world(5, 5);
     Display display(world);
     Controller controller(world);
 
@@ -38,8 +38,9 @@ int main() {
         char ch = getch();
         if (ch == 'q' || ch == KEY_EXIT || ch == CTRL('c'))
             display.menu(endFlag);
+        // while (!controller.playerMove())
         display.gameView();
-        controller.playerMove();
+
         world.simulate();
     }
 

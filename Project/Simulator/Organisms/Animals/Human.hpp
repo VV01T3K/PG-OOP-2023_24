@@ -79,5 +79,5 @@ class Human : public Animal {
     }
 
     void setNextMove(Direction direction) { nextMove = direction; }
-    void useAbility(bool value) { tryUseAbility = true; }
+    void useAbility() { tryUseAbility = true; }
 };
