@@ -113,8 +113,12 @@ void Display::gameView() const {
     int max_y = 0, max_x = 0;
     getmaxyx(left, max_y, max_x);
 
-    mvwprintw(bottomRight, 1, 1, "Time: %d", world.checkTime());
-    mvwprintw(bottomRight, 2, 1, "Organisms: %d", world.getOrganisms().size());
+    std::string timeStr = "Time: " + to_string(world.checkTime());
+    std::string organismsStr =
+        "Organisms: " + to_string(world.getOrganimsCount());
+
+    mvwprintw(bottomRight, 1, 1, timeStr.c_str());
+    mvwprintw(bottomRight, 2, 1, organismsStr.c_str());
 
     int shift_x = (max_x - world.getWidth() * 2) / 2;
     int shift_y = (max_y - world.getHeight()) / 2;
