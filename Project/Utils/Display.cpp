@@ -28,13 +28,26 @@ Display::Display(World &world) : world(world) {
                          (LINES + 1) / 1.5 + 1, COLS / 2);
 }
 
+void Display::initWindows() {
+    delwin(left);
+    delwin(topRight);
+    delwin(bottomRight);
+    endwin();
+    initscr();
+
+    left = newwin(LINES - 1, COLS / 2, 1, 0);
+    topRight = newwin(LINES / 1.5 + .5, COLS / 2, 1, COLS / 2);
+    bottomRight = newwin(LINES - (LINES / 1.5) - 1, COLS / 2,
+                         (LINES + 1) / 1.5 + 1, COLS / 2);
+}
+
 Display::~Display() {
-    clear();              // Clear the screen
-    refresh();            // Refresh the screen to show the new state
-    delwin(left);         // Delete the left window
-    delwin(topRight);     // Delete the topRight window
-    delwin(bottomRight);  // Delete the bottomRight window
-    endwin();             // End the library
+    clear();
+    refresh();
+    delwin(left);
+    delwin(topRight);
+    delwin(bottomRight);
+    endwin();
 }
 
 void Display::refreshWindows() const {
@@ -53,7 +66,7 @@ void Display::eraseWindows() const {
     werase(bottomRight);  // Clear the bottomRight window
 }
 
-void Display::menu(bool &endFlag) const {
+void Display::menu(bool &endFlag) {
     eraseWindows();
 
     bool exitFlag = false;
@@ -148,7 +161,7 @@ void Display::worldPanel() const {
     refreshWindows();
 }
 
-void Display::gameView() const {
+void Display::gameView() {
     eraseWindows();
 
     int max_y = 0, max_x = 0;
@@ -160,6 +173,9 @@ void Display::gameView() const {
         mvwprintw(left, 1, 1, "Window too small");
         refreshWindows();
         getch();
+        initWindows();
+        refreshWindows();
+        gameView();
         return;
     }
 
@@ -251,7 +267,6 @@ std::pair<int, int> Display::chooseWorldSize() const {
 
     mvwprintw(left, 1, 1, "Enter the width of the world:");
     refreshWindows();
-
     int width;
     echo();
     mvwscanw(left, 2, 1, "%d", &width);

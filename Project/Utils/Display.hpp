@@ -22,10 +22,11 @@ class Display {
    public:
     Display(World &world);
     ~Display();
+    void initWindows();
     void refreshWindows() const;
     void eraseWindows() const;
-    void menu(bool &endFlag) const;
-    void gameView() const;
+    void menu(bool &endFlag);
+    void gameView();
     void worldPanel() const;
     std::string getSaveFileName() const;
     std::string chooseSave() const;

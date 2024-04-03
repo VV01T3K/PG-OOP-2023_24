@@ -40,7 +40,6 @@ bool Controller::input() {
             case 'd':
                 world.getHuman()->setNextMove(Direction::RIGHT);
                 break;
-            // space
             case KEY_SPACE:
                 world.getHuman()->toggleImortality();
                 break;
@@ -51,6 +50,5 @@ bool Controller::input() {
         }
         display.worldPanel();
     } while (key != '\n' || world.getHuman()->getNextMove() == Direction::SELF);
-    // } while (key != '\n');
     return false;
 }

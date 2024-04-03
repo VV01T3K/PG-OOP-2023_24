@@ -18,7 +18,7 @@ class World {
     size_t width;
     size_t height;
     size_t time = 0;
-    std::vector<Organism *> organisms;  // sorted by initiative and age
+    std::vector<Organism *> organisms;  // will be sorted by initiative and age
     std::vector<Tile *> tiles;
     std::vector<std::string> *logs = new std::vector<std::string>();
     Human *human = nullptr;
