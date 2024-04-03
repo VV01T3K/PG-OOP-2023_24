@@ -34,6 +34,13 @@ void Display::initWindows() {
     delwin(bottomRight);
     endwin();
     initscr();
+    start_color();
+    use_default_colors();
+    cbreak();
+    raw();
+    keypad(stdscr, TRUE);
+    noecho();
+    curs_set(0);
 
     left = newwin(LINES - 1, COLS / 2, 1, 0);
     topRight = newwin(LINES / 1.5 + .5, COLS / 2, 1, COLS / 2);
