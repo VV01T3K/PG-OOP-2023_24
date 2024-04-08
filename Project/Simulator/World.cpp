@@ -181,7 +181,7 @@ void World::populateWorld() {
 
     spreadOrganisms(new Wolf(*this), 3);
     spreadOrganisms(new Sheep(*this), 3);
-    // spreadOrganisms(new CyberSheep(*this), 3);
+    spreadOrganisms(new CyberSheep(*this), 3);
     spreadOrganisms(new Fox(*this), 3);
     spreadOrganisms(new Turtle(*this), 3);
     spreadOrganisms(new Antelope(*this), 3);

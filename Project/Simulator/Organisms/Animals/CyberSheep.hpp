@@ -26,7 +26,8 @@ class CyberSheep : public Animal {
     size_t seekClosestSosnowskyHogweed() {
         size_t index = -1;
         size_t min_distance = -1;
-        for (size_t i = 0; i < world.getOrganimsCount(); i++) {
+        // * fajny sposób na odwrócenie pętli *
+        for (size_t i = world.getOrganimsCount(); i-- > 0;) {
             Organism* target = world.getOrganism(i);
             if (target->type == Type::SOSNOWSKY_HOGWEED) {
                 size_t distance =
