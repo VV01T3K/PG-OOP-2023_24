@@ -5,6 +5,11 @@
 
 class Immortality;
 class Human : public Animal {
+   private:
+    Direction nextMove = Direction::SELF;
+    friend class Immortality;
+    Immortality immortality;
+
    public:
     Human(World& world) : Animal(5, 4, world, Type::HUMAN), immortality(5, 5) {}
     Human(nlohmann::json json, World& world)
@@ -17,12 +22,6 @@ class Human : public Animal {
     }
     Animal* construct() const override { return new Human(world); }
 
-   private:
-    Direction nextMove = Direction::SELF;
-    friend class Immortality;
-    Immortality immortality;
-
-   public:
     void action() override {
         if (GlobalSettings::HUMAN_AI) {
             immortality.use();
