@@ -20,7 +20,8 @@ class SosnowskyHogweed : public Plant {
             if (neighbour->getOrganism()->type == Type::CYBER_SHEEP) continue;
 
             neighbour->getOrganism()->Die();
-            killed.push_back(neighbour->getOrganism()->getSymbol());
+            if (neighbour->getOrganism()->isDead())
+                killed.push_back(neighbour->getOrganism()->getSymbol());
         }
         if (killed.size() > 0) {
             std::string log = getSymbol() + " killed ";
