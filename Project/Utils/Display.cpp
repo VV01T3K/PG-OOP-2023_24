@@ -289,5 +289,11 @@ std::pair<int, int> Display::chooseWorldSize() const {
 
     curs_set(0);
     eraseWindows();
+    if (width < 1 || height < 1 || width > max_x || height > max_y - 1) {
+        mvwprintw(left, 1, 1, "Invalid size");
+        refreshWindows();
+        getch();
+        return chooseWorldSize();
+    }
     return std::make_pair(width, height);
 }

@@ -173,16 +173,16 @@ void World::populateWorld() {
     spreadOrganisms(new Human(*this), 1);
     setHuman(organisms.back());
 
-    // spreadOrganisms(new SosnowskyHogweed(*this), 3);
+    spreadOrganisms(new SosnowskyHogweed(*this), 1);
     // spreadOrganisms(new Grass(*this), 2);
     // spreadOrganisms(new Guarana(*this), 2);
     // spreadOrganisms(new Milkweed(*this), 1);
-    spreadOrganisms(new WolfBerries(*this), 10);
+    // spreadOrganisms(new WolfBerries(*this), 10);
 
     // spreadOrganisms(new Wolf(*this), 4);
-    // spreadOrganisms(new Sheep(*this), 4);
+    // spreadOrganisms(new Sheep(*this), 40);
     // spreadOrganisms(new CyberSheep(*this), 10);
-    // spreadOrganisms(new Fox(*this), 2);
+    spreadOrganisms(new Fox(*this), 10);
     // spreadOrganisms(new Turtle(*this), 2);
     // spreadOrganisms(new Antelope(*this), 1);
 }
