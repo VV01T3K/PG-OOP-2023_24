@@ -9,7 +9,12 @@ class Human : public Animal {
     Human(World& world) : Animal(5, 4, world, Type::HUMAN), immortality(5, 5) {}
     Human(nlohmann::json json, World& world)
         : Animal(json, world),
-          immortality(json["ability_cooldown"], json["immortality_left"]) {}
+          immortality(json["ability_cooldown"], json["immortality_left"], 5,
+                      5) {
+        if (json["immortality_left"] > 0 || json["ability_cooldown"] == 0) {
+            immortality.use();
+        }
+    }
     Animal* construct() const override { return new Human(world); }
 
    private:
@@ -59,7 +64,10 @@ class Human : public Animal {
     }
 
     void setNextMove(Direction direction) { nextMove = direction; }
-    void toggleImortality() { immortality.flipToggle(); }
+    void toggleImortality() {
+        if (immortality.isReady() && !immortality.isActive())
+            immortality.flipToggle();
+    }
 
     std::string getNextMoveSTR() const {
         if (GlobalSettings::HUMAN_AI) return "AI controlled";
