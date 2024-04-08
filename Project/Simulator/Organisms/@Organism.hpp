@@ -45,7 +45,7 @@ class Organism {
 
     void Age();
     void setBreedCooldown(size_t turns = 5) { reproduction_cooldown = turns; }
-    void Die();
+    virtual void Die();
     bool isDead() const;
     bool isAlive() const;
     void skipTurn();

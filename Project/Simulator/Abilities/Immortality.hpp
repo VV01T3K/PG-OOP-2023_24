@@ -13,4 +13,5 @@ class Immortality : public Ability {
     ~Immortality() = default;
 
     void effect(Organism& user, Organism& other);
+    void effect(Organism& user);
 };

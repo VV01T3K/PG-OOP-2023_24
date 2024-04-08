@@ -15,3 +15,10 @@ void Immortality::effect(Organism& user, Organism& other) {
     if (user.getTile()->getOrganismCount() > 1)
         user.collision(*user.getTile()->getOrganism());
 }
+
+void Immortality::effect(Organism& user) {
+    Tile* newtile = user.getTile()->getRandomFreeNeighbour();
+    dynamic_cast<Human*>(&user)->move(newtile);
+    if (user.getTile()->getOrganismCount() > 1)
+        user.collision(*user.getTile()->getOrganism());
+}

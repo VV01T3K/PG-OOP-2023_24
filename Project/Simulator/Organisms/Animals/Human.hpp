@@ -95,4 +95,12 @@ class Human : public Animal {
         if (immortality.checkToggle()) return "Using next turn";
         return "Ready to use";
     }
+
+    void Die() {
+        if (immortality.isActive()) {
+            immortality.effect(*this);
+        } else {
+            Organism::Die();
+        }
+    }
 };
