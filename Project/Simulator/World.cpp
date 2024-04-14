@@ -83,14 +83,22 @@ void World::simulate() {
         if (organism->isDead()) continue;
         if (!GlobalSettings::AI_ACTION && typeid(*organism) != typeid(Human))
             continue;
+
         organism->action();
 
-        for (auto other : organisms) {
-            if (other->isDead()) continue;
-            if (organism == other) continue;
-            if (organism->getTile() == other->getTile())
-                organism->collision(*other);
+        if (organism->getTile()->getOrganismCount() > 1) {
+            Organism &other = *organism->getTile()->getOrganism();
+            if (organism == &other) continue;
+            if (other.isDead()) continue;
+            organism->collision(other);
         }
+
+        // for (auto other : organisms) {
+        //     if (other->isDead()) continue;
+        //     if (organism == other) continue;
+        //     if (organism->getTile() == other->getTile())
+        //         organism->collision(*other);
+        // }
     }
 
     const auto handlePostRound = [&](auto &organism) {
