@@ -61,4 +61,7 @@ public abstract class Ability {
     }
 
     public abstract void effect(Organism user, Organism other);
+
+    public abstract void effect(Organism user);
+
 }

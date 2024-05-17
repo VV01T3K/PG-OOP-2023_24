@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Simulator.Organisms.Organism;
-import Simulator.Organisms.Human;
+import Simulator.Organisms.Animals.*;
+import Simulator.Organisms.Plants.*;
 import Simulator.Tile;
 import Simulator.Tile.Direction;
 import Utils.RNG;
@@ -222,7 +223,7 @@ public class World {
 
         spreadOrganisms(new Wolf(this), 3);
         spreadOrganisms(new Sheep(this), 3);
-        spreadOrganisms(new CyberSheep(this), 3);
+        // spreadOrganisms(new CyberSheep(this), 3);
         spreadOrganisms(new Fox(this), 3);
         spreadOrganisms(new Turtle(this), 3);
         spreadOrganisms(new Antelope(this), 3);
