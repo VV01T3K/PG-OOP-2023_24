@@ -1,6 +1,5 @@
 package Simulator.Organisms.Animals;
 
-import Simulator.Organisms.Animals.Animal;
 import Simulator.Organisms.Organism;
 import Utils.RNG;
 import Simulator.World;

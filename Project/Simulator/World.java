@@ -6,7 +6,6 @@ import java.util.List;
 import Simulator.Organisms.Organism;
 import Simulator.Organisms.Animals.*;
 import Simulator.Organisms.Plants.*;
-import Simulator.Tile;
 import Simulator.Tile.Direction;
 import Utils.RNG;
 
@@ -99,6 +98,7 @@ public class World {
         tile.placeOrganism(organism);
     }
 
+    @SuppressWarnings("unused")
     public void simulate() {
         time++;
         clearLogs();
@@ -180,10 +180,6 @@ public class World {
     }
 
     public void clearOrganisms() {
-        // Assuming there's a method to properly remove or clear an organism's data
-        for (Organism organism : organisms) {
-            organism = null;
-        }
         organisms.clear();
         human = null;
     }
