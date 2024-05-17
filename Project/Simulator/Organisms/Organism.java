@@ -39,6 +39,10 @@ public abstract class Organism {
         }
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public Organism(Type type, int power, int initiative, World world) {
         this.type = type;
         this.power = power;

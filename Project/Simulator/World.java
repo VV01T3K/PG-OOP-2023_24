@@ -27,6 +27,10 @@ public class World {
         createBoard(width, height);
     }
 
+    public World() {
+        this(20, 20);
+    }
+
     private void createBoard(int width, int height) {
         // Initialize tiles based on width and height
         for (int i = 0; i < width * height; i++) {
