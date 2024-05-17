@@ -9,6 +9,8 @@ public class Main {
         Display display = new Display(world);
         Scanner scanner = new Scanner(System.in); // Create a Scanner object
 
+        world.populateWorld();
+
         boolean end_flag = false;
         while (!end_flag) {
             world.simulate();
