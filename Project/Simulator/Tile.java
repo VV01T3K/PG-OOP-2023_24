@@ -20,6 +20,11 @@ public class Tile {
         // The ArrayList does not need to be reserved as in C++, it dynamically resizes.
     }
 
+    @Override
+    public String toString() {
+        return organisms.isEmpty() ? "🔳" : organisms.get(0).getSymbol();
+    }
+
     public void clear() {
         organisms.clear();
     }
