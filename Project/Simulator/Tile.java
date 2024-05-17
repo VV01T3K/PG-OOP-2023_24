@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import Simulator.Organisms.Organism;
 import Utils.RNG;
+import Utils.DynamicDirections;
 
 public class Tile {
     private Tile[] directions = new Tile[4];
@@ -29,7 +30,7 @@ public class Tile {
         organisms.clear();
     }
 
-    public void setLink(Direction direction, Tile tile) {
+    public void setLink(DynamicDirections direction, Tile tile) {
         directions[direction.ordinal()] = tile;
     }
 
@@ -54,7 +55,7 @@ public class Tile {
         return freeNeighbours.get(RNG.getInstance().roll(0, freeNeighbours.size()));
     }
 
-    public Tile getNeighbour(Direction direction) {
+    public Tile getNeighbour(DynamicDirections direction) {
         return directions[direction.ordinal()];
     }
 
@@ -67,13 +68,13 @@ public class Tile {
         return neighbours.get(RNG.getInstance().roll(0, neighbours.size()));
     }
 
-    public Direction getRandomDirection() {
-        List<Direction> availableDirections = Arrays.stream(directions)
+    public DynamicDirections getRandomDirection() {
+        List<DynamicDirections> availableDirections = Arrays.stream(directions)
                 .filter(tile -> tile != null)
-                .map(tile -> Direction.values()[Arrays.asList(directions).indexOf(tile)])
+                .map(tile -> DynamicDirections.values()[Arrays.asList(directions).indexOf(tile)])
                 .collect(Collectors.toList());
         if (availableDirections.isEmpty())
-            return Direction.SELF;
+            return DynamicDirections.SELF;
         return availableDirections.get(RNG.getInstance().roll(0, availableDirections.size()));
     }
 
@@ -100,8 +101,4 @@ public class Tile {
     // long dy = Math.abs(this.index / width - tile.index / width);
     // return dx + dy;
     // }
-
-    public enum Direction {
-        UP, DOWN, RIGHT, LEFT, SELF
-    }
 }

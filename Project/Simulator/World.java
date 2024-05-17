@@ -6,7 +6,7 @@ import java.util.List;
 import Simulator.Organisms.Organism;
 import Simulator.Organisms.Animals.*;
 import Simulator.Organisms.Plants.*;
-import Simulator.Tile.Direction;
+import Utils.DynamicDirections;
 import Utils.RNG;
 
 public class World {
@@ -41,16 +41,16 @@ public class World {
             for (int x = 0; x < width; x++) {
                 Tile tile = tiles.get(y * width + x);
                 if (y > 0) {
-                    tile.setLink(Direction.UP, tiles.get((y - 1) * width + x));
+                    tile.setLink(DynamicDirections.UP, tiles.get((y - 1) * width + x));
                 }
                 if (x < width - 1) {
-                    tile.setLink(Direction.RIGHT, tiles.get(y * width + x + 1));
+                    tile.setLink(DynamicDirections.RIGHT, tiles.get(y * width + x + 1));
                 }
                 if (y < height - 1) {
-                    tile.setLink(Direction.DOWN, tiles.get((y + 1) * width + x));
+                    tile.setLink(DynamicDirections.DOWN, tiles.get((y + 1) * width + x));
                 }
                 if (x > 0) {
-                    tile.setLink(Direction.LEFT, tiles.get(y * width + x - 1));
+                    tile.setLink(DynamicDirections.LEFT, tiles.get(y * width + x - 1));
                 }
             }
         }

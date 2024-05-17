@@ -2,12 +2,12 @@ package Simulator.Organisms.Animals;
 
 import Simulator.Organisms.Organism;
 import Simulator.GlobalSettings;
-import Simulator.Tile.Direction;
+import Utils.DynamicDirections;
 import Simulator.Abilities.Immortality;
 import Simulator.World;
 
 public class Human extends Animal {
-    private Direction nextMove = Direction.SELF;
+    private DynamicDirections nextMove = DynamicDirections.SELF;
     private Immortality immortality;
 
     public Human(World world) {
@@ -28,7 +28,7 @@ public class Human extends Animal {
             super.action();
             return;
         }
-        if (nextMove == Direction.SELF)
+        if (nextMove == DynamicDirections.SELF)
             return;
         if (immortality.checkToggle()) {
             immortality.use();
@@ -36,7 +36,7 @@ public class Human extends Animal {
         }
         immortality.update();
         move(nextMove);
-        nextMove = Direction.SELF;
+        nextMove = DynamicDirections.SELF;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Human extends Animal {
             return false;
     }
 
-    public void setNextMove(Direction direction) {
+    public void setNextMove(DynamicDirections direction) {
         this.nextMove = direction;
     }
 
@@ -66,24 +66,24 @@ public class Human extends Animal {
             immortality.flipToggle();
     }
 
-    public String getNextMoveSTR() {
-        if (GlobalSettings.HUMAN_AI)
-            return "AI controlled";
-        switch (nextMove) {
-            case UP:
-                return "UP";
-            case DOWN:
-                return "DOWN";
-            case LEFT:
-                return "LEFT";
-            case RIGHT:
-                return "RIGHT";
-            default:
-                return "Pls give me direction";
-        }
-    }
+    // public String getNextMoveSTR() {
+    // if (GlobalSettings.HUMAN_AI)
+    // return "AI controlled";
+    // switch (nextMove) {
+    // case UP:
+    // return "UP";
+    // case DOWN:
+    // return "DOWN";
+    // case LEFT:
+    // return "LEFT";
+    // case RIGHT:
+    // return "RIGHT";
+    // default:
+    // return "Pls give me direction";
+    // }
+    // }
 
-    public Direction getNextMove() {
+    public DynamicDirections getNextMove() {
         return nextMove;
     }
 

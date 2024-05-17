@@ -1,7 +1,7 @@
 package Simulator.Organisms.Animals;
 
 import Simulator.Tile;
-import Simulator.Tile.Direction;
+import Utils.DynamicDirections;
 import Simulator.Organisms.Organism;
 import Simulator.World;
 import Simulator.GlobalSettings;
@@ -18,7 +18,7 @@ public abstract class Animal extends Organism {
         oldTile.removeOrganism(this);
     }
 
-    protected void move(Direction direction) {
+    protected void move(DynamicDirections direction) {
         move(this.tile.getNeighbour(direction));
     }
 
