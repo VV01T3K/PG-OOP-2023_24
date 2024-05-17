@@ -50,6 +50,11 @@ public class DynamicDirections {
         return instances.values().toArray(new DynamicDirections[0]);
     }
 
+    public static void clear() {
+        instances.clear(); // Clears all instances
+        nextOrdinal = 0; // Resets the ordinal counter
+    }
+
     // Static instances
     public static final DynamicDirections UP = addInstance("UP");
     public static final DynamicDirections DOWN = addInstance("DOWN");
