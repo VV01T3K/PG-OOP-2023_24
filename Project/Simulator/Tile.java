@@ -74,7 +74,7 @@ public class Tile {
                 .map(tile -> DynamicDirections.values()[Arrays.asList(directions).indexOf(tile)])
                 .collect(Collectors.toList());
         if (availableDirections.isEmpty())
-            return DynamicDirections.SELF;
+            return DynamicDirections.get("SELF");
         return availableDirections.get(RNG.getInstance().roll(0, availableDirections.size()));
     }
 

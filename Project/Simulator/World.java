@@ -10,15 +10,32 @@ import Utils.DynamicDirections;
 import Utils.RNG;
 
 public class World {
-    private int width;
-    private int height;
-    private long time = 0;
-    private List<Organism> organisms; // will be sorted by initiative and age
-    private List<Tile> tiles;
-    private List<String> logs = new ArrayList<>();
-    private Human human = null;
+    protected int width;
+    protected int height;
+    protected long time = 0;
+    protected List<Organism> organisms; // will be sorted by initiative and age
+    protected List<Tile> tiles;
+    protected List<String> logs = new ArrayList<>();
+    protected Human human = null;
 
     public World(int width, int height) {
+
+        DynamicDirections.clear();
+
+        // Assuming DynamicDirections.addInstance creates and maps string keys to unique
+        // objects or enums
+        // The fix involves ensuring that "UP", "RIGHT", "DOWN", "LEFT" are properly
+        // mapped or accessible as fields or keys
+        // If DynamicDirections is supposed to manage direction instances, ensure it
+        // provides access to these instances
+        // For simplicity, let's assume DynamicDirections should expose static fields or
+        // methods for directions
+        DynamicDirections.addInstance("UP");
+        DynamicDirections.addInstance("RIGHT");
+        DynamicDirections.addInstance("DOWN");
+        DynamicDirections.addInstance("LEFT");
+        DynamicDirections.addInstance("SELF");
+
         this.width = width;
         this.height = height;
         this.organisms = new ArrayList<>();
@@ -31,7 +48,7 @@ public class World {
         this(20, 20);
     }
 
-    private void createBoard(int width, int height) {
+    protected void createBoard(int width, int height) {
         // Initialize tiles based on width and height
         for (int i = 0; i < width * height; i++) {
             tiles.add(new Tile(i));
@@ -41,16 +58,16 @@ public class World {
             for (int x = 0; x < width; x++) {
                 Tile tile = tiles.get(y * width + x);
                 if (y > 0) {
-                    tile.setLink(DynamicDirections.UP, tiles.get((y - 1) * width + x));
+                    tile.setLink(DynamicDirections.get("UP"), tiles.get((y - 1) * width + x));
                 }
                 if (x < width - 1) {
-                    tile.setLink(DynamicDirections.RIGHT, tiles.get(y * width + x + 1));
+                    tile.setLink(DynamicDirections.get("RIGHT"), tiles.get(y * width + x + 1));
                 }
                 if (y < height - 1) {
-                    tile.setLink(DynamicDirections.DOWN, tiles.get((y + 1) * width + x));
+                    tile.setLink(DynamicDirections.get("DOWN"), tiles.get((y + 1) * width + x));
                 }
                 if (x > 0) {
-                    tile.setLink(DynamicDirections.LEFT, tiles.get(y * width + x - 1));
+                    tile.setLink(DynamicDirections.get("LEFT"), tiles.get(y * width + x - 1));
                 }
             }
         }

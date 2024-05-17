@@ -7,7 +7,7 @@ import Simulator.Abilities.Immortality;
 import Simulator.World;
 
 public class Human extends Animal {
-    private DynamicDirections nextMove = DynamicDirections.SELF;
+    private DynamicDirections nextMove = DynamicDirections.get("SELF");
     private Immortality immortality;
 
     public Human(World world) {
@@ -28,7 +28,7 @@ public class Human extends Animal {
             super.action();
             return;
         }
-        if (nextMove == DynamicDirections.SELF)
+        if (nextMove == DynamicDirections.get("SELF"))
             return;
         if (immortality.checkToggle()) {
             immortality.use();
@@ -36,7 +36,7 @@ public class Human extends Animal {
         }
         immortality.update();
         move(nextMove);
-        nextMove = DynamicDirections.SELF;
+        nextMove = DynamicDirections.get("SELF");
     }
 
     @Override

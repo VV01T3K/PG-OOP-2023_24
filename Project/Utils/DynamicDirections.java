@@ -21,20 +21,8 @@ public class DynamicDirections {
         return instance;
     }
 
-    public static void removeInstance(String name) {
-        instances.remove(name);
-        // Note: Removing an instance does not affect the ordinal values of existing
-        // instances.
-        // If maintaining a consistent ordinal sequence without gaps is necessary,
-        // additional logic will be required.
-    }
-
-    public static DynamicDirections getInstance(String name) {
+    public static DynamicDirections get(String name) {
         return instances.get(name);
-    }
-
-    public static Map<String, DynamicDirections> getInstances() {
-        return Collections.unmodifiableMap(instances);
     }
 
     public int ordinal() { // Step 4: Add a method to return the ordinal
@@ -54,11 +42,4 @@ public class DynamicDirections {
         instances.clear(); // Clears all instances
         nextOrdinal = 0; // Resets the ordinal counter
     }
-
-    // Static instances
-    public static final DynamicDirections UP = addInstance("UP");
-    public static final DynamicDirections DOWN = addInstance("DOWN");
-    public static final DynamicDirections LEFT = addInstance("LEFT");
-    public static final DynamicDirections RIGHT = addInstance("RIGHT");
-    public static final DynamicDirections SELF = addInstance("SELF");
 }
