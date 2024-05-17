@@ -4,6 +4,7 @@ import Simulator.World;
 import Simulator.Tile;
 import Utils.RNG;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Fox extends Animal {
 
@@ -18,8 +19,10 @@ public class Fox extends Animal {
 
     @Override
     public void action() {
-        List<Tile> neighbours = tile.getNeighbours();
-        neighbours.removeIf(neighbour -> !neighbour.isFree() && neighbour.getOrganism().getPower() > this.power);
+        List<Tile> neighbours = new ArrayList<>(tile.getNeighbours()); // Use a new list to avoid
+                                                                       // ConcurrentModificationException
+        neighbours.removeIf(neighbour -> neighbour == null || !neighbour.isFree()
+                || (neighbour.getOrganism() != null && neighbour.getOrganism().getPower() > this.power));
 
         Tile target;
         if (neighbours.isEmpty()) {
