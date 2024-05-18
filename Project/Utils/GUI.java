@@ -11,25 +11,58 @@ import Simulator.World;
 public class GUI {
     World world;
 
-    JFrame window;
-    JToolBar toolBar;
-    JPanel menuPanel;
-    JPanel newGamePanel;
-    JPanel cardPanel; // This will hold the menuPanel and newGamePanel
+    private JFrame window;
+    private JToolBar toolBar;
+    private JPanel cardPanel;
+    private JPanel boardPanel;
+    private JButton saveButton;
 
     public GUI(World world) {
         this.world = world;
+        boardPanel = new JPanel();
         window = new JFrame("Wojciech Siwiec s197815 - \"Grids of Life\"");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
         window.setSize(800, 600);
         window.setLayout(new BorderLayout());
 
         cardPanel = new JPanel(new CardLayout());
         constructMenu(); // Initialize menuPanel
         constructNewGamePanel(); // Initialize newGamePanel
+        constructToolBar();
+        cardPanel.add(boardPanel, "Board"); // Add boardPanel to cardPanel
+
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
 
-        constructToolBar();
+    }
+
+    private void constructBoardPanel(int worldWidth, int worldHeight) {
+        boardPanel.removeAll(); // Remove all components from the previous board
+        boardPanel.setLayout(new GridLayout(worldHeight, worldWidth));
+
+        Font buttonFont = new Font("Sans-Serif", Font.PLAIN, 30); // Example font
+
+        for (int i = 0; i < worldHeight; i++) {
+            for (int j = 0; j < worldWidth; j++) {
+                JButton button = new JButton(world.getTile(i, j).toString());
+                button.setFont(buttonFont); // Set the font here
+                button.setPreferredSize(new Dimension(50, 50));
+                boardPanel.add(button);
+            }
+        }
+
+        boardPanel.revalidate(); // Revalidate the panel to apply changes
+        boardPanel.repaint(); // Repaint to display the new buttons
+    }
+
+    private void showBoardPanel() {
+        CardLayout cl = (CardLayout) (cardPanel.getLayout());
+        cl.show(cardPanel, "Board");
+        window.setSize(800, 600);
+        toolBar.setVisible(true);
+        saveButton.setVisible(true);
+        window.revalidate();
+        window.repaint();
     }
 
     private void addValidationListener(JTextField field) {
@@ -69,7 +102,7 @@ public class GUI {
     }
 
     private void constructNewGamePanel() {
-        newGamePanel = new JPanel();
+        JPanel newGamePanel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
         newGamePanel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -95,8 +128,12 @@ public class GUI {
                 return;
             }
             boolean isHexagonal = worldTypeComboBox.getSelectedItem().equals("Hexagonal");
-            System.out.println("Creating new world with width: " + widthField.getText() + ", height: "
-                    + heightField.getText() + ", hexagonal: " + isHexagonal);
+            int newWidth = Integer.parseInt(widthField.getText());
+            int newHeight = Integer.parseInt(heightField.getText());
+            world = new World(newWidth, newHeight, isHexagonal);
+            world.populateWorld();
+            constructBoardPanel(newWidth, newHeight);
+            showBoardPanel();
         });
 
         // Add components with GridBagConstraints
@@ -130,17 +167,23 @@ public class GUI {
     private void constructToolBar() {
         toolBar = new JToolBar();
         JButton menuButton = new JButton("Menu");
-        menuButton.addActionListener(e -> showMenu());
+        menuButton.addActionListener(e -> {
+            saveButton.setVisible(false);
+            showMenu();
+        });
         toolBar.add(menuButton);
-        toolBar.add(new JButton("Pause"));
-        toolBar.add(new JButton("Reset"));
+        saveButton = new JButton("Save");
+        saveButton.setVisible(false);
+        saveButton.addActionListener(e -> {
+        });
+        toolBar.add(saveButton);
         toolBar.setFloatable(false);
         toolBar.setVisible(false);
 
         window.add(toolBar, BorderLayout.NORTH);
     }
 
-    public void showMenu() {
+    private void showMenu() {
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
         cl.show(cardPanel, "Menu");
         toolBar.setVisible(false);
@@ -149,7 +192,7 @@ public class GUI {
         window.repaint();
     }
 
-    public void showNewGamePanel() {
+    private void showNewGamePanel() {
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
         cl.show(cardPanel, "NewGame");
         toolBar.setVisible(true);
@@ -158,7 +201,7 @@ public class GUI {
     }
 
     private void constructMenu() {
-        menuPanel = new JPanel();
+        JPanel menuPanel = new JPanel();
         JButton continueButton = new JButton("Continue the game");
         JButton startButton = new JButton("Start new game");
         JButton loadButton = new JButton("Load game");
@@ -203,5 +246,6 @@ public class GUI {
 
     public void run() {
         window.setVisible(true);
+        showMenu();
     }
 }

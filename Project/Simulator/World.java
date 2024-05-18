@@ -167,17 +167,12 @@ public class World {
     }
 
     public void spreadOrganisms(Organism organism, int count) {
-        if (count > 0) {
-            final int max = width * height;
-            while (true) {
-                if (getOrganismCount() == max)
-                    break;
-                Tile tile = tiles.get(RNG.roll(0, tiles.size() - 1));
-                if (tile.isFree()) {
-                    addOrganism(organism.construct(), tile);
-                    if (--count == 0)
-                        break;
-                }
+        int max = width * height - 1;
+        while (count > 0 && getOrganismCount() < max) {
+            Tile tile = tiles.get(RNG.roll(0, tiles.size() - 1));
+            if (tile.isFree()) {
+                addOrganism(organism.construct(), tile);
+                count--;
             }
         }
     }

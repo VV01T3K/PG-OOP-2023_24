@@ -15,30 +15,18 @@ public abstract class Organism {
     protected Type type;
 
     public enum Type {
-        // ANTELOPE("🦌"),
-        // CYBER_SHEEP("🤖"),
-        // FOX("🦊"),
-        // HUMAN("👨"),
-        // SHEEP("🐑"),
-        // TURTLE("🐢"),
-        // WOLF("🐺"),
-        // GRASS("🌿"),
-        // GUARANA("🍅"),
-        // MILKWEED("🌾"),
-        // SOSNOWSKY_HOGWEED("🍁"),
-        // WOLF_BERRIES("🍇");
-        ANTELOPE("A"),
-        CYBER_SHEEP("C"),
-        FOX("F"),
-        HUMAN("H"),
-        SHEEP("S"),
-        TURTLE("T"),
-        WOLF("W"),
-        GRASS("G"),
-        GUARANA("G"),
-        MILKWEED("M"),
-        SOSNOWSKY_HOGWEED("S"),
-        WOLF_BERRIES("W");
+        ANTELOPE("🦌"),
+        CYBER_SHEEP("🤖"),
+        FOX("🦊"),
+        HUMAN("👨"),
+        SHEEP("🐑"),
+        TURTLE("🐢"),
+        WOLF("🐺"),
+        GRASS("🌿"),
+        GUARANA("🍅"),
+        MILKWEED("🌾"),
+        SOSNOWSKY_HOGWEED("🍁"),
+        WOLF_BERRIES("🍇");
 
         private final String symbol;
 
