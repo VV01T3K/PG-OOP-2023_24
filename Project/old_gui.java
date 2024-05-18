@@ -9,7 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class GUI implements ActionListener {
+public class old_gui implements ActionListener {
 
     int count = 0;
     JLabel label;
@@ -21,7 +21,7 @@ public class GUI implements ActionListener {
         label.setText("Number of clicks: " + count);
     }
 
-    public GUI() {
+    public old_gui() {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(80, 80, 40, 80));
@@ -55,6 +55,6 @@ public class GUI implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new GUI();
+        new old_gui();
     }
 }
