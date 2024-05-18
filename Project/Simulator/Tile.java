@@ -93,10 +93,4 @@ public class Tile {
     public long getOrganismCount() {
         return organisms.size();
     }
-
-    // public long getDistanceTo(Tile tile, long width) {
-    // long dx = Math.abs(this.index % width - tile.index % width);
-    // long dy = Math.abs(this.index / width - tile.index / width);
-    // return dx + dy;
-    // }
 }

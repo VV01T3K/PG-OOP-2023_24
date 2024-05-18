@@ -57,4 +57,17 @@ public class HexWorld extends World {
             }
         }
     }
+
+    @Override
+    public long getDistanceTo(Tile start, Tile target) {
+        int x1 = start.index % width;
+        int y1 = start.index / width;
+        int x2 = target.index % width;
+        int y2 = target.index / width;
+
+        int dx = Math.abs(x1 - x2);
+        int dy = Math.abs(y1 - y2);
+
+        return dx + Math.max(0, (dy - dx) / 2);
+    }
 }

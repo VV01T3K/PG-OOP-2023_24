@@ -69,6 +69,12 @@ public class World {
         }
     }
 
+    public long getDistanceTo(Tile tile, Tile target) {
+        long dx = Math.abs(tile.index % width - target.index % width);
+        long dy = Math.abs(tile.index / width - target.index / width);
+        return dx + dy;
+    }
+
     public void setWorld(int width, int height, long time) {
         this.clearTiles();
         this.width = width;
