@@ -28,7 +28,7 @@ public class Fox extends Animal {
         if (neighbours.isEmpty()) {
             target = tile.getRandomFreeNeighbour();
         } else {
-            target = neighbours.get(RNG.getInstance().roll(0, neighbours.size() - 1));
+            target = neighbours.get(RNG.roll(0, neighbours.size() - 1));
         }
         move(target);
     }

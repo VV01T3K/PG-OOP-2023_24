@@ -18,7 +18,7 @@ public abstract class Plant extends Organism {
     public void action() {
         if (!GlobalSettings.AI_REPRODUCE)
             return; // Fixed: Directly access static variable
-        if (RNG.getInstance().roll(0, 100) < 5) { // Fixed: Use getInstance() for non-static method access// Fixed:
+        if (RNG.roll(0, 100) < 5) { // Fixed: Use getInstance() for non-static method access// Fixed:
             Tile newtile = tile.getRandomFreeNeighbour(); // Fixed: Use Java object references, not pointers
             if (newtile == null)
                 return; // Fixed: Use null for no object in Java

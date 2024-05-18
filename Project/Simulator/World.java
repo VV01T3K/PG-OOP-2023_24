@@ -172,7 +172,7 @@ public class World {
             while (true) {
                 if (getOrganismCount() == max)
                     break;
-                Tile tile = tiles.get(RNG.getInstance().roll(0, tiles.size() - 1));
+                Tile tile = tiles.get(RNG.roll(0, tiles.size() - 1));
                 if (tile.isFree()) {
                     addOrganism(organism.construct(), tile);
                     if (--count == 0)

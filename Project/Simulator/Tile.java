@@ -50,7 +50,7 @@ public class Tile {
                 .collect(Collectors.toList());
         if (freeNeighbours.isEmpty())
             return null;
-        return freeNeighbours.get(RNG.getInstance().roll(0, freeNeighbours.size()));
+        return freeNeighbours.get(RNG.roll(0, freeNeighbours.size()));
     }
 
     public Tile getNeighbour(DynamicDirections direction) {
@@ -63,7 +63,7 @@ public class Tile {
                 .collect(Collectors.toList());
         if (neighbours.isEmpty())
             return null;
-        return neighbours.get(RNG.getInstance().roll(0, neighbours.size()));
+        return neighbours.get(RNG.roll(0, neighbours.size()));
     }
 
     public DynamicDirections getRandomDirection() {
@@ -73,7 +73,7 @@ public class Tile {
                 .collect(Collectors.toList());
         if (availableDirections.isEmpty())
             return DynamicDirections.get("SELF");
-        return availableDirections.get(RNG.getInstance().roll(0, availableDirections.size()));
+        return availableDirections.get(RNG.roll(0, availableDirections.size()));
     }
 
     public boolean isFree() {

@@ -30,7 +30,7 @@ public class Antelope extends Animal {
         neighbours.remove(oldTile);
         if (neighbours.isEmpty())
             return;
-        Tile newTile = neighbours.get(RNG.getInstance().roll(0, neighbours.size() - 1));
+        Tile newTile = neighbours.get(RNG.roll(0, neighbours.size() - 1));
         move(newTile);
     }
 
@@ -38,7 +38,7 @@ public class Antelope extends Animal {
     public void collision(Organism other) {
         if (other instanceof Antelope)
             super.collision(other);
-        else if (RNG.getInstance().roll(0, 100) < 50) {
+        else if (RNG.roll(0, 100) < 50) {
             Tile newTile = tile.getRandomFreeNeighbour();
             if (newTile == null) {
                 super.collision(other);
@@ -54,7 +54,7 @@ public class Antelope extends Animal {
     public boolean collisionReaction(Organism other) {
         if (other instanceof Antelope)
             return false;
-        if (RNG.getInstance().roll(0, 100) < 50) {
+        if (RNG.roll(0, 100) < 50) {
             Tile newTile = tile.getRandomFreeNeighbour();
             if (newTile == null)
                 return false;

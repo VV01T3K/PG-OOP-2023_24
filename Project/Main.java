@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // World world = new World(30, 30, false);
-        HexWorld world = new HexWorld(30, 30, true);
+        // World world = new World(20, 20, false);
+        HexWorld world = new HexWorld(20, 20, true);
         Display display = new Display(world);
         Scanner scanner = new Scanner(System.in); // Create a Scanner object
 

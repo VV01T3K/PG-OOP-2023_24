@@ -18,7 +18,7 @@ public class Turtle extends Animal {
     @Override
     public void action() {
         // 75% chance to skip turn
-        if (RNG.getInstance().roll(0, 100) < 75)
+        if (RNG.roll(0, 100) < 75)
             return;
         super.action();
     }
