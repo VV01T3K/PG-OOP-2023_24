@@ -10,15 +10,13 @@ import Utils.RNG;
 import Utils.DynamicDirections;
 
 public class Tile {
-    private Tile[] directions = new Tile[4];
+    private Tile[] directions;
     private List<Organism> organisms = new ArrayList<>();
     public final int index;
 
-    public Tile(int index) {
+    public Tile(int index, int directionCount) {
         this.index = index;
-        // In Java, the array is already initialized to null, so no need to fill it with
-        // nulls.
-        // The ArrayList does not need to be reserved as in C++, it dynamically resizes.
+        directions = new Tile[directionCount];
     }
 
     @Override

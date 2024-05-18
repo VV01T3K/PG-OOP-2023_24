@@ -18,18 +18,14 @@ public class World {
     protected List<String> logs = new ArrayList<>();
     protected Human human = null;
 
-    public World(int width, int height) {
+    public World(int width, int height, boolean hex) {
+
+        if (hex) {
+            return;
+        }
 
         DynamicDirections.clear();
 
-        // Assuming DynamicDirections.addInstance creates and maps string keys to unique
-        // objects or enums
-        // The fix involves ensuring that "UP", "RIGHT", "DOWN", "LEFT" are properly
-        // mapped or accessible as fields or keys
-        // If DynamicDirections is supposed to manage direction instances, ensure it
-        // provides access to these instances
-        // For simplicity, let's assume DynamicDirections should expose static fields or
-        // methods for directions
         DynamicDirections.addInstance("UP");
         DynamicDirections.addInstance("RIGHT");
         DynamicDirections.addInstance("DOWN");
@@ -45,13 +41,13 @@ public class World {
     }
 
     public World() {
-        this(20, 20);
+        this(20, 20, false);
     }
 
     protected void createBoard(int width, int height) {
         // Initialize tiles based on width and height
         for (int i = 0; i < width * height; i++) {
-            tiles.add(new Tile(i));
+            tiles.add(new Tile(i, 4));
         }
         // Set links between tiles
         for (int y = 0; y < height; y++) {
