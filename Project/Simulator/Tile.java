@@ -21,7 +21,8 @@ public class Tile {
 
     @Override
     public String toString() {
-        return organisms.isEmpty() ? "🔳" : organisms.get(0).getSymbol();
+        // return organisms.isEmpty() ? "🔳" : organisms.get(0).getSymbol();
+        return organisms.isEmpty() ? "#" : organisms.get(0).getSymbol();
     }
 
     public void clear() {

@@ -36,7 +36,7 @@ public class GridOfButtons extends JFrame {
         // Create and add buttons to the grid panel
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                JButton button = new JButton(x + "," + y);
+                JButton button = new JButton(x + "🔳," + y);
                 gridPanel.add(button);
             }
         }
@@ -107,7 +107,7 @@ public class GridOfButtons extends JFrame {
         int i = 0;
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            bottomTextArea.setText("Your new text here." + i++);
+            bottomTextArea.setText("Your 🔳 new text here." + i++);
             System.out.println("Press Enter to continue...");
             String input = scanner.nextLine();
         }
