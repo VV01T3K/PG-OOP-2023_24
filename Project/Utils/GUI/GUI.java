@@ -20,8 +20,7 @@ import Utils.FileHandler;
 import Utils.FileHandler.WorldLoadResult;
 
 public class GUI {
-    World world;
-
+    private World world;
     private JFrame window;
     private JToolBar toolBar;
     private JPanel cardPanel;
@@ -33,8 +32,18 @@ public class GUI {
     private JButton continueButton;
     private JPanel controlPanel;
     private Map<Point, JButton> buttons = new HashMap<>();
-    JButton nextRound;
-    JLabel humanPower;
+    private JButton nextRound;
+    private JLabel humanPower;
+
+    public World getWorld() {
+        return world;
+    }
+
+    public JButton getNextRound() {
+        return nextRound;
+    }
+
+    private ProfileManager profileManager;
 
     public GUI(World world) {
         this.world = world;
@@ -60,9 +69,21 @@ public class GUI {
         constructNewGamePanel(); // Initialize newGamePanel
         constructGameView();
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
-        setupKeyBindings();
 
         window.pack();
+
+        profileManager = new ProfileManager(window);
+        profileManager.addProfile("Square", new SquareKeyBindings(this));
+        profileManager.addProfile("Hexagonal", new HexagonalKeyBindings(this));
+
+        KeyActionProfile defaultProfile = new KeyActionProfile();
+        defaultProfile.addAction("SPACE", () -> {
+        });
+        defaultProfile.addAction("ENTER", () -> {
+        });
+        profileManager.addProfile("DEFAULT", defaultProfile);
+
+        profileManager.switchProfile("DEFAULT");
     }
 
     private void setDefaultFontSize(int size) {
@@ -155,70 +176,6 @@ public class GUI {
 
         controlPanel.revalidate();
         controlPanel.repaint();
-
-    }
-
-    private void setupKeyBindings() {
-        JPanel contentPane = (JPanel) window.getContentPane();
-        configureKeyActions(contentPane);
-        contentPane.setFocusable(true);
-    }
-
-    private void configureKeyActions(JComponent component) {
-        InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = component.getActionMap();
-
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_SPACE, "SPACE", () -> {
-            nextRound.doClick();
-        });
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_W, "UP", () -> {
-            if (!world.hasHuman())
-                return;
-            world.getHuman().setNextMove(DynamicDirections.get("UP"));
-            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: UP</div></html>");
-        });
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_S, "DOWN", () -> {
-            if (!world.hasHuman())
-                return;
-            world.getHuman().setNextMove(DynamicDirections.get("DOWN"));
-            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: DOWN</div></html>");
-        });
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_A, "LEFT", () -> {
-            if (!world.hasHuman())
-                return;
-            world.getHuman().setNextMove(DynamicDirections.get("LEFT"));
-            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: LEFT</div></html>");
-        });
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_D, "RIGHT", () -> {
-            if (!world.hasHuman())
-                return;
-            world.getHuman().setNextMove(DynamicDirections.get("RIGHT"));
-            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: RIGHT</div></html>");
-        });
-
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_UP, "UP");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_DOWN, "DOWN");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_LEFT, "LEFT");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_RIGHT, "RIGHT");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_UP, "UP");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_DOWN, "DOWN");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_LEFT, "LEFT");
-        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_RIGHT, "RIGHT");
-    }
-
-    private void configureKeyAction(InputMap inputMap, ActionMap actionMap, int keyCode, String actionName,
-            Runnable actionBehavior) {
-        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), actionName);
-        actionMap.put(actionName, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actionBehavior.run();
-            }
-        });
-    }
-
-    private void configureKeyAction(InputMap inputMap, ActionMap actionMap, int keyCode, String actionName) {
-        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), actionName);
     }
 
     public void constructGameView() {
@@ -458,7 +415,7 @@ public class GUI {
                 world = new World(newWidth, newHeight);
             world.populateWorld();
             world.setHuman(world.findHuman());
-
+            profileManager.switchProfile(world instanceof HexWorld ? "Hexagonal" : "Square");
             constructBoardPanel(newWidth, newHeight);
             showGameView(); // Show gameView instead of showBoardPanel
             window.pack();
@@ -569,7 +526,8 @@ public class GUI {
                 WorldLoadResult result = FileHandler.loadWorld(save);
                 world = result.world;
                 window.setSize(result.windowWidth, result.windowHeight);
-                setupKeyBindings();
+                world.setHuman(world.findHuman());
+                profileManager.switchProfile(world instanceof HexWorld ? "Hexagonal" : "Square");
                 constructBoardPanel(world.getWidth(), world.getHeight());
                 showGameView();
             }
