@@ -20,6 +20,7 @@ public class GUI {
     private JPopupMenu addOrganismPopup;
     private JPanel logPanel;
     private JSplitPane gameView;
+    private JButton continueButton;
 
     public GUI(World world) {
         this.world = world;
@@ -67,6 +68,11 @@ public class GUI {
 
         // Step 5: Add gameView to cardPanel instead of directly to window
         cardPanel.add(gameView, "GameView");
+    }
+
+    public void updateGameView() {
+        constructBoardPanel(world.getWidth(), world.getHeight());
+        showGameView();
     }
 
     private void showGameView() {
@@ -269,6 +275,12 @@ public class GUI {
         cl.show(cardPanel, "Menu");
         toolBar.setVisible(false);
         window.setSize(400, 300);
+
+        if (world.checkTime() > 0)
+            continueButton.setVisible(true);
+        else
+            continueButton.setVisible(false);
+
         window.revalidate();
         window.repaint();
     }
@@ -283,7 +295,7 @@ public class GUI {
 
     private void constructMenu() {
         JPanel menuPanel = new JPanel();
-        JButton continueButton = new JButton("Continue the game");
+        continueButton = new JButton("Continue the game");
         JButton startButton = new JButton("Start new game");
         JButton loadButton = new JButton("Load game");
         JButton exitButton = new JButton("Exit");

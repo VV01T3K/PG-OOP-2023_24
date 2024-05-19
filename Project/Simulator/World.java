@@ -282,7 +282,9 @@ public class World {
         Tile tile = getTile(x, y);
         while (!tile.isFree())
             tile.removeOrganism(tile.getOrganism());
-        addOrganism(type.construct(this), tile);
+        Organism organism = type.construct(this);
+        organism.skipTurn();
+        addOrganism(organism, tile);
         addLog("New " + type.getSymbol() + " " + type + " spawned!");
     }
 
