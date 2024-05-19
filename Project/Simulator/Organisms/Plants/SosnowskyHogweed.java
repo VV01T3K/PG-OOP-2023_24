@@ -6,9 +6,15 @@ import Simulator.Tile;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class SosnowskyHogweed extends Plant {
     public SosnowskyHogweed(World world) {
         super(10, world, Type.SOSNOWSKY_HOGWEED);
+    }
+
+    public SosnowskyHogweed(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override

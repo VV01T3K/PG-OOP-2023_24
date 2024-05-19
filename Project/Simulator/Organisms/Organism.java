@@ -42,6 +42,10 @@ public abstract class Organism {
             return symbol;
         }
 
+        public static Type getTypeByInt(int i) {
+            return Type.values()[i];
+        }
+
         public Organism construct(World w) {
             switch (this) {
                 case ANTELOPE:
@@ -81,6 +85,18 @@ public abstract class Organism {
         this.power = power;
         this.initiative = initiative;
         this.world = world;
+    }
+
+    public Organism(JSONObject json, World world) {
+        this.type = Type.getTypeByInt(json.getInt("type"));
+        this.power = json.getInt("power");
+        this.initiative = json.getInt("initiative");
+        this.age = json.getLong("age");
+        this.alive = json.getBoolean("alive");
+        this.reproductionCooldown = json.getInt("reproduction_cooldown");
+        this.skip = json.getBoolean("skip");
+        this.world = world;
+        this.tile = world.getTile(json.getInt("tile_index"));
     }
 
     public Tile getTile() {
@@ -163,7 +179,7 @@ public abstract class Organism {
 
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("type", this.type.toString());
+        json.put("type", this.type.ordinal());
         json.put("power", this.power);
         json.put("initiative", this.initiative);
         json.put("age", this.age);

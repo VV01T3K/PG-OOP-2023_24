@@ -530,6 +530,21 @@ public class GUI {
             showGameView();
         });
 
+        loadButton.addActionListener(e -> {
+            String[] saves = FileHandler.listSaves().toArray(new String[0]);
+            if (saves.length == 0) {
+                JOptionPane.showMessageDialog(window, "No saves found", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String save = (String) JOptionPane.showInputDialog(window, "Choose a save to load", "Load game",
+                    JOptionPane.QUESTION_MESSAGE, null, saves, saves[0]);
+            if (save != null) {
+                world = FileHandler.loadWorld(save);
+                constructBoardPanel(world.getWidth(), world.getHeight());
+                showGameView();
+            }
+        });
+
         continueButton.setBackground(Color.LIGHT_GRAY);
         continueButton.setVisible(false);
         startButton.setBackground(Color.LIGHT_GRAY);

@@ -6,6 +6,8 @@ import Utils.RNG;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class Fox extends Animal {
 
     public Fox(World world) {
@@ -15,6 +17,10 @@ public class Fox extends Animal {
     @Override
     public Animal construct() {
         return new Fox(world);
+    }
+
+    public Fox(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override

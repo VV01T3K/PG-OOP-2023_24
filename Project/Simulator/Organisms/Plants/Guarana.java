@@ -1,12 +1,19 @@
 package Simulator.Organisms.Plants;
 
 import Simulator.Organisms.Organism;
+
+import org.json.JSONObject;
+
 import Simulator.World;
 
 public class Guarana extends Plant {
 
     public Guarana(World world) {
         super(0, world, Type.GUARANA);
+    }
+
+    public Guarana(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override

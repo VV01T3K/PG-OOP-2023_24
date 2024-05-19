@@ -4,10 +4,16 @@ import Simulator.Organisms.Organism;
 import Utils.RNG;
 import Simulator.World;
 
+import org.json.JSONObject;
+
 public class Turtle extends Animal {
 
     public Turtle(World world) {
         super(2, 1, world, Type.TURTLE);
+    }
+
+    public Turtle(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override

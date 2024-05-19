@@ -7,13 +7,20 @@ import Simulator.Tile;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class Antelope extends Animal {
 
     public Antelope(World world) {
         super(4, 4, world, Type.ANTELOPE);
     }
 
+    public Antelope(JSONObject json, World world) {
+        super(json, world);
+    }
+
     @Override
+
     public Animal construct() {
         return new Antelope(world);
     }

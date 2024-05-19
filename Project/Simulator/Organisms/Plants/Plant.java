@@ -6,12 +6,18 @@ import Simulator.GlobalSettings;
 import Utils.RNG;
 import Simulator.Tile;
 
+import org.json.JSONObject;
+
 public abstract class Plant extends Organism {
 
     private int reproduction_cooldown = 5;
 
     public Plant(int power, World world, Type type) {
         super(type, power, 0, world);
+    }
+
+    public Plant(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override

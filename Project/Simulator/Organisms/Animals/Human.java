@@ -17,6 +17,14 @@ public class Human extends Animal {
         this.immortality = new Immortality(5, 5);
     }
 
+    public Human(JSONObject json, World world) {
+        super(json, world);
+        this.immortality = new Immortality(json.getInt("ability_cooldown"), json.getInt("immortality_left"), 5, 5);
+        if (json.getInt("immortality_left") > 0 || json.getInt("ability_cooldown") == 0) {
+            immortality.use();
+        }
+    }
+
     @Override
     public Animal construct() {
         return new Human(world);

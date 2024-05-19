@@ -28,6 +28,12 @@ public abstract class Animal extends Organism {
         super(type, power, initiative, world);
     }
 
+    public Animal(JSONObject json, World world) {
+        super(json, world);
+        int index = json.getInt("old_tile_index");
+        oldTile = index == -1 ? null : world.getTile(index);
+    }
+
     @Override
     public void action() {
         move(this.tile.getRandomNeighbour());

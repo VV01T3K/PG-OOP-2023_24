@@ -40,6 +40,10 @@ public class World {
         createBoard(width, height);
     }
 
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public World() {
         this(20, 20, false);
     }

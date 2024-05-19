@@ -1,12 +1,19 @@
 package Simulator.Organisms.Plants;
 
 import Simulator.Organisms.Organism;
+
+import org.json.JSONObject;
+
 import Simulator.World;
 
 public class WolfBerries extends Plant {
 
     public WolfBerries(World world) {
         super(99, world, Type.WOLF_BERRIES);
+    }
+
+    public WolfBerries(JSONObject json, World world) {
+        super(json, world);
     }
 
     @Override
