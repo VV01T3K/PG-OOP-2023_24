@@ -91,7 +91,7 @@ public class Human extends Animal {
         if (immortality.isActive())
             return immortality.getDuration() + " turns left";
         if (!immortality.isReady())
-            return immortality.getCooldown() + " turns of cooldown";
+            return immortality.getCooldown() + " turns of cooldown left";
         if (immortality.checkToggle())
             return "Using next turn";
         return "Ready to use";

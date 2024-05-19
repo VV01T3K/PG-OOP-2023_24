@@ -74,6 +74,7 @@ public class GUI {
 
     private JButton createButton(String htmlText, Color background, Color text) {
         JButton button = new JButton(htmlText);
+        button.setFocusable(false);
         button.setOpaque(true);
         button.setContentAreaFilled(true);
         button.setBorderPainted(false);
@@ -105,16 +106,20 @@ public class GUI {
         controlPanel.add(new JLabel("Human:"));
         controlPanel.add(new JLabel("    Strength: 10    "));
         JButton useImmortality = createButton(
-                "<html><div style='text-align: center;'>🔰 Immortality <br/> Ready to use</div></html>",
-                Color.BLUE, Color.YELLOW);
+                "<html><div style='text-align: center;'>🔰 Immortality <br/>"
+                        + (world.hasHuman() ? world.getHuman().getAbilityInfo() : "")
+                        + "</div></html>",
+                Color.WHITE, Color.BLACK); // Assuming default colors are White for foreground and Black for background
         useImmortality.addActionListener(e -> {
+            world.getHuman().toggleImmortality();
             useImmortality
-                    .setText("<html><div style='text-align: center;'>🔰 Immortality<br/>Used</div></html>");
-            world.simulate();
+                    .setText("<html><div style='text-align: center;'>🔰 Immortality<br/>"
+                            + world.getHuman().getAbilityInfo() + "</div></html>");
+
         });
 
         JButton nextRound = createButton(
-                "<html><div style='text-align: center;'>Give directions to human<br/><br/></div></html>",
+                "<html><div style='text-align: center;'>Next turn<br/><br/></div></html>",
                 Color.GREEN, Color.BLACK);
         nextRound.addActionListener(e -> {
             nextRound
@@ -373,6 +378,7 @@ public class GUI {
             int newHeight = Integer.parseInt(heightField.getText());
             world = new World(newWidth, newHeight, isHexagonal);
             world.populateWorld();
+            world.setHuman(world.findHuman());
 
             constructBoardPanel(newWidth, newHeight);
             showGameView(); // Show gameView instead of showBoardPanel
