@@ -315,7 +315,7 @@ public class GUI {
         return new ImageIcon(image);
     }
 
-    private void constructBoardPanel(int width, int height) {
+    private void constructSquareBoardPanel(int width, int height) {
         boardPanel.removeAll(); // Remove all components from the previous board
         boardPanel.setLayout(new GridBoardLayoutManager()); // Set the layout manager
         for (int x = 0; x < width; x++) {
@@ -338,6 +338,47 @@ public class GUI {
 
         boardPanel.revalidate(); // Revalidate the panel to apply changes
         boardPanel.repaint(); // Repaint to display the new buttons
+    }
+
+    private void constructHexagonalBoardPanel(int width, int height) {
+        boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(height, width)); // Set layout
+
+        // Calculate the maximum number of buttons in the middle row
+        int maxButtonsInRow = width / 2 + 1;
+
+        for (int y = 0; y < height; y++) {
+            int buttonsInRow = maxButtonsInRow - Math.abs(y - height / 2); // Calculate buttons for current row
+            int spacesBefore = (width - buttonsInRow) / 2; // Calculate leading spaces to center buttons
+            int spacesAfter = width - buttonsInRow - spacesBefore; // Calculate trailing spaces
+
+            // Add leading spaces
+            for (int i = 0; i < spacesBefore; i++) {
+                boardPanel.add(new JLabel(""));
+            }
+
+            // Add buttons
+            for (int x = 0; x < buttonsInRow; x++) {
+                JButton button = new JButton(x + "," + y);
+                boardPanel.add(button);
+            }
+
+            // Add trailing spaces
+            for (int i = 0; i < spacesAfter; i++) {
+                boardPanel.add(new JLabel(""));
+            }
+        }
+
+        boardPanel.revalidate(); // Revalidate the panel to apply changes
+        boardPanel.repaint(); // Repaint to display the new buttons
+    }
+
+    private void constructBoardPanel(int width, int height) {
+        if (world instanceof HexWorld) {
+            constructHexagonalBoardPanel(width, height);
+        } else {
+            constructSquareBoardPanel(width, height);
+        }
     }
 
     private void updateBoardPanel() {
