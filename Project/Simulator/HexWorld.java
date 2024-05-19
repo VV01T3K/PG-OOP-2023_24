@@ -7,16 +7,16 @@ import Utils.DynamicDirections;
 public class HexWorld extends World {
 
     public HexWorld(int width, int height, boolean hex) {
-        super(width, height, hex);
+        super(false);
 
         DynamicDirections.clear();
 
-        DynamicDirections.addInstance("NORTH");
-        DynamicDirections.addInstance("NORTH_EAST");
-        DynamicDirections.addInstance("SOUTH_EAST");
-        DynamicDirections.addInstance("SOUTH");
-        DynamicDirections.addInstance("SOUTH_WEST");
-        DynamicDirections.addInstance("NORTH_WEST");
+        DynamicDirections.addInstance("UP");
+        DynamicDirections.addInstance("DOWN");
+        DynamicDirections.addInstance("TOP_LEFT");
+        DynamicDirections.addInstance("TOP_RIGHT");
+        DynamicDirections.addInstance("BOTTOM_LEFT");
+        DynamicDirections.addInstance("BOTTOM_RIGHT");
         DynamicDirections.addInstance("SELF");
 
         this.width = width;
@@ -34,28 +34,52 @@ public class HexWorld extends World {
 
     @Override
     public void createBoard(int width, int height) {
-        // Initialize tiles based on width and height
-        for (int i = 0; i < width * height; i++) {
+
+        // System.out.println(DynamicDirections.get("UP").ordinal());
+        // System.out.println(DynamicDirections.get("DOWN").ordinal());
+        // System.out.println(DynamicDirections.get("TOP_LEFT").ordinal());
+        // System.out.println(DynamicDirections.get("TOP_RIGHT").ordinal());
+        // System.out.println(DynamicDirections.get("BOTTOM_LEFT").ordinal());
+        // System.out.println(DynamicDirections.get("BOTTOM_RIGHT").ordinal());
+        // System.out.println(DynamicDirections.get("SELF").ordinal());
+
+        int size = width * height;
+
+        for (int i = 0; i < size; i++) {
             tiles.add(new Tile(i, 6));
+            tiles.get(i).placeOrganism(human);
         }
-        // Set links between tiles
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+
+        for (int x = 0; x < width - 1; x++) {
+            for (int y = 0; y < height - 1; y++) {
                 Tile tile = tiles.get(y * width + x);
-                if (y > 0) {
-                    tile.setLink(DynamicDirections.get("NORTH"), tiles.get((y - 1) * width + x));
-                }
-                if (x < width - 1) {
-                    tile.setLink(DynamicDirections.get("NORTH_EAST"), tiles.get(y * width + x + 1));
-                }
-                if (y < height - 1) {
-                    tile.setLink(DynamicDirections.get("SOUTH_EAST"), tiles.get((y + 1) * width + x));
-                }
-                if (x > 0) {
-                    tile.setLink(DynamicDirections.get("SOUTH"), tiles.get(y * width + x - 1));
-                }
+
+                int indexUp = (y - 1) * width + (x - 1);
+                Tile up = (indexUp >= 0 && indexUp < tiles.size()) ? tiles.get(indexUp) : null;
+                int indexDown = (y + 1) * width + (x + 1);
+                Tile down = (indexDown >= 0 && indexDown < tiles.size()) ? tiles.get(indexDown) : null;
+                int indexBottomRight = (y) * width + (x + 1);
+                Tile bottom_right = (indexBottomRight >= 0 && indexBottomRight < tiles.size())
+                        ? tiles.get(indexBottomRight)
+                        : null;
+                int indexBottomLeft = (y + 1) * width + (x);
+                Tile bottom_left = (indexBottomLeft >= 0 && indexBottomLeft < tiles.size()) ? tiles.get(indexBottomLeft)
+                        : null;
+                int indexTopRight = (y - 1) * width + (x);
+                Tile top_right = (indexTopRight >= 0 && indexTopRight < tiles.size()) ? tiles.get(indexTopRight) : null;
+                int indexTopLeft = (y) * width + (x - 1);
+                Tile top_left = (indexTopLeft >= 0 && indexTopLeft < tiles.size()) ? tiles.get(indexTopLeft) : null;
+
+                tile.setLink(DynamicDirections.get("UP"), up);
+                tile.setLink(DynamicDirections.get("DOWN"), down);
+                tile.setLink(DynamicDirections.get("TOP_LEFT"), top_left);
+                tile.setLink(DynamicDirections.get("TOP_RIGHT"), top_right);
+                tile.setLink(DynamicDirections.get("BOTTOM_LEFT"), bottom_left);
+                tile.setLink(DynamicDirections.get("BOTTOM_RIGHT"), bottom_right);
+
             }
         }
+
     }
 
     @Override
@@ -68,6 +92,19 @@ public class HexWorld extends World {
         int dx = Math.abs(x1 - x2);
         int dy = Math.abs(y1 - y2);
 
-        return dx + Math.max(0, (dy - dx) / 2);
+        // Corrected the distance calculation for hexagonal grid
+        if (dx > dy) {
+            return dx;
+        } else {
+            return dy + (dx - dy) / 2;
+        }
+    }
+
+    public void print() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++)
+                System.out.print("(" + x + "," + y + ")");
+            System.out.println();
+        }
     }
 }

@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.List;
 
 import Simulator.World;
+import Simulator.HexWorld;
 import Simulator.GlobalSettings;
-import Simulator.Tile;
 import Simulator.Organisms.Organism.Type;
 import Utils.DynamicDirections;
 import Utils.FileHandler;
@@ -455,7 +455,10 @@ public class GUI {
             boolean isHexagonal = worldTypeComboBox.getSelectedItem().equals("Hexagonal");
             int newWidth = Integer.parseInt(widthField.getText());
             int newHeight = Integer.parseInt(heightField.getText());
-            world = new World(newWidth, newHeight, isHexagonal);
+            if (isHexagonal)
+                world = new HexWorld(newWidth, newHeight, true);
+            else
+                world = new World(newWidth, newHeight, false);
             world.populateWorld();
             world.setHuman(world.findHuman());
 
