@@ -21,6 +21,7 @@ public class GUI {
     private JPanel logPanel;
     private JSplitPane gameView;
     private JButton continueButton;
+    private JPanel controlPanel = new JPanel();
 
     public GUI(World world) {
         this.world = world;
@@ -40,7 +41,24 @@ public class GUI {
         constructGameView();
 
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
+        setupKeyBindings();
+    }
 
+    private void setupKeyBindings() {
+        JPanel contentPane = (JPanel) window.getContentPane();
+        InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = contentPane.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "SPACE");
+        actionMap.put("SPACE", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                world.simulate();
+                updateGameView();
+            }
+        });
+
+        contentPane.setFocusable(true);
     }
 
     public void constructGameView() {
@@ -51,7 +69,6 @@ public class GUI {
         // Step 2: Configure rightSplitPane
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         rightSplitPane.setOneTouchExpandable(true);
-        JPanel controlPanel = new JPanel(); // Placeholder for actual control components
         controlPanel.add(new JLabel("Control Panel")); // Example content
 
         // Step 3: Add components
@@ -115,23 +132,22 @@ public class GUI {
 
     }
 
-    private void constructBoardPanel(int worldWidth, int worldHeight) {
+    private void constructBoardPanel(int width, int height) {
         boardPanel.removeAll(); // Remove all components from the previous board
-        boardPanel.setLayout(new GridLayout(worldHeight, worldWidth));
+        boardPanel = new JPanel(new GridLayout(height, width));
 
         Font buttonFont = new Font("Sans-Serif", Font.PLAIN, 30); // Example font
 
-        for (int i = 0; i < worldHeight; i++) {
-            for (int j = 0; j < worldWidth; j++) {
-                JButton button = new JButton(world.getTile(i, j).toString());
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                JButton button = new JButton(world.getTile(x, y).toString());
                 button.setFont(buttonFont); // Set the font here
                 button.setPreferredSize(new Dimension(50, 50));
-                final int fi = i;
-                final int fj = j;
+                final int fi = y;
+                final int fj = x;
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        // Get x and y coordinates of the mouse click
                         int x = e.getX();
                         int y = e.getY();
                         useAddOrganismPopup(x, y, button, fi, fj);
@@ -216,8 +232,6 @@ public class GUI {
 
             world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
             world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
-            world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
-            world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
             constructBoardPanel(newWidth, newHeight);
             constructGameView(); // Ensure gameView is constructed with the new board
             showGameView(); // Show gameView instead of showBoardPanel
@@ -253,6 +267,7 @@ public class GUI {
 
     private void constructToolBar() {
         toolBar = new JToolBar();
+        toolBar.setFocusable(false);
         JButton menuButton = new JButton("Menu");
         menuButton.addActionListener(e -> {
             saveButton.setVisible(false);
