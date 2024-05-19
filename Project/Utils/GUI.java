@@ -21,12 +21,13 @@ public class GUI {
     private JPanel logPanel;
     private JSplitPane gameView;
     private JButton continueButton;
-    private JPanel controlPanel = new JPanel();
+    private JPanel controlPanel;
 
     public GUI(World world) {
         this.world = world;
         boardPanel = new JPanel();
         logPanel = new JPanel();
+        controlPanel = new JPanel();
 
         window = new JFrame("Wojciech Siwiec s197815 - \"Grids of Life\"");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,13 +36,26 @@ public class GUI {
         window.setLayout(new BorderLayout());
 
         cardPanel = new JPanel(new CardLayout());
+        constructControlPanel();
         constructMenu(); // Initialize menuPanel
         constructNewGamePanel(); // Initialize newGamePanel
         constructToolBar();
         constructGameView();
-
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
         setupKeyBindings();
+    }
+
+    private void constructControlPanel() {
+        controlPanel.removeAll();
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+        controlPanel.add(new JLabel("Control Panel"));
+        controlPanel.add(new JLabel("World:"));
+        controlPanel.add(new JLabel("\tTime:" + world.checkTime()));
+        controlPanel.add(new JLabel("\tOrganisms:" + world.getOrganismCount()));
+
+        controlPanel.revalidate();
+        controlPanel.repaint();
+
     }
 
     private void setupKeyBindings() {
@@ -69,7 +83,6 @@ public class GUI {
         // Step 2: Configure rightSplitPane
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         rightSplitPane.setOneTouchExpandable(true);
-        controlPanel.add(new JLabel("Control Panel")); // Example content
 
         // Step 3: Add components
         rightSplitPane.setTopComponent(logPanel);
@@ -93,6 +106,8 @@ public class GUI {
     }
 
     private void showGameView() {
+        constructGameView(); // Ensure gameView is constructed with the new board
+        constructControlPanel();
         updateLogPanel();
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
         cl.show(cardPanel, "GameView");
@@ -115,6 +130,8 @@ public class GUI {
 
     private void useAddOrganismPopup(int x, int y, JButton button, int i, int j) {
         addOrganismPopup = new JPopupMenu();
+        if (button.getText().equals(Type.HUMAN.getSymbol()))
+            return;
 
         for (Type type : Type.values()) {
             if (type == Type.HUMAN)
@@ -123,7 +140,7 @@ public class GUI {
             item.addActionListener(e -> {
                 world.setNewOrganism(type, i, j);
                 button.setText(world.getTile(i, j).toString());
-                updateLogPanel();
+                showGameView();
             });
             addOrganismPopup.add(item);
         }
@@ -134,7 +151,7 @@ public class GUI {
 
     private void constructBoardPanel(int width, int height) {
         boardPanel.removeAll(); // Remove all components from the previous board
-        boardPanel = new JPanel(new GridLayout(height, width));
+        boardPanel.setLayout(new GridLayout(height, width)); // Set the layout manager
 
         Font buttonFont = new Font("Sans-Serif", Font.PLAIN, 30); // Example font
 
@@ -233,7 +250,6 @@ public class GUI {
             world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
             world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
             constructBoardPanel(newWidth, newHeight);
-            constructGameView(); // Ensure gameView is constructed with the new board
             showGameView(); // Show gameView instead of showBoardPanel
         });
 
