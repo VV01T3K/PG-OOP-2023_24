@@ -152,15 +152,21 @@ public class GUI {
         nextRound = createButton(
                 "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>",
                 Color.GREEN, Color.BLACK);
-        if (!world.hasHuman()) {
+        if (!world.hasHuman() || GlobalSettings.HUMAN_AI) {
             nextRound.setText("<html><div style='text-align: center;'>Next Turn</div></html>");
             useImmortality.setEnabled(false);
-            useImmortality.setText(
-                    "<html><div style='text-align: center;width: 100px'><p>No human in the world</p></div></html>");
+            if (!GlobalSettings.HUMAN_AI)
+                useImmortality.setText(
+                        "<html><div style='text-align: center;width: 100px'><p>No human in the world</p></div></html>");
 
         }
         nextRound.addActionListener(e -> {
-            if (world.hasHuman() && world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
+            if (GlobalSettings.HUMAN_AI) {
+                nextRound.setText("<html><div style='text-align: center;'>Next Turn</div></html>");
+                humanPower.setText("    Power: " + world.getHuman().getPower());
+                world.simulate();
+                updateGameView();
+            } else if (world.hasHuman() && world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
                 nextRound
                         .setText(
                                 "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>");
