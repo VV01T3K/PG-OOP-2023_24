@@ -1,9 +1,7 @@
 
 import Simulator.World;
 // import Simulator.HexWorld;
-
-import Utils.GUI;
-// import Utils.Display;
+import Utils.GUI.GUI;
 
 // import java.util.Scanner;
 

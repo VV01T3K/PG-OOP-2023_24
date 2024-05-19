@@ -1,4 +1,4 @@
-package Utils;
+package Utils.GUI;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -32,7 +32,6 @@ public class GUI {
         window = new JFrame("Wojciech Siwiec s197815 - \"Grids of Life\"");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // window.setResizable(false);
-        window.setSize(800, 600);
         window.setLayout(new BorderLayout());
 
         cardPanel = new JPanel(new CardLayout());
@@ -43,6 +42,8 @@ public class GUI {
         constructGameView();
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
         setupKeyBindings();
+
+        window.pack();
     }
 
     private void constructControlPanel() {
@@ -50,8 +51,12 @@ public class GUI {
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.add(new JLabel("Control Panel"));
         controlPanel.add(new JLabel("World:"));
-        controlPanel.add(new JLabel("\tTime:" + world.checkTime()));
-        controlPanel.add(new JLabel("\tOrganisms:" + world.getOrganismCount()));
+        controlPanel.add(new JLabel("    Time:" + world.checkTime()));
+        controlPanel.add(new JLabel("    Organisms:" + world.getOrganismCount()));
+
+        controlPanel.add(new JLabel("Human:"));
+        controlPanel.add(new JLabel("    Next move: Pls give me direction    "));
+        controlPanel.add(new JLabel("    🔰 Immortality: Ready to use"));
 
         controlPanel.revalidate();
         controlPanel.repaint();
@@ -78,11 +83,13 @@ public class GUI {
     public void constructGameView() {
         // Step 1: Initialize gameView
         gameView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        gameView.setOneTouchExpandable(true); // Allow users to adjust the split
+        gameView.setOneTouchExpandable(false); // Users cannot adjust the split
+        gameView.setEnabled(false); // Disable the split pane to prevent resizing
 
         // Step 2: Configure rightSplitPane
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        rightSplitPane.setOneTouchExpandable(true);
+        rightSplitPane.setOneTouchExpandable(false);
+        rightSplitPane.setEnabled(false); // Disable the split pane to prevent resizing
 
         // Step 3: Add components
         rightSplitPane.setTopComponent(logPanel);
@@ -90,11 +97,9 @@ public class GUI {
         gameView.setLeftComponent(boardPanel);
         gameView.setRightComponent(rightSplitPane);
 
-        // Step 4: Adjust sizes and visibility
-        logPanel.setPreferredSize(new Dimension(200, 300)); // Example size
-        controlPanel.setPreferredSize(new Dimension(200, 300)); // Example size
-        gameView.setDividerLocation(600); // Example position
-        rightSplitPane.setDividerLocation(300); // Adjust based on preference
+        // Adjusting the initial divider location to prioritize left component's space
+        gameView.setResizeWeight(1.0);
+        rightSplitPane.setResizeWeight(1.0);
 
         // Step 5: Add gameView to cardPanel instead of directly to window
         cardPanel.add(gameView, "GameView");
@@ -111,7 +116,6 @@ public class GUI {
         updateLogPanel();
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
         cl.show(cardPanel, "GameView");
-        window.setSize(800, 600);
         toolBar.setVisible(true);
         window.revalidate();
         window.repaint();
@@ -153,13 +157,11 @@ public class GUI {
         boardPanel.removeAll(); // Remove all components from the previous board
         boardPanel.setLayout(new GridLayout(height, width)); // Set the layout manager
 
-        Font buttonFont = new Font("Sans-Serif", Font.PLAIN, 30); // Example font
-
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 JButton button = new JButton(world.getTile(x, y).toString());
-                button.setFont(buttonFont); // Set the font here
                 button.setPreferredSize(new Dimension(50, 50));
+                button.setFocusable(false);
                 final int fi = y;
                 final int fj = x;
                 button.addMouseListener(new MouseAdapter() {
@@ -170,13 +172,26 @@ public class GUI {
                         useAddOrganismPopup(x, y, button, fi, fj);
                     }
                 });
+                button.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        JButton btn = (JButton) e.getComponent();
+                        adaptFontSize(btn);
+                    }
+                });
                 boardPanel.add(button);
             }
         }
 
         boardPanel.revalidate(); // Revalidate the panel to apply changes
         boardPanel.repaint(); // Repaint to display the new buttons
+    }
 
+    private void adaptFontSize(JButton button) {
+        int buttonHeight = button.getHeight();
+        int fontSize = Math.max(buttonHeight / 3, 10); // Calculate font size based on button height, minimum size 10
+        Font buttonFont = new Font("Sans-Serif", Font.PLAIN, fontSize);
+        button.setFont(buttonFont);
     }
 
     private void addValidationListener(JTextField field) {
@@ -221,6 +236,9 @@ public class GUI {
         newGamePanel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
+        // set preferred size for the newGamePanel
+        newGamePanel.setPreferredSize(new Dimension(300, 200));
+
         gbc.insets = new Insets(5, 5, 5, 5); // Margin between components
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
 
@@ -247,10 +265,9 @@ public class GUI {
             world = new World(newWidth, newHeight, isHexagonal);
             world.populateWorld();
 
-            world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
-            world.addLog("New game with " + newWidth + "x" + newHeight + " grid");
             constructBoardPanel(newWidth, newHeight);
             showGameView(); // Show gameView instead of showBoardPanel
+            window.pack();
         });
 
         // Add components with GridBagConstraints
@@ -305,7 +322,6 @@ public class GUI {
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
         cl.show(cardPanel, "Menu");
         toolBar.setVisible(false);
-        window.setSize(400, 300);
 
         if (world.checkTime() > 0)
             continueButton.setVisible(true);
@@ -336,6 +352,10 @@ public class GUI {
         });
 
         exitButton.addActionListener(e -> System.exit(0));
+
+        continueButton.addActionListener(e -> {
+            showGameView();
+        });
 
         continueButton.setBackground(Color.LIGHT_GRAY);
         continueButton.setVisible(false);
