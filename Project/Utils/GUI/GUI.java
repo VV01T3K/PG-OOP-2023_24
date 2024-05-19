@@ -19,6 +19,8 @@ import Utils.DynamicDirections;
 import Utils.FileHandler;
 import Utils.FileHandler.WorldLoadResult;
 
+import Utils.GUI.RhombusPanel;
+
 public class GUI {
     private World world;
     private JFrame window;
@@ -341,36 +343,10 @@ public class GUI {
     }
 
     private void constructHexagonalBoardPanel(int width, int height) {
-        boardPanel = new JPanel();
-        boardPanel.setLayout(new GridLayout(height, width)); // Set layout
+        // use RhombusPanel instead of JPanel
+        boardPanel = null;
+        boardPanel = new RhombusPanel(width, height, this);
 
-        // Calculate the maximum number of buttons in the middle row
-        int maxButtonsInRow = width / 2 + 1;
-
-        for (int y = 0; y < height; y++) {
-            int buttonsInRow = maxButtonsInRow - Math.abs(y - height / 2); // Calculate buttons for current row
-            int spacesBefore = (width - buttonsInRow) / 2; // Calculate leading spaces to center buttons
-            int spacesAfter = width - buttonsInRow - spacesBefore; // Calculate trailing spaces
-
-            // Add leading spaces
-            for (int i = 0; i < spacesBefore; i++) {
-                boardPanel.add(new JLabel(""));
-            }
-
-            // Add buttons
-            for (int x = 0; x < buttonsInRow; x++) {
-                JButton button = new JButton(x + "," + y);
-                boardPanel.add(button);
-            }
-
-            // Add trailing spaces
-            for (int i = 0; i < spacesAfter; i++) {
-                boardPanel.add(new JLabel(""));
-            }
-        }
-
-        boardPanel.revalidate(); // Revalidate the panel to apply changes
-        boardPanel.repaint(); // Repaint to display the new buttons
     }
 
     private void constructBoardPanel(int width, int height) {

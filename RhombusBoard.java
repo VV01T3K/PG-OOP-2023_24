@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import Utils.GUI.GUI;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,32 +13,35 @@ public class RhombusBoard extends JFrame {
     public RhombusBoard() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Rhombus Board");
-        RhombusPanel rhombusPanel = new RhombusPanel();
+        RhombusPanel rhombusPanel = new RhombusPanel(5, 5);
         this.setContentPane(rhombusPanel);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        this.setPreferredSize(new Dimension(500, 400));
         this.pack();
     }
 
-    private class RhombusPanel extends JPanel {
-        private int squareSize = 30;
-        private final int boardSize = 6;
+    public class RhombusPanel extends JPanel {
+        private int squareSize = 20;
+        private int width;
+        private int height;
+        private GUI gui;
         private List<Polygon> hexagons = new ArrayList<>();
 
-        public RhombusPanel() {
+        public RhombusPanel(int width, int height, GUI gui) {
+            this.width = width; // Set the width
+            this.height = height; // Set the height
+            setPreferredSize(new Dimension(squareSize * 22, squareSize * 15));
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
-                    int hexIndex = 0; // Initialize a counter to keep track of the hexagon index
+                    int hexIndex = 0;
                     for (Polygon hex : hexagons) {
                         if (hex.contains(e.getPoint())) {
-                            System.out.println("Hexagon clicked: " + hexIndex); // Print the index of the clicked
-                                                                                // hexagon
-                            break; // Exit the loop once the clicked hexagon is found
+                            System.out.println("Hexagon clicked: " + hexIndex);
+                            break;
                         }
-                        hexIndex++; // Increment the counter for each hexagon checked
+                        hexIndex++;
                     }
                 }
             });
@@ -44,18 +50,18 @@ public class RhombusBoard extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            hexagons.clear(); // Clear the previous hexagons list
+            hexagons.clear();
             int minDimension = Math.min(getWidth(), getHeight());
-            squareSize = (minDimension / boardSize) * 2 / 3;
+            squareSize = (minDimension / Math.max(width, height)) * 2 / 3;
 
-            int xOffset = (getWidth() - (squareSize * boardSize)) / 2;
-            int yOffset = (getHeight() - (squareSize * boardSize)) / 2;
+            int xOffset = (getWidth() - (squareSize * width)) / 2;
+            int yOffset = (getHeight() - (squareSize * height)) / 2;
 
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
                     int x = (i - j) * squareSize + getWidth() / 2 + xOffset;
                     int y = (i + j) * squareSize / 2 + yOffset;
-                    Polygon hex = drawHexagon(g, x - squareSize * 3, y, squareSize, i * boardSize + j);
+                    Polygon hex = drawHexagon(g, x - squareSize * 3, y, squareSize, i * width + j);
                     hexagons.add(hex);
                 }
             }
@@ -70,18 +76,13 @@ public class RhombusBoard extends JFrame {
                 hex.addPoint(x, y);
             }
             Graphics2D g2d = (Graphics2D) g;
-            // Set color for hexagon fill
-            g2d.setColor(Color.CYAN); // Choose your preferred color
+            g2d.setColor(Color.CYAN);
             g2d.fillPolygon(hex);
-            // Set stroke thickness
-            g2d.setStroke(new BasicStroke(3)); // Adjust thickness as needed
-            // Set color for hexagon border
-            g2d.setColor(Color.BLACK); // Choose your preferred color for the border
+            g2d.setStroke(new BasicStroke(3));
+            g2d.setColor(Color.BLACK);
             g2d.drawPolygon(hex);
 
-            // Draw the hexagon index or identifier
-            g2d.setColor(Color.BLACK); // Ensure the text color contrasts with the hexagon fill color
-            // Calculate the position to draw the string so it appears centered
+            g2d.setColor(Color.BLACK);
             FontMetrics fm = g2d.getFontMetrics();
             double textWidth = fm.getStringBounds(String.valueOf(hexIndex), g2d).getWidth();
             g2d.drawString(String.valueOf(hexIndex), (int) (cx - textWidth / 2), cy + fm.getAscent() / 2);
