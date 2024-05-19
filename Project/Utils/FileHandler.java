@@ -4,7 +4,6 @@ import org.json.*;
 
 import Simulator.World;
 import Simulator.Organisms.Organism;
-import Utils.OrganismFactory;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,8 +17,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryIteratorException;
 
 public class FileHandler {
-    public static void saveWorld(World world, String name) {
-        // Assuming World class and its methods are defined elsewhere
+    public static void saveWorld(World world, String name, int windowWidth, int windowHeight) {
         JSONObject json = new JSONObject();
         JSONArray jsonOrganisms = new JSONArray();
 
@@ -35,6 +33,8 @@ public class FileHandler {
         jsonWorld.put("height", world.getHeight());
         jsonWorld.put("time", world.checkTime());
         jsonWorld.put("hexagonal", world.isHex());
+        jsonWorld.put("window_width", windowWidth);
+        jsonWorld.put("window_height", windowHeight);
 
         json.put("organisms", jsonOrganisms);
         json.put("world", jsonWorld);
@@ -60,30 +60,44 @@ public class FileHandler {
         return files;
     }
 
-    public static World loadWorld(String name) {
+    public static class WorldLoadResult {
+        public final World world;
+        public final int windowWidth;
+        public final int windowHeight;
+
+        public WorldLoadResult(World world, int windowWidth, int windowHeight) {
+            this.world = world;
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
+        }
+    }
+
+    public static WorldLoadResult loadWorld(String name) {
         try (FileReader file = new FileReader("Project/Saves/" + name + ".json")) {
             JSONObject json = new JSONObject(new JSONTokener(file));
             JSONObject worldJson = json.getJSONObject("world");
             int width = worldJson.getInt("width");
             int height = worldJson.getInt("height");
             long time = worldJson.getLong("time");
-            boolean hexagonal = worldJson.getBoolean("hexagonal");
+            boolean hexagonal = worldJson.optBoolean("hexagonal", false);
+            int windowWidth = worldJson.optInt("window_width", 800);
+            int windowHeight = worldJson.optInt("window_height", 600);
 
             World world = new World(width, height, hexagonal);
             world.setTime(time);
 
             JSONArray jsonOrganisms = json.getJSONArray("organisms");
             List<Organism> organisms = new ArrayList<>();
-            OrganismFactory factory = new OrganismFactory(); // Assuming OrganismFactory is defined and suitable for
-                                                             // this use
+            OrganismFactory factory = new OrganismFactory();
             for (int i = 0; i < jsonOrganisms.length(); i++) {
                 JSONObject organismJson = jsonOrganisms.getJSONObject(i);
                 Organism organism = factory.create(organismJson, world);
                 organisms.add(organism);
             }
             world.setOrganisms(organisms);
+            world.setHuman(world.findHuman());
 
-            return world;
+            return new WorldLoadResult(world, windowWidth, windowHeight);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }

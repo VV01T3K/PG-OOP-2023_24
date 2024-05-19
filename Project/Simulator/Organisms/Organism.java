@@ -20,7 +20,7 @@ public abstract class Organism {
 
     public enum Type {
         ANTELOPE("🦌"),
-        // CYBER_SHEEP("🤖"),
+        CYBER_SHEEP("🤖"),
         FOX("🦊"),
         HUMAN("👨"),
         SHEEP("🐑"),
@@ -56,6 +56,8 @@ public abstract class Organism {
                     return new Human(w);
                 case SHEEP:
                     return new Sheep(w);
+                // case CYBER_SHEEP:
+                // return new CyberSheep(w);
                 case TURTLE:
                     return new Turtle(w);
                 case WOLF:

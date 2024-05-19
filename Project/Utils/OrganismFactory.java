@@ -19,13 +19,12 @@ public class OrganismFactory {
         switch (type) {
             case ANTELOPE:
                 return new Antelope(json, world);
-            // case CYBER_SHEEP:
-            // return new CyberSheep(json, world);
             case FOX:
                 return new Fox(json, world);
             case HUMAN:
                 return new Human(json, world);
             case SHEEP:
+            case CYBER_SHEEP:
                 return new Sheep(json, world);
             case TURTLE:
                 return new Turtle(json, world);

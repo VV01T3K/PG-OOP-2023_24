@@ -15,6 +15,7 @@ import Simulator.World;
 import Simulator.Organisms.Organism.Type;
 import Utils.DynamicDirections;
 import Utils.FileHandler;
+import Utils.FileHandler.WorldLoadResult;
 
 public class GUI {
     World world;
@@ -479,7 +480,7 @@ public class GUI {
         saveButton.addActionListener(e -> {
             String name = JOptionPane.showInputDialog(window, "Enter the name of the save file", "Save game",
                     JOptionPane.PLAIN_MESSAGE);
-            FileHandler.saveWorld(world, name);
+            FileHandler.saveWorld(world, name, window.getWidth(), window.getHeight());
             JOptionPane.showMessageDialog(window, "Game saved successfully", "Save game",
                     JOptionPane.INFORMATION_MESSAGE);
         });
@@ -539,7 +540,9 @@ public class GUI {
             String save = (String) JOptionPane.showInputDialog(window, "Choose a save to load", "Load game",
                     JOptionPane.QUESTION_MESSAGE, null, saves, saves[0]);
             if (save != null) {
-                world = FileHandler.loadWorld(save);
+                WorldLoadResult result = FileHandler.loadWorld(save);
+                world = result.world;
+                window.setSize(result.windowWidth, result.windowHeight);
                 constructBoardPanel(world.getWidth(), world.getHeight());
                 showGameView();
             }
