@@ -318,6 +318,7 @@ public class GUI {
     }
 
     private void constructSquareBoardPanel(int width, int height) {
+        buttons.clear(); // Clear the buttons map
         boardPanel.removeAll(); // Remove all components from the previous board
         boardPanel.setLayout(new GridBoardLayoutManager()); // Set the layout manager
         for (int x = 0; x < width; x++) {
@@ -343,10 +344,55 @@ public class GUI {
     }
 
     private void constructHexagonalBoardPanel(int width, int height) {
-        // use RhombusPanel instead of JPanel
-        boardPanel = null;
-        boardPanel = new RhombusPanel(width, height, this);
+        buttons.clear();
+        boardPanel.removeAll();
+        boardPanel.setLayout(null);
+        int squareSize = 30;
 
+        boardPanel.setPreferredSize(new Dimension(squareSize * width * 2, squareSize * height + squareSize));
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                JButton button = new ResizableIconButton(y, x);
+                final int fi = y;
+                final int fj = x;
+                button.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int x = e.getX();
+                        int y = e.getY();
+                        useAddOrganismPopup(x, y, button, fi, fj);
+                    }
+                });
+                button.setText("[" + x + "," + y + "]");
+                buttons.put(new Point(x, y), button);
+                boardPanel.add(button);
+            }
+        }
+        adjustButtonSizesAndPositions();
+        boardPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                adjustButtonSizesAndPositions();
+            }
+        });
+
+    }
+
+    private void adjustButtonSizesAndPositions() {
+        int panelWidth = boardPanel.getWidth();
+        int panelHeight = boardPanel.getHeight();
+        int squareSize = Math.min(panelWidth / (world.getWidth() * 2), panelHeight / (world.getHeight() + 1));
+        int count = 0;
+        for (int i = 0; i < world.getHeight(); i++) {
+            for (int j = 0; j < world.getWidth(); j++) {
+                JButton button = (JButton) boardPanel.getComponent(count++);
+                int x = (i - j) * squareSize + panelWidth / 2;
+                int y = (i + j) * squareSize / 2;
+                button.setBounds(x, y, squareSize, squareSize);
+                button.setMargin(new Insets(0, 0, 0, 0));
+            }
+        }
     }
 
     private void constructBoardPanel(int width, int height) {
@@ -486,6 +532,10 @@ public class GUI {
         saveButton.addActionListener(e -> {
             String name = JOptionPane.showInputDialog(window, "Enter the name of the save file", "Save game",
                     JOptionPane.PLAIN_MESSAGE);
+            // Check if name is null or empty, indicating cancel was pressed
+            if (name == null || name.isEmpty()) {
+                return; // Exit the event handler early
+            }
             FileHandler.saveWorld(world, name, window.getWidth(), window.getHeight());
             JOptionPane.showMessageDialog(window, "Game saved successfully", "Save game",
                     JOptionPane.INFORMATION_MESSAGE);

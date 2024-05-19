@@ -50,8 +50,8 @@ public class HexWorld extends World {
             tiles.get(i).placeOrganism(human);
         }
 
-        for (int x = 0; x < width - 1; x++) {
-            for (int y = 0; y < height - 1; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 Tile tile = tiles.get(y * width + x);
 
                 int indexUp = (y - 1) * width + (x - 1);
