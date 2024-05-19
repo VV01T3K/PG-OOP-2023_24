@@ -39,7 +39,7 @@ public class FileHandler {
         }
     }
 
-    public static void saveWorld(World world) {
+    public static void saveWorld(World world, String name) {
         // Assuming World class and its methods are defined elsewhere
         JSONObject json = new JSONObject();
         JSONArray jsonOrganisms = new JSONArray();
@@ -60,7 +60,7 @@ public class FileHandler {
         json.put("organisms", jsonOrganisms);
         json.put("world", jsonWorld);
 
-        try (FileWriter file = new FileWriter("Project\\Saves\\world.json")) {
+        try (FileWriter file = new FileWriter("Project\\Saves\\" + name + ".json")) {
             file.write(json.toString(2)); // Indent with 2 spaces for readability
         } catch (IOException e) {
             e.printStackTrace();

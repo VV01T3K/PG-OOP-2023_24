@@ -31,6 +31,7 @@ public class GUI {
     private JPanel controlPanel;
     private Map<Point, JButton> buttons = new HashMap<>();
     JButton nextRound;
+    JLabel humanPower;
 
     public GUI(World world) {
         this.world = world;
@@ -107,12 +108,13 @@ public class GUI {
         controlPanel.add(new JLabel("    Organisms:" + world.getOrganismCount()));
 
         controlPanel.add(new JLabel("Human:"));
-        controlPanel.add(new JLabel("    Strength: 10    "));
+        humanPower = new JLabel("    Power: " + (world.hasHuman() ? world.getHuman().getPower() : ""));
+        controlPanel.add(humanPower);
         JButton useImmortality = createButton(
                 "<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
                         + (world.hasHuman() ? world.getHuman().getAbilityInfo() : "")
                         + "</p></div></html>",
-                Color.WHITE, Color.BLACK); // Assuming default colors are White for foreground and Black for background
+                Color.WHITE, Color.BLACK);
         useImmortality.addActionListener(e -> {
             world.getHuman().toggleImmortality();
             useImmortality
@@ -129,6 +131,7 @@ public class GUI {
                 nextRound
                         .setText(
                                 "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>");
+                humanPower.setText("    Power: " + world.getHuman().getPower());
                 updateGameView();
             } else {
                 world.simulate();
@@ -474,7 +477,11 @@ public class GUI {
         saveButton = new JButton("Save");
         saveButton.setVisible(false);
         saveButton.addActionListener(e -> {
-            FileHandler.saveWorld(world);
+            String name = JOptionPane.showInputDialog(window, "Enter the name of the save file", "Save game",
+                    JOptionPane.PLAIN_MESSAGE);
+            FileHandler.saveWorld(world, name);
+            JOptionPane.showMessageDialog(window, "Game saved successfully", "Save game",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
         toolBar.add(saveButton);
         toolBar.setFloatable(false);
