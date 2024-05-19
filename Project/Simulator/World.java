@@ -283,6 +283,7 @@ public class World {
         while (!tile.isFree())
             tile.removeOrganism(tile.getOrganism());
         addOrganism(type.construct(this), tile);
+        addLog("New " + type.getSymbol() + " " + type + " spawned!");
     }
 
 }
