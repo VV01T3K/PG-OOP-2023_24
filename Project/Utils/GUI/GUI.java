@@ -46,6 +46,7 @@ public class GUI {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         constructControlPanel();
         setDefaultFontSize(12);
@@ -71,6 +72,28 @@ public class GUI {
         }
     }
 
+    private JButton createButton(String htmlText, Color background, Color text) {
+        JButton button = new JButton(htmlText);
+        button.setOpaque(true);
+        button.setContentAreaFilled(true);
+        button.setBorderPainted(false);
+        button.setBackground(background);
+        button.setForeground(text);
+        button.setSize(button.getPreferredSize());
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                button.setBackground(button.getBackground().darker());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                button.setBackground(background);
+            }
+        });
+        return button;
+    }
+
     private void constructControlPanel() {
         controlPanel.removeAll();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
@@ -80,8 +103,27 @@ public class GUI {
         controlPanel.add(new JLabel("    Organisms:" + world.getOrganismCount()));
 
         controlPanel.add(new JLabel("Human:"));
-        controlPanel.add(new JLabel("    Next move: Pls give me direction    "));
-        controlPanel.add(new JLabel("    🔰 Immortality: Ready to use"));
+        controlPanel.add(new JLabel("    Strength: 10    "));
+        JButton useImmortality = createButton(
+                "<html><div style='text-align: center;'>🔰 Immortality <br/> Ready to use</div></html>",
+                Color.BLUE, Color.YELLOW);
+        useImmortality.addActionListener(e -> {
+            useImmortality
+                    .setText("<html><div style='text-align: center;'>🔰 Immortality<br/>Used</div></html>");
+            world.simulate();
+        });
+
+        JButton nextRound = createButton(
+                "<html><div style='text-align: center;'>Give directions to human<br/><br/></div></html>",
+                Color.GREEN, Color.BLACK);
+        nextRound.addActionListener(e -> {
+            nextRound
+                    .setText(
+                            "<html><div style='text-align: center;'>Give directions to human<br/>NO DIRECTIONS</div></html>");
+            world.simulate();
+        });
+        controlPanel.add(useImmortality);
+        controlPanel.add(nextRound);
 
         controlPanel.revalidate();
         controlPanel.repaint();
@@ -136,6 +178,7 @@ public class GUI {
     }
 
     private void showGameView() {
+        saveButton.setVisible(true);
         constructGameView(); // Ensure gameView is constructed with the new board
         constructControlPanel();
         updateLogPanel();
