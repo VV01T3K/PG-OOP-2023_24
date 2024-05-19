@@ -3,6 +3,7 @@ package Utils;
 import org.json.*;
 
 import Simulator.World;
+import Simulator.HexWorld;
 import Simulator.Organisms.Organism;
 
 import java.io.FileReader;
@@ -83,7 +84,11 @@ public class FileHandler {
             int windowWidth = worldJson.optInt("window_width", 800);
             int windowHeight = worldJson.optInt("window_height", 600);
 
-            World world = new World(width, height, hexagonal);
+            World world;
+            if (hexagonal)
+                world = new HexWorld(width, height);
+            else
+                world = new World(width, height);
             world.setTime(time);
 
             JSONArray jsonOrganisms = json.getJSONArray("organisms");

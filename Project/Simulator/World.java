@@ -19,11 +19,7 @@ public class World {
     protected Human human = null;
     protected boolean hex = false;
 
-    public World(int width, int height, boolean hex) {
-        hex = false;
-        if (hex)
-            return;
-
+    public World(int width, int height) {
         DynamicDirections.clear();
 
         DynamicDirections.addInstance("UP");
@@ -45,11 +41,11 @@ public class World {
     }
 
     public World() {
-        this(20, 20, false);
+        this(20, 20);
     }
 
     public World(boolean hex) {
-
+        this.hex = hex;
     }
 
     public boolean isHex() {

@@ -196,9 +196,6 @@ public class GUI {
             nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: RIGHT</div></html>");
         });
 
-        if (world.isHex()) {
-        }
-
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_UP, "UP");
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_DOWN, "DOWN");
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_LEFT, "LEFT");
@@ -456,9 +453,9 @@ public class GUI {
             int newWidth = Integer.parseInt(widthField.getText());
             int newHeight = Integer.parseInt(heightField.getText());
             if (isHexagonal)
-                world = new HexWorld(newWidth, newHeight, true);
+                world = new HexWorld(newWidth, newHeight);
             else
-                world = new World(newWidth, newHeight, false);
+                world = new World(newWidth, newHeight);
             world.populateWorld();
             world.setHuman(world.findHuman());
 
@@ -572,6 +569,7 @@ public class GUI {
                 WorldLoadResult result = FileHandler.loadWorld(save);
                 world = result.world;
                 window.setSize(result.windowWidth, result.windowHeight);
+                setupKeyBindings();
                 constructBoardPanel(world.getWidth(), world.getHeight());
                 showGameView();
             }

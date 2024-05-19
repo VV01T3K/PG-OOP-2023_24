@@ -6,8 +6,8 @@ import Utils.DynamicDirections;
 
 public class HexWorld extends World {
 
-    public HexWorld(int width, int height, boolean hex) {
-        super(false);
+    public HexWorld(int width, int height) {
+        super(true);
 
         DynamicDirections.clear();
 
@@ -29,7 +29,7 @@ public class HexWorld extends World {
     }
 
     public HexWorld() {
-        this(20, 20, true);
+        this(20, 20);
     }
 
     @Override
