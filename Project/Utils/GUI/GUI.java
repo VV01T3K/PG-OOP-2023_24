@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -166,8 +167,8 @@ public class GUI {
                 continue;
             JMenuItem item = new JMenuItem(type.getSymbol() + " - " + type.name());
             item.addActionListener(e -> {
-                world.setNewOrganism(type, i, j);
-                button.setText(world.getTile(i, j).toString());
+                world.setNewOrganism(type, j, i);
+                ((ResizableIconButton) button).setImageIcon(createIconFromText(world.getTile(j, i).toString()));
                 showGameView();
             });
             addOrganismPopup.add(item);
@@ -177,16 +178,62 @@ public class GUI {
 
     }
 
+    public class ResizableIconButton extends JButton {
+        private Image originalIconImage;
+
+        public ResizableIconButton(Icon icon) {
+            super(icon);
+            setIcon(null);
+            if (icon instanceof ImageIcon) {
+                originalIconImage = ((ImageIcon) icon).getImage();
+            }
+            this.setPreferredSize(new Dimension(50, 50)); // Match image size or adjust as needed
+            this.setFocusable(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (originalIconImage != null) {
+                Image resizedImage = originalIconImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+                g.drawImage(resizedImage, 0, 0, null);
+            }
+        }
+
+        public void setImageIcon(Icon newIcon) {
+            if (newIcon instanceof ImageIcon) {
+                originalIconImage = ((ImageIcon) newIcon).getImage();
+                repaint(); // Refresh the button to display the new icon
+            }
+        }
+    }
+
+    private ImageIcon createIconFromText(String text) {
+        // Step 1: Create an image (for example, 100x50 pixels)
+        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+
+        // Step 2: Customize graphics (optional)
+        g2d.setFont(new Font("Sans-serif", Font.BOLD, 60)); // Set font here
+        g2d.setColor(Color.BLACK); // Set font color here
+        FontMetrics fm = g2d.getFontMetrics();
+        int x = (image.getWidth() - fm.stringWidth(text)) / 2;
+        int y = ((image.getHeight() - fm.getHeight()) / 2) + fm.getAscent();
+
+        // Draw the text onto the image
+        g2d.drawString(text, x, y);
+        g2d.dispose();
+
+        // Step 3: Convert the image to an ImageIcon
+        return new ImageIcon(image);
+    }
+
     private void constructBoardPanel(int width, int height) {
         boardPanel.removeAll(); // Remove all components from the previous board
-        boardPanel.setLayout(new ChessBoardLayoutManager()); // Set the layout manager
-        // boardPanel.setFont(new Font("DefaultFont", Font.PLAIN, 12));
+        boardPanel.setLayout(new GridBoardLayoutManager()); // Set the layout manager
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                JButton button = new JButton(world.getTile(x, y).toString());
-                button.setPreferredSize(new Dimension(50, 50));
-                button.setFocusable(false);
-                adaptFontSize(button);
+                JButton button = new ResizableIconButton(createIconFromText(world.getTile(x, y).toString()));
                 final int fi = y;
                 final int fj = x;
                 button.addMouseListener(new MouseAdapter() {
@@ -195,13 +242,6 @@ public class GUI {
                         int x = e.getX();
                         int y = e.getY();
                         useAddOrganismPopup(x, y, button, fi, fj);
-                    }
-                });
-                button.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent e) {
-                        JButton btn = (JButton) e.getComponent();
-                        adaptFontSize(btn);
                     }
                 });
                 buttons.put(new Point(x, y), button);
@@ -215,16 +255,9 @@ public class GUI {
 
     private void updateBoardPanel() {
         for (Point p : buttons.keySet()) {
-            JButton button = buttons.get(p);
-            button.setText(world.getTile(p.x, p.y).toString());
+            ResizableIconButton button = (ResizableIconButton) buttons.get(p);
+            button.setImageIcon(createIconFromText(world.getTile(p.x, p.y).toString()));
         }
-    }
-
-    private void adaptFontSize(JButton button) {
-        int buttonHeight = button.getHeight();
-        int fontSize = Math.max(buttonHeight / 3, 10); // Calculate font size based on button height, minimum size 10
-        Font buttonFont = new Font("Sans-Serif", Font.PLAIN, fontSize);
-        button.setFont(buttonFont);
     }
 
     private void addValidationListener(JTextField field) {
@@ -427,11 +460,11 @@ public class GUI {
         showMenu();
     }
 
-    public class ChessBoardLayoutManager implements LayoutManager2 {
+    public class GridBoardLayoutManager implements LayoutManager2 {
 
         private Map<Point, Component> mapComps;
 
-        public ChessBoardLayoutManager() {
+        public GridBoardLayoutManager() {
             mapComps = new HashMap<>(25);
         }
 
