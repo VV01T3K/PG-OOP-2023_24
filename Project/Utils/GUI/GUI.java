@@ -14,6 +14,7 @@ import java.util.List;
 import Simulator.World;
 import Simulator.Organisms.Organism.Type;
 import Utils.DynamicDirections;
+import Utils.FileHandler;
 
 public class GUI {
     World world;
@@ -473,6 +474,7 @@ public class GUI {
         saveButton = new JButton("Save");
         saveButton.setVisible(false);
         saveButton.addActionListener(e -> {
+            FileHandler.saveWorld(world);
         });
         toolBar.add(saveButton);
         toolBar.setFloatable(false);

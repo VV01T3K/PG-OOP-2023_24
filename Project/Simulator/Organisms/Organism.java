@@ -5,6 +5,8 @@ import Simulator.World;
 import Simulator.Organisms.Animals.*;
 import Simulator.Organisms.Plants.*;
 
+import org.json.JSONObject;
+
 public abstract class Organism {
     protected int power;
     protected int initiative;
@@ -159,11 +161,18 @@ public abstract class Organism {
 
     public abstract Organism construct();
 
-    // public Map<String, Object> toJson() {
-    // ObjectMapper mapper = new ObjectMapper();
-    // Map<String, Object> json = mapper.convertValue(this, Map.class);
-    // return json;
-    // }
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("type", this.type.toString());
+        json.put("power", this.power);
+        json.put("initiative", this.initiative);
+        json.put("age", this.age);
+        json.put("alive", this.alive);
+        json.put("reproduction_cooldown", this.reproductionCooldown);
+        json.put("skip", this.skip);
+        json.put("tile_index", this.tile.index);
+        return json;
+    }
 
     // public Organism(Map<String, Object> json, World world) {
     // // Assuming ObjectMapper can handle this conversion. You might need to

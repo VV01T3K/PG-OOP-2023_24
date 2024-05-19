@@ -6,6 +6,8 @@ import Utils.DynamicDirections;
 import Simulator.Abilities.Immortality;
 import Simulator.World;
 
+import org.json.JSONObject;
+
 public class Human extends Animal {
     private DynamicDirections nextMove = DynamicDirections.get("SELF");
     private Immortality immortality;
@@ -66,23 +68,6 @@ public class Human extends Animal {
             immortality.flipToggle();
     }
 
-    // public String getNextMoveSTR() {
-    // if (GlobalSettings.HUMAN_AI)
-    // return "AI controlled";
-    // switch (nextMove) {
-    // case UP:
-    // return "UP";
-    // case DOWN:
-    // return "DOWN";
-    // case LEFT:
-    // return "LEFT";
-    // case RIGHT:
-    // return "RIGHT";
-    // default:
-    // return "Pls give me direction";
-    // }
-    // }
-
     public DynamicDirections getNextMove() {
         return nextMove;
     }
@@ -104,5 +89,12 @@ public class Human extends Animal {
         } else {
             super.die();
         }
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("ability_cooldown", immortality.getCooldown());
+        json.put("immortality_left", immortality.getDuration());
+        return json;
     }
 }

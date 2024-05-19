@@ -6,6 +6,8 @@ import Simulator.Organisms.Organism;
 import Simulator.World;
 import Simulator.GlobalSettings;
 
+import org.json.JSONObject;
+
 public abstract class Animal extends Organism {
     protected Tile oldTile = null;
 
@@ -88,4 +90,12 @@ public abstract class Animal extends Organism {
     }
 
     public abstract Animal construct();
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson(); // Assuming the superclass Organism has a toJson method returning JSONObject
+        int index = oldTile == null ? -1 : oldTile.index;
+        json.put("old_tile_index", index);
+        return json;
+    }
 }
