@@ -26,6 +26,7 @@ public class GUI {
     private JSplitPane gameView;
     private JButton continueButton;
     private JPanel controlPanel;
+    private Map<Point, JButton> buttons = new HashMap<>();
 
     public GUI(World world) {
         this.world = world;
@@ -39,19 +40,34 @@ public class GUI {
         window.setLayout(new BorderLayout());
 
         cardPanel = new JPanel(new CardLayout());
-        constructControlPanel();
         constructMenu(); // Initialize menuPanel
-        constructNewGamePanel(); // Initialize newGamePanel
         constructToolBar();
-        constructGameView();
-        window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
-        setupKeyBindings();
-
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
         }
+        constructControlPanel();
+        setDefaultFontSize(12);
+        constructNewGamePanel(); // Initialize newGamePanel
+        constructGameView();
+        window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
+        setupKeyBindings();
+
         window.pack();
+    }
+
+    private void setDefaultFontSize(int size) {
+        // Get all UI keys from UIManager
+        for (Object key : UIManager.getLookAndFeelDefaults().keySet()) {
+            if (key != null && key.toString().endsWith(".font")) {
+                Font font = UIManager.getDefaults().getFont(key);
+                if (font != null) {
+                    // Set the new font size
+                    font = font.deriveFont((float) size);
+                    UIManager.put(key, font);
+                }
+            }
+        }
     }
 
     private void constructControlPanel() {
@@ -114,7 +130,7 @@ public class GUI {
     }
 
     public void updateGameView() {
-        constructBoardPanel(world.getWidth(), world.getHeight());
+        updateBoardPanel();
         showGameView();
     }
 
@@ -164,12 +180,13 @@ public class GUI {
     private void constructBoardPanel(int width, int height) {
         boardPanel.removeAll(); // Remove all components from the previous board
         boardPanel.setLayout(new ChessBoardLayoutManager()); // Set the layout manager
-
+        // boardPanel.setFont(new Font("DefaultFont", Font.PLAIN, 12));
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 JButton button = new JButton(world.getTile(x, y).toString());
                 button.setPreferredSize(new Dimension(50, 50));
                 button.setFocusable(false);
+                adaptFontSize(button);
                 final int fi = y;
                 final int fj = x;
                 button.addMouseListener(new MouseAdapter() {
@@ -187,12 +204,20 @@ public class GUI {
                         adaptFontSize(btn);
                     }
                 });
+                buttons.put(new Point(x, y), button);
                 boardPanel.add(button, new Point(x, y));
             }
         }
 
         boardPanel.revalidate(); // Revalidate the panel to apply changes
         boardPanel.repaint(); // Repaint to display the new buttons
+    }
+
+    private void updateBoardPanel() {
+        for (Point p : buttons.keySet()) {
+            JButton button = buttons.get(p);
+            button.setText(world.getTile(p.x, p.y).toString());
+        }
     }
 
     private void adaptFontSize(JButton button) {
@@ -548,7 +573,6 @@ public class GUI {
                 int cellSize = Math.max(cellHeight, cellWidth);
 
                 prefSize = new Dimension(cellSize * colCount, cellSize * rowCount);
-                System.out.println(prefSize);
             }
 
             public int getRowCount() {
