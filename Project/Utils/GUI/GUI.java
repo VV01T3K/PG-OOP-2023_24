@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.List;
 
 import Simulator.World;
+import Simulator.GlobalSettings;
+import Simulator.Tile;
 import Simulator.Organisms.Organism.Type;
 import Utils.DynamicDirections;
 import Utils.FileHandler;
@@ -112,7 +114,7 @@ public class GUI {
         humanPower = new JLabel("    Power: " + (world.hasHuman() ? world.getHuman().getPower() : ""));
         controlPanel.add(humanPower);
         JButton useImmortality = createButton(
-                "<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
+                "<html><div style='text-align: center;width: 120px'><p>🔰 Immortality</p><p>"
                         + (world.hasHuman() ? world.getHuman().getAbilityInfo() : "")
                         + "</p></div></html>",
                 Color.WHITE, Color.BLACK);
@@ -121,7 +123,7 @@ public class GUI {
                 return;
             world.getHuman().toggleImmortality();
             useImmortality
-                    .setText("<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
+                    .setText("<html><div style='text-align: center;width: 120px'><p>🔰 Immortality</p><p>"
                             + world.getHuman().getAbilityInfo() + "</p></div></html>");
 
         });
@@ -277,7 +279,8 @@ public class GUI {
 
     private void useAddOrganismPopup(int x, int y, JButton button, int i, int j) {
         addOrganismPopup = new JPopupMenu();
-        if (button.getText().equals(Type.HUMAN.getSymbol()) && world.hasHuman())
+        ResizableIconButton iconButton = (ResizableIconButton) button;
+        if (iconButton.getType() == Type.HUMAN)
             return;
 
         for (Type type : Type.values()) {
@@ -290,7 +293,7 @@ public class GUI {
                     world.setHuman(world.findHuman());
                     world.getHuman().unskipTurn();
                 }
-                ((ResizableIconButton) button).setImageIcon(createIconFromText(world.getTile(j, i).toString()));
+                updateBoardPanel();
                 showGameView();
             });
             addOrganismPopup.add(item);
@@ -301,14 +304,22 @@ public class GUI {
     }
 
     public class ResizableIconButton extends JButton {
-        private Image originalIconImage;
+        private int x;
+        private int y;
 
-        public ResizableIconButton(Icon icon) {
-            super(icon);
-            setIcon(null);
-            if (icon instanceof ImageIcon) {
-                originalIconImage = ((ImageIcon) icon).getImage();
+        public Type getType() {
+            try {
+                return world.getTile(x, y).getOrganism().getType();
+            } catch (Exception e) {
+                return null;
             }
+        }
+
+        public ResizableIconButton(int x, int y) {
+            super();
+            this.x = x;
+            this.y = y;
+            setIcon(null);
             this.setPreferredSize(new Dimension(50, 50));
             this.setFocusable(false);
         }
@@ -316,37 +327,31 @@ public class GUI {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (originalIconImage != null) {
-                Image resizedImage = originalIconImage.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-                g.drawImage(resizedImage, 0, 0, null);
+            Image image;
+            if (GlobalSettings.FONT_ICONS) {
+                image = createIconFromText(world.getTile(x, y).toString()).getImage();
+            } else {
+                // TODO: Add image icons
             }
+            Image resizedImage = image.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+            g.drawImage(resizedImage, 0, 0, null);
         }
 
-        public void setImageIcon(Icon newIcon) {
-            if (newIcon instanceof ImageIcon) {
-                originalIconImage = ((ImageIcon) newIcon).getImage();
-                repaint(); // Refresh the button to display the new icon
-            }
-        }
     }
 
     private ImageIcon createIconFromText(String text) {
-        // Step 1: Create an image (for example, 100x50 pixels)
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
 
-        // Step 2: Customize graphics (optional)
-        g2d.setFont(new Font("Sans-serif", Font.BOLD, 60)); // Set font here
+        g2d.setFont(new Font("Sans-serif", Font.BOLD, 40)); // Set font here
         g2d.setColor(Color.BLACK); // Set font color here
         FontMetrics fm = g2d.getFontMetrics();
         int x = (image.getWidth() - fm.stringWidth(text)) / 2;
         int y = ((image.getHeight() - fm.getHeight()) / 2) + fm.getAscent();
 
-        // Draw the text onto the image
         g2d.drawString(text, x, y);
         g2d.dispose();
 
-        // Step 3: Convert the image to an ImageIcon
         return new ImageIcon(image);
     }
 
@@ -355,7 +360,7 @@ public class GUI {
         boardPanel.setLayout(new GridBoardLayoutManager()); // Set the layout manager
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                JButton button = new ResizableIconButton(createIconFromText(world.getTile(x, y).toString()));
+                JButton button = new ResizableIconButton(x, y);
                 final int fi = y;
                 final int fj = x;
                 button.addMouseListener(new MouseAdapter() {
@@ -378,7 +383,7 @@ public class GUI {
     private void updateBoardPanel() {
         for (Point p : buttons.keySet()) {
             ResizableIconButton button = (ResizableIconButton) buttons.get(p);
-            button.setImageIcon(createIconFromText(world.getTile(p.x, p.y).toString()));
+            button.repaint();
         }
     }
 
