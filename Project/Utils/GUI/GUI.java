@@ -117,6 +117,8 @@ public class GUI {
                         + "</p></div></html>",
                 Color.WHITE, Color.BLACK);
         useImmortality.addActionListener(e -> {
+            if (!world.hasHuman())
+                return;
             world.getHuman().toggleImmortality();
             useImmortality
                     .setText("<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
@@ -127,8 +129,15 @@ public class GUI {
         nextRound = createButton(
                 "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>",
                 Color.GREEN, Color.BLACK);
+        if (!world.hasHuman()) {
+            nextRound.setText("<html><div style='text-align: center;'>Next Turn</div></html>");
+            useImmortality.setEnabled(false);
+            useImmortality.setText(
+                    "<html><div style='text-align: center;width: 100px'><p>No human in the world</p></div></html>");
+
+        }
         nextRound.addActionListener(e -> {
-            if (world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
+            if (world.hasHuman() && world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
                 nextRound
                         .setText(
                                 "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>");
@@ -161,18 +170,26 @@ public class GUI {
             nextRound.doClick();
         });
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_W, "UP", () -> {
+            if (!world.hasHuman())
+                return;
             world.getHuman().setNextMove(DynamicDirections.get("UP"));
             nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: UP</div></html>");
         });
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_S, "DOWN", () -> {
+            if (!world.hasHuman())
+                return;
             world.getHuman().setNextMove(DynamicDirections.get("DOWN"));
             nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: DOWN</div></html>");
         });
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_A, "LEFT", () -> {
+            if (!world.hasHuman())
+                return;
             world.getHuman().setNextMove(DynamicDirections.get("LEFT"));
             nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: LEFT</div></html>");
         });
         configureKeyAction(inputMap, actionMap, KeyEvent.VK_D, "RIGHT", () -> {
+            if (!world.hasHuman())
+                return;
             world.getHuman().setNextMove(DynamicDirections.get("RIGHT"));
             nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: RIGHT</div></html>");
         });
@@ -260,15 +277,19 @@ public class GUI {
 
     private void useAddOrganismPopup(int x, int y, JButton button, int i, int j) {
         addOrganismPopup = new JPopupMenu();
-        if (button.getText().equals(Type.HUMAN.getSymbol()))
+        if (button.getText().equals(Type.HUMAN.getSymbol()) && world.hasHuman())
             return;
 
         for (Type type : Type.values()) {
-            if (type == Type.HUMAN)
+            if (type == Type.HUMAN && world.hasHuman())
                 continue;
             JMenuItem item = new JMenuItem(type.getSymbol() + " - " + type.name());
             item.addActionListener(e -> {
                 world.setNewOrganism(type, j, i);
+                if (type == Type.HUMAN) {
+                    world.setHuman(world.findHuman());
+                    world.getHuman().unskipTurn();
+                }
                 ((ResizableIconButton) button).setImageIcon(createIconFromText(world.getTile(j, i).toString()));
                 showGameView();
             });
@@ -288,7 +309,7 @@ public class GUI {
             if (icon instanceof ImageIcon) {
                 originalIconImage = ((ImageIcon) icon).getImage();
             }
-            this.setPreferredSize(new Dimension(50, 50)); // Match image size or adjust as needed
+            this.setPreferredSize(new Dimension(50, 50));
             this.setFocusable(false);
         }
 
