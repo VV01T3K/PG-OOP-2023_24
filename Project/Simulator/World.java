@@ -278,4 +278,11 @@ public class World {
         return null;
     }
 
+    public void setNewOrganism(Organism.Type type, int x, int y) {
+        Tile tile = getTile(x, y);
+        while (!tile.isFree())
+            tile.removeOrganism(tile.getOrganism());
+        addOrganism(type.construct(this), tile);
+    }
+
 }

@@ -13,7 +13,7 @@ public class Main {
         // Display display = new Display(world);
         // Scanner scanner = new Scanner(System.in); // Create a Scanner object
 
-        World world = new World(1, 1, false);
+        World world = new World();
         GUI gui = new GUI(world);
         gui.run();
 

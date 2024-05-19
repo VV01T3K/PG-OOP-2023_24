@@ -2,6 +2,8 @@ package Simulator.Organisms;
 
 import Simulator.Tile;
 import Simulator.World;
+import Simulator.Organisms.Animals.*;
+import Simulator.Organisms.Plants.*;
 
 public abstract class Organism {
     protected int power;
@@ -16,7 +18,7 @@ public abstract class Organism {
 
     public enum Type {
         ANTELOPE("🦌"),
-        CYBER_SHEEP("🤖"),
+        // CYBER_SHEEP("🤖"),
         FOX("🦊"),
         HUMAN("👨"),
         SHEEP("🐑"),
@@ -36,6 +38,35 @@ public abstract class Organism {
 
         public String getSymbol() {
             return symbol;
+        }
+
+        public Organism construct(World w) {
+            switch (this) {
+                case ANTELOPE:
+                    return new Antelope(w);
+                case FOX:
+                    return new Fox(w);
+                case HUMAN:
+                    return new Human(w);
+                case SHEEP:
+                    return new Sheep(w);
+                case TURTLE:
+                    return new Turtle(w);
+                case WOLF:
+                    return new Wolf(w);
+                case GRASS:
+                    return new Grass(w);
+                case GUARANA:
+                    return new Guarana(w);
+                case MILKWEED:
+                    return new Milkweed(w);
+                case SOSNOWSKY_HOGWEED:
+                    return new SosnowskyHogweed(w);
+                case WOLF_BERRIES:
+                    return new WolfBerries(w);
+                default:
+                    throw new IllegalStateException("Unexpected value: " + this);
+            }
         }
     }
 

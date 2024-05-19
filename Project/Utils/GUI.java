@@ -1,12 +1,14 @@
 package Utils;
 
 import javax.swing.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
+import javax.swing.event.*;
+import java.awt.event.*;
 
 import java.awt.*;
 
 import Simulator.World;
+import Simulator.Tile;
+import Simulator.Organisms.Organism.Type;
 
 public class GUI {
     World world;
@@ -16,6 +18,7 @@ public class GUI {
     private JPanel cardPanel;
     private JPanel boardPanel;
     private JButton saveButton;
+    private JPopupMenu addOrganismPopup;
 
     public GUI(World world) {
         this.world = world;
@@ -30,9 +33,28 @@ public class GUI {
         constructMenu(); // Initialize menuPanel
         constructNewGamePanel(); // Initialize newGamePanel
         constructToolBar();
+
         cardPanel.add(boardPanel, "Board"); // Add boardPanel to cardPanel
 
         window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
+
+    }
+
+    private void useAddOrganismPopup(int x, int y, JButton button, int i, int j) {
+        addOrganismPopup = new JPopupMenu();
+
+        for (Type type : Type.values()) {
+            if (type == Type.HUMAN)
+                continue;
+            JMenuItem item = new JMenuItem(type.getSymbol() + " - " + type.name());
+            item.addActionListener(e -> {
+                world.setNewOrganism(type, i, j);
+                button.setText(world.getTile(i, j).toString());
+            });
+            addOrganismPopup.add(item);
+        }
+
+        addOrganismPopup.show(button, x, y);
 
     }
 
@@ -47,6 +69,17 @@ public class GUI {
                 JButton button = new JButton(world.getTile(i, j).toString());
                 button.setFont(buttonFont); // Set the font here
                 button.setPreferredSize(new Dimension(50, 50));
+                final int fi = i;
+                final int fj = j;
+                button.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        // Get x and y coordinates of the mouse click
+                        int x = e.getX();
+                        int y = e.getY();
+                        useAddOrganismPopup(x, y, button, fi, fj);
+                    }
+                });
                 boardPanel.add(button);
             }
         }
