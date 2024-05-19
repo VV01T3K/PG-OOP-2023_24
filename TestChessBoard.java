@@ -35,33 +35,12 @@ public class TestChessBoard {
     public class ChessBoardPane extends JPanel {
 
         public ChessBoardPane() {
-            int index = 0;
             setLayout(new ChessBoardLayoutManager());
-            for (int row = 0; row < 8; row++) {
-                for (int col = 0; col < 8; col++) {
-                    Color color = index % 2 == 0 ? Color.BLACK : Color.WHITE;
-                    add(new TestChessBoard.Cell(color), new Point(col, row));
-                    index++;
+            for (int row = 0; row < 20; row++) {
+                for (int col = 0; col < 20; col++) {
+                    add(new JButton(), new Point(col, row));
                 }
-                index++;
             }
-        }
-    }
-
-    public class Cell extends JButton {
-
-        public Cell(Color background) {
-
-            setContentAreaFilled(false);
-            setBorderPainted(false);
-            setBackground(background);
-            setOpaque(true);
-
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(25, 25);
         }
     }
 
