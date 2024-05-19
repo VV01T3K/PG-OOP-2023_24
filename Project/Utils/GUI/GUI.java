@@ -13,6 +13,7 @@ import java.util.List;
 
 import Simulator.World;
 import Simulator.Organisms.Organism.Type;
+import Utils.DynamicDirections;
 
 public class GUI {
     World world;
@@ -28,6 +29,7 @@ public class GUI {
     private JButton continueButton;
     private JPanel controlPanel;
     private Map<Point, JButton> buttons = new HashMap<>();
+    JButton nextRound;
 
     public GUI(World world) {
         this.world = world;
@@ -106,26 +108,31 @@ public class GUI {
         controlPanel.add(new JLabel("Human:"));
         controlPanel.add(new JLabel("    Strength: 10    "));
         JButton useImmortality = createButton(
-                "<html><div style='text-align: center;'>🔰 Immortality <br/>"
+                "<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
                         + (world.hasHuman() ? world.getHuman().getAbilityInfo() : "")
-                        + "</div></html>",
+                        + "</p></div></html>",
                 Color.WHITE, Color.BLACK); // Assuming default colors are White for foreground and Black for background
         useImmortality.addActionListener(e -> {
             world.getHuman().toggleImmortality();
             useImmortality
-                    .setText("<html><div style='text-align: center;'>🔰 Immortality<br/>"
-                            + world.getHuman().getAbilityInfo() + "</div></html>");
+                    .setText("<html><div style='text-align: center;width: 100px'><p>🔰 Immortality</p><p>"
+                            + world.getHuman().getAbilityInfo() + "</p></div></html>");
 
         });
 
-        JButton nextRound = createButton(
-                "<html><div style='text-align: center;'>Next turn<br/><br/></div></html>",
+        nextRound = createButton(
+                "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>",
                 Color.GREEN, Color.BLACK);
         nextRound.addActionListener(e -> {
-            nextRound
-                    .setText(
-                            "<html><div style='text-align: center;'>Give directions to human<br/>NO DIRECTIONS</div></html>");
-            world.simulate();
+            if (world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
+                nextRound
+                        .setText(
+                                "<html><div style='text-align: center;'>Next Turn<br/>Give direction</div></html>");
+                updateGameView();
+            } else {
+                world.simulate();
+                updateGameView();
+            }
         });
         controlPanel.add(useImmortality);
         controlPanel.add(nextRound);
@@ -137,19 +144,60 @@ public class GUI {
 
     private void setupKeyBindings() {
         JPanel contentPane = (JPanel) window.getContentPane();
-        InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = contentPane.getActionMap();
+        configureKeyActions(contentPane);
+        contentPane.setFocusable(true);
+    }
 
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "SPACE");
-        actionMap.put("SPACE", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                world.simulate();
-                updateGameView();
-            }
+    private void configureKeyActions(JComponent component) {
+        InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = component.getActionMap();
+
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_SPACE, "SPACE", () -> {
+            nextRound.doClick();
+        });
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_W, "UP", () -> {
+            world.getHuman().setNextMove(DynamicDirections.get("UP"));
+            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: UP</div></html>");
+        });
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_S, "DOWN", () -> {
+            world.getHuman().setNextMove(DynamicDirections.get("DOWN"));
+            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: DOWN</div></html>");
+        });
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_A, "LEFT", () -> {
+            world.getHuman().setNextMove(DynamicDirections.get("LEFT"));
+            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: LEFT</div></html>");
+        });
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_D, "RIGHT", () -> {
+            world.getHuman().setNextMove(DynamicDirections.get("RIGHT"));
+            nextRound.setText("<html><div style='text-align: center;'>Next Turn<br/>Move: RIGHT</div></html>");
         });
 
-        contentPane.setFocusable(true);
+        if (world.isHex()) {
+        }
+
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_UP, "UP");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_DOWN, "DOWN");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_LEFT, "LEFT");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_RIGHT, "RIGHT");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_UP, "UP");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_DOWN, "DOWN");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_LEFT, "LEFT");
+        configureKeyAction(inputMap, actionMap, KeyEvent.VK_KP_RIGHT, "RIGHT");
+    }
+
+    private void configureKeyAction(InputMap inputMap, ActionMap actionMap, int keyCode, String actionName,
+            Runnable actionBehavior) {
+        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), actionName);
+        actionMap.put(actionName, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionBehavior.run();
+            }
+        });
+    }
+
+    private void configureKeyAction(InputMap inputMap, ActionMap actionMap, int keyCode, String actionName) {
+        inputMap.put(KeyStroke.getKeyStroke(keyCode, 0), actionName);
     }
 
     public void constructGameView() {
