@@ -43,7 +43,7 @@ public class World {
         this(20, 20);
     }
 
-    public World(boolean hex) {
+    public World(boolean skip) {
     }
 
     protected void createBoard(int width, int height) {
