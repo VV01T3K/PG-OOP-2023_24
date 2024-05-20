@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 
-// Step 2: Store Profiles
 class ProfileManager {
     private Map<String, KeyActionProfile> profiles = new HashMap<>();
     private KeyActionProfile currentProfile;

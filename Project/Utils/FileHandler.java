@@ -41,7 +41,7 @@ public class FileHandler {
         json.put("world", jsonWorld);
 
         try (FileWriter file = new FileWriter("Project/Saves/" + name + ".json")) {
-            file.write(json.toString(2)); // Indent with 2 spaces for readability
+            file.write(json.toString(2));
         } catch (IOException e) {
             e.printStackTrace();
         }

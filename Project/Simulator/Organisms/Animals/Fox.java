@@ -25,8 +25,7 @@ public class Fox extends Animal {
 
     @Override
     public void action() {
-        List<Tile> neighbours = new ArrayList<>(tile.getNeighbours()); // Use a new list to avoid
-                                                                       // ConcurrentModificationException
+        List<Tile> neighbours = new ArrayList<>(tile.getNeighbours());
         neighbours.removeIf(neighbour -> neighbour == null || !neighbour.isFree()
                 || (neighbour.getOrganism() != null && neighbour.getOrganism().getPower() > this.power));
 

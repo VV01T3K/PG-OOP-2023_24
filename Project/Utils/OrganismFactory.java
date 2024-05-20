@@ -1,7 +1,7 @@
 package Utils;
 
-import org.json.JSONObject; // Corrected import for JSON handling
-import java.util.InvalidPropertiesFormatException; // Corrected import for exception handling
+import org.json.JSONObject;
+import java.util.InvalidPropertiesFormatException;
 
 import Simulator.World;
 import Simulator.Organisms.Organism;

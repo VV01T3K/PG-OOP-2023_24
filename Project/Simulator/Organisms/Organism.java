@@ -191,21 +191,4 @@ public abstract class Organism {
         json.put("tile_index", this.tile.index);
         return json;
     }
-
-    // public Organism(Map<String, Object> json, World world) {
-    // // Assuming ObjectMapper can handle this conversion. You might need to
-    // manually
-    // // parse fields.
-    // ObjectMapper mapper = new ObjectMapper();
-    // Organism organism = mapper.convertValue(json, Organism.class);
-    // this.type = organism.type;
-    // this.power = organism.power;
-    // this.initiative = organism.initiative;
-    // this.age = organism.age;
-    // this.alive = organism.alive;
-    // this.reproductionCooldown = organism.reproductionCooldown;
-    // this.skip = organism.skip;
-    // this.tile = organism.tile;
-    // this.world = world;
-    // }
 }

@@ -23,16 +23,16 @@ public abstract class Plant extends Organism {
     @Override
     public void action() {
         if (!GlobalSettings.AI_REPRODUCE)
-            return; // Fixed: Directly access static variable
-        if (RNG.roll(0, 100) < 5) { // Fixed: Use getInstance() for non-static method access// Fixed:
-            Tile newtile = tile.getRandomFreeNeighbour(); // Fixed: Use Java object references, not pointers
+            return;
+        if (RNG.roll(0, 100) < 5) {
+            Tile newtile = tile.getRandomFreeNeighbour();
             if (newtile == null)
-                return; // Fixed: Use null for no object in Java
-            Plant newPlant = construct(); // Fixed: Use Java object references, not pointers
-            newPlant.skipTurn(); // Fixed: Correct method call syntax
+                return;
+            Plant newPlant = construct();
+            newPlant.skipTurn();
             world.addOrganism(newPlant, newtile);
-            // this.setSpreadCooldown(5); // Uncomment if needed
-            // newPlant.setSpreadCooldown(5); // Uncomment if needed
+            // this.setSpreadCooldown(5);
+            // newPlant.setSpreadCooldown(5);
 
             world.addLog(getSymbol() + " is spreading!!");
         }
@@ -40,12 +40,11 @@ public abstract class Plant extends Organism {
 
     @Override
     public void collision(Organism other) {
-        // Default implementation does nothing
     }
 
     @Override
     public boolean collisionReaction(Organism other) {
-        return false; // Default implementation does nothing
+        return false;
     }
 
     public void setSpreadCooldown(int cooldown) {

@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class DynamicDirections {
     private static final Map<String, DynamicDirections> instances = new HashMap<>();
-    private static int nextOrdinal = 0; // Step 1: Add a static variable to keep track of the next ordinal
+    private static int nextOrdinal = 0;
     private final String name;
-    private final int ordinal; // Step 2: Add an instance variable for the ordinal
+    private final int ordinal;
 
     private DynamicDirections(String name) {
         this.name = name;
-        this.ordinal = nextOrdinal++; // Step 3: Assign and increment the nextOrdinal in the constructor
+        this.ordinal = nextOrdinal++;
     }
 
     public static DynamicDirections addInstance(String name) {
@@ -24,7 +24,7 @@ public class DynamicDirections {
         return instances.get(name);
     }
 
-    public int ordinal() { // Step 4: Add a method to return the ordinal
+    public int ordinal() {
         return ordinal;
     }
 
@@ -38,7 +38,7 @@ public class DynamicDirections {
     }
 
     public static void clear() {
-        instances.clear(); // Clears all instances
-        nextOrdinal = 0; // Resets the ordinal counter
+        instances.clear();
+        nextOrdinal = 0;
     }
 }

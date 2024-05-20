@@ -31,8 +31,6 @@ public class Antelope extends Animal {
         if (tile.getOrganismCount() > 1)
             if (tile.getOrganism().isAlive())
                 return;
-        // Create a new list from the original list of neighbours to avoid modifying it
-        // directly
         List<Tile> neighbours = new ArrayList<>(tile.getNeighbours());
         neighbours.remove(oldTile);
         if (neighbours.isEmpty())

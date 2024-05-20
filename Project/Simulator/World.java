@@ -13,7 +13,7 @@ public class World {
     protected int width;
     protected int height;
     protected long time = 0;
-    protected List<Organism> organisms; // will be sorted by initiative and age
+    protected List<Organism> organisms;
     protected List<Tile> tiles;
     protected List<String> logs = new ArrayList<>();
     protected Human human = null;
@@ -53,11 +53,9 @@ public class World {
     }
 
     protected void createBoard(int width, int height) {
-        // Initialize tiles based on width and height
         for (int i = 0; i < width * height; i++) {
             tiles.add(new Tile(i, 4));
         }
-        // Set links between tiles
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Tile tile = tiles.get(y * width + x);
@@ -130,17 +128,14 @@ public class World {
         time++;
         clearLogs();
 
-        // Sort organisms based on initiative and age
         organisms.sort((a, b) -> {
             if (a.getInitiative() == b.getInitiative()) {
-                // Fixed to handle comparison of long values
-                return Long.compare(b.getAge(), a.getAge()); // Note the order is reversed for age
+                return Long.compare(b.getAge(), a.getAge());
             }
-            return Integer.compare(b.getInitiative(), a.getInitiative()); // Higher initiative first
+            return Integer.compare(b.getInitiative(), a.getInitiative());
         });
 
-        // Iterate through organisms for actions
-        for (Organism organism : new ArrayList<>(organisms)) { // To avoid ConcurrentModificationException
+        for (Organism organism : new ArrayList<>(organisms)) {
             if (organism.isSkipped() || organism.isDead())
                 continue;
             if (!GlobalSettings.AI_ACTION && !(organism instanceof Human))
@@ -156,7 +151,6 @@ public class World {
             }
         }
 
-        // Handle post-round actions and remove dead organisms
         organisms.removeIf(organism -> {
             if (organism.isDead()) {
                 organism.getTile().removeOrganism(organism);
@@ -208,7 +202,7 @@ public class World {
 
     public void clearTiles() {
         for (int i = 0; i < tiles.size(); i++) {
-            tiles.set(i, null); // Explicitly setting to null, if necessary
+            tiles.set(i, null);
         }
         tiles.clear();
     }
@@ -231,7 +225,7 @@ public class World {
 
         Human human = new Human(this);
         spreadOrganisms(human, 1);
-        setHuman(human); // Assuming setHuman sets the 'human' field in World
+        setHuman(human);
 
         spreadOrganisms(new SosnowskyHogweed(this), 3);
         spreadOrganisms(new Grass(this), 3);

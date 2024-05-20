@@ -53,11 +53,10 @@ public class GUI {
 
         window = new JFrame("Wojciech Siwiec s197815 - \"Grids of Life\"");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // window.setResizable(false);
         window.setLayout(new BorderLayout());
 
         cardPanel = new JPanel(new CardLayout());
-        constructMenu(); // Initialize menuPanel
+        constructMenu();
         constructToolBar();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -66,9 +65,9 @@ public class GUI {
         }
         constructControlPanel();
         setDefaultFontSize(12);
-        constructNewGamePanel(); // Initialize newGamePanel
+        constructNewGamePanel();
         constructGameView();
-        window.add(cardPanel, BorderLayout.CENTER); // Add cardPanel to the window
+        window.add(cardPanel, BorderLayout.CENTER);
 
         window.pack();
 
@@ -87,12 +86,10 @@ public class GUI {
     }
 
     private void setDefaultFontSize(int size) {
-        // Get all UI keys from UIManager
         for (Object key : UIManager.getLookAndFeelDefaults().keySet()) {
             if (key != null && key.toString().endsWith(".font")) {
                 Font font = UIManager.getDefaults().getFont(key);
                 if (font != null) {
-                    // Set the new font size
                     font = font.deriveFont((float) size);
                     UIManager.put(key, font);
                 }
@@ -185,27 +182,22 @@ public class GUI {
     }
 
     public void constructGameView() {
-        // Step 1: Initialize gameView
         gameView = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        gameView.setOneTouchExpandable(false); // Users cannot adjust the split
-        gameView.setEnabled(false); // Disable the split pane to prevent resizing
+        gameView.setOneTouchExpandable(false);
+        gameView.setEnabled(false);
 
-        // Step 2: Configure rightSplitPane
         JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         rightSplitPane.setOneTouchExpandable(false);
-        rightSplitPane.setEnabled(false); // Disable the split pane to prevent resizing
+        rightSplitPane.setEnabled(false);
 
-        // Step 3: Add components
         rightSplitPane.setTopComponent(logPanel);
         rightSplitPane.setBottomComponent(controlPanel);
         gameView.setLeftComponent(boardPanel);
         gameView.setRightComponent(rightSplitPane);
 
-        // Adjusting the initial divider location to prioritize left component's space
         gameView.setResizeWeight(1.0);
         rightSplitPane.setResizeWeight(1.0);
 
-        // Step 5: Add gameView to cardPanel instead of directly to window
         cardPanel.add(gameView, "GameView");
     }
 
@@ -305,8 +297,8 @@ public class GUI {
         BufferedImage image = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
 
-        g2d.setFont(new Font("Sans-serif", Font.BOLD, 40)); // Set font here
-        g2d.setColor(Color.BLACK); // Set font color here
+        g2d.setFont(new Font("Sans-serif", Font.BOLD, 40));
+        g2d.setColor(Color.BLACK);
         FontMetrics fm = g2d.getFontMetrics();
         int x = (image.getWidth() - fm.stringWidth(text)) / 2;
         int y = ((image.getHeight() - fm.getHeight()) / 2) + fm.getAscent();
@@ -507,11 +499,11 @@ public class GUI {
         newGamePanel.add(worldTypeComboBox, gbc);
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 2; // Make startButton span two columns
-        gbc.anchor = GridBagConstraints.CENTER; // Center the start button
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
         newGamePanel.add(startButton, gbc);
 
-        cardPanel.add(newGamePanel, "NewGame"); // Add newGamePanel to cardPanel
+        cardPanel.add(newGamePanel, "NewGame");
     }
 
     private void constructToolBar() {
@@ -573,7 +565,7 @@ public class GUI {
         JButton exitButton = new JButton("Exit");
 
         startButton.addActionListener(e -> {
-            showNewGamePanel(); // Use showNewGamePanel to switch views
+            showNewGamePanel();
         });
 
         exitButton.addActionListener(e -> System.exit(0));
@@ -620,7 +612,6 @@ public class GUI {
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Add buttons to menuPanel
         menuPanel.add(continueButton);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         menuPanel.add(startButton);
@@ -629,7 +620,7 @@ public class GUI {
         menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         menuPanel.add(exitButton);
 
-        cardPanel.add(menuPanel, "Menu"); // Add menuPanel to cardPanel
+        cardPanel.add(menuPanel, "Menu");
     }
 
     public void run() {

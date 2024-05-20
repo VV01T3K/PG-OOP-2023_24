@@ -99,7 +99,7 @@ public abstract class Animal extends Organism {
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = super.toJson(); // Assuming the superclass Organism has a toJson method returning JSONObject
+        JSONObject json = super.toJson();
         int index = oldTile == null ? -1 : oldTile.index;
         json.put("old_tile_index", index);
         return json;

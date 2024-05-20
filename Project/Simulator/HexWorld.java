@@ -82,7 +82,6 @@ public class HexWorld extends World {
         int dx = Math.abs(x1 - x2);
         int dy = Math.abs(y1 - y2);
 
-        // Corrected the distance calculation for hexagonal grid
         if (dx > dy) {
             return dx;
         } else {
