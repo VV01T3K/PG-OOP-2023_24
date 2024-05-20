@@ -34,20 +34,10 @@ public class HexWorld extends World {
 
     @Override
     public void createBoard(int width, int height) {
-
-        // System.out.println(DynamicDirections.get("UP").ordinal());
-        // System.out.println(DynamicDirections.get("DOWN").ordinal());
-        // System.out.println(DynamicDirections.get("TOP_LEFT").ordinal());
-        // System.out.println(DynamicDirections.get("TOP_RIGHT").ordinal());
-        // System.out.println(DynamicDirections.get("BOTTOM_LEFT").ordinal());
-        // System.out.println(DynamicDirections.get("BOTTOM_RIGHT").ordinal());
-        // System.out.println(DynamicDirections.get("SELF").ordinal());
-
         int size = width * height;
 
         for (int i = 0; i < size; i++) {
             tiles.add(new Tile(i, 6));
-            tiles.get(i).placeOrganism(human);
         }
 
         for (int x = 0; x < width; x++) {
@@ -97,14 +87,6 @@ public class HexWorld extends World {
             return dx;
         } else {
             return dy + (dx - dy) / 2;
-        }
-    }
-
-    public void print() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++)
-                System.out.print("(" + x + "," + y + ")");
-            System.out.println();
         }
     }
 }

@@ -218,7 +218,7 @@ public class GUI {
 
     private void showGameView() {
         saveButton.setVisible(true);
-        constructGameView(); // Ensure gameView is constructed with the new board
+        constructGameView();
         constructControlPanel();
         updateLogPanel();
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
@@ -247,6 +247,8 @@ public class GUI {
 
         for (Type type : Type.values()) {
             if (type == Type.HUMAN && world.hasHuman())
+                continue;
+            if (type == Type.CYBER_SHEEP)
                 continue;
             JMenuItem item = new JMenuItem(type.getSymbol() + " - " + type.name());
             item.addActionListener(e -> {
@@ -318,9 +320,8 @@ public class GUI {
     }
 
     private void constructSquareBoardPanel(int width, int height) {
-        buttons.clear(); // Clear the buttons map
-        boardPanel.removeAll(); // Remove all components from the previous board
-        boardPanel.setLayout(new GridBoardLayoutManager()); // Set the layout manager
+        boardPanel.removeAll();
+        boardPanel.setLayout(new GridBoardLayoutManager());
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 JButton button = new ResizableIconButton(x, y);
@@ -339,12 +340,11 @@ public class GUI {
             }
         }
 
-        boardPanel.revalidate(); // Revalidate the panel to apply changes
-        boardPanel.repaint(); // Repaint to display the new buttons
+        boardPanel.revalidate();
+        boardPanel.repaint();
     }
 
     private void constructHexagonalBoardPanel(int width, int height) {
-        buttons.clear();
         boardPanel.removeAll();
         boardPanel.setLayout(null);
         int squareSize = 30;
@@ -364,7 +364,6 @@ public class GUI {
                         useAddOrganismPopup(x, y, button, fi, fj);
                     }
                 });
-                button.setText("[" + x + "," + y + "]");
                 buttons.put(new Point(x, y), button);
                 boardPanel.add(button);
             }
@@ -396,6 +395,7 @@ public class GUI {
     }
 
     private void constructBoardPanel(int width, int height) {
+        buttons.clear();
         if (world instanceof HexWorld) {
             constructHexagonalBoardPanel(width, height);
         } else {
@@ -432,16 +432,16 @@ public class GUI {
                 if (value <= 0) {
                     JOptionPane.showMessageDialog(window, "Value must be greater than 0", "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    field.setText(""); // Reset the input field
+                    field.setText("");
                 } else if (value > 40) {
                     JOptionPane.showMessageDialog(window, "Value must be less than 40", "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    field.setText(""); // Reset the input field
+                    field.setText("");
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(window, "Please enter a valid number", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                field.setText(""); // Reset the input field
+                field.setText("");
             }
         });
     }
@@ -452,16 +452,15 @@ public class GUI {
         newGamePanel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // set preferred size for the newGamePanel
         newGamePanel.setPreferredSize(new Dimension(300, 200));
 
-        gbc.insets = new Insets(5, 5, 5, 5); // Margin between components
-        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
 
         JLabel widthLabel = new JLabel("Width:");
-        JTextField widthField = new JTextField(10); // Specify columns to control width
+        JTextField widthField = new JTextField(10);
         JLabel heightLabel = new JLabel("Height:");
-        JTextField heightField = new JTextField(10); // Specify columns to control width
+        JTextField heightField = new JTextField(10);
         JLabel worldType = new JLabel("World type:");
         JComboBox<String> worldTypeComboBox = new JComboBox<>(new String[] { "Square", "Hexagonal" });
         JButton startButton = new JButton("Start");
@@ -486,11 +485,10 @@ public class GUI {
             world.setHuman(world.findHuman());
             profileManager.switchProfile(world instanceof HexWorld ? "Hexagonal" : "Square");
             constructBoardPanel(newWidth, newHeight);
-            showGameView(); // Show gameView instead of showBoardPanel
+            showGameView();
             window.pack();
         });
 
-        // Add components with GridBagConstraints
         gbc.gridx = 0;
         gbc.gridy = 0;
         newGamePanel.add(widthLabel, gbc);
@@ -532,9 +530,8 @@ public class GUI {
         saveButton.addActionListener(e -> {
             String name = JOptionPane.showInputDialog(window, "Enter the name of the save file", "Save game",
                     JOptionPane.PLAIN_MESSAGE);
-            // Check if name is null or empty, indicating cancel was pressed
             if (name == null || name.isEmpty()) {
-                return; // Exit the event handler early
+                return;
             }
             FileHandler.saveWorld(world, name, window.getWidth(), window.getHeight());
             JOptionPane.showMessageDialog(window, "Game saved successfully", "Save game",

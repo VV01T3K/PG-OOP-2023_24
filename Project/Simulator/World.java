@@ -58,8 +58,8 @@ public class World {
             tiles.add(new Tile(i, 4));
         }
         // Set links between tiles
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 Tile tile = tiles.get(y * width + x);
                 if (y > 0) {
                     tile.setLink(DynamicDirections.get("UP"), tiles.get((y - 1) * width + x));

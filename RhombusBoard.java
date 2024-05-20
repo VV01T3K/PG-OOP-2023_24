@@ -30,7 +30,7 @@ public class RhombusBoard extends JFrame {
             addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    adjustButtonSizesAndPositions();
+                    // adjustButtonSizesAndPositions();
                 }
             });
         }
@@ -42,7 +42,7 @@ public class RhombusBoard extends JFrame {
                     this.add(button);
                 }
             }
-            adjustButtonSizesAndPositions();
+            // adjustButtonSizesAndPositions();
         }
 
         private void adjustButtonSizesAndPositions() {

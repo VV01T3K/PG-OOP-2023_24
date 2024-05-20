@@ -1,36 +1,36 @@
 {
   "world": {
-    "width": 5,
-    "window_width": 510,
-    "time": 14,
+    "width": 2,
+    "window_width": 330,
+    "time": 0,
     "window_height": 267,
-    "hexagonal": false,
-    "height": 5
+    "hexagonal": true,
+    "height": 2
   },
   "organisms": [
     {
-      "old_tile_index": 7,
+      "old_tile_index": -1,
       "initiative": 4,
       "alive": true,
-      "tile_index": 6,
+      "tile_index": 0,
       "skip": false,
       "power": 5,
       "type": 3,
       "reproduction_cooldown": 0,
-      "age": 14,
+      "age": 0,
       "ability_cooldown": 0,
       "immortality_left": 0
     },
     {
-      "old_tile_index": 24,
+      "old_tile_index": -1,
       "initiative": 4,
       "alive": true,
-      "tile_index": 23,
+      "tile_index": 2,
       "skip": false,
       "power": 4,
       "type": 4,
       "reproduction_cooldown": 0,
-      "age": 14
+      "age": 0
     }
   ]
 }
