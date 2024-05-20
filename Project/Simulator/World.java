@@ -17,7 +17,6 @@ public class World {
     protected List<Tile> tiles;
     protected List<String> logs = new ArrayList<>();
     protected Human human = null;
-    protected boolean hex = false;
 
     public World(int width, int height) {
         DynamicDirections.clear();
@@ -45,11 +44,6 @@ public class World {
     }
 
     public World(boolean hex) {
-        this.hex = hex;
-    }
-
-    public boolean isHex() {
-        return hex;
     }
 
     protected void createBoard(int width, int height) {

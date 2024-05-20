@@ -33,7 +33,7 @@ public class FileHandler {
         jsonWorld.put("width", world.getWidth());
         jsonWorld.put("height", world.getHeight());
         jsonWorld.put("time", world.checkTime());
-        jsonWorld.put("hexagonal", world.isHex());
+        jsonWorld.put("hexagonal", (world instanceof HexWorld));
         jsonWorld.put("window_width", windowWidth);
         jsonWorld.put("window_height", windowHeight);
 
