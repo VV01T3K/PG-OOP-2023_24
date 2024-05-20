@@ -342,14 +342,14 @@ public class GUI {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 JButton button = new ResizableIconButton(y, x);
-                final int fi = y;
-                final int fj = x;
+                final int fy = y;
+                final int fx = x;
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         int x = e.getX();
                         int y = e.getY();
-                        useAddOrganismPopup(x, y, button, fi, fj);
+                        useAddOrganismPopup(x, y, button, fx, fy);
                     }
                 });
                 buttons.put(new Point(x, y), button);

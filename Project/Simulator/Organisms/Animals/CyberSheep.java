@@ -32,12 +32,11 @@ public class CyberSheep extends Animal {
             return;
         }
         Tile target = nextTileToSosnowskyHogweed(index);
+        if (target == null) {
+            super.action();
+            return;
+        }
         move(target);
-        // if (target == null) {
-        // super.action();
-        // return;
-        // }
-        // move(target);
     }
 
     private int seekClosestSosnowskyHogweed() {
