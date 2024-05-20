@@ -19,8 +19,6 @@ import Utils.DynamicDirections;
 import Utils.FileHandler;
 import Utils.FileHandler.WorldLoadResult;
 
-import Utils.GUI.RhombusPanel;
-
 public class GUI {
     private World world;
     private JFrame window;

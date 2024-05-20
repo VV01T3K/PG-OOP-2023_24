@@ -233,18 +233,18 @@ public class World {
         spreadOrganisms(human, 1);
         setHuman(human); // Assuming setHuman sets the 'human' field in World
 
-        // spreadOrganisms(new SosnowskyHogweed(this), 3);
-        // spreadOrganisms(new Grass(this), 3);
-        // spreadOrganisms(new Guarana(this), 3);
-        // spreadOrganisms(new Milkweed(this), 3);
-        // spreadOrganisms(new WolfBerries(this), 3);
+        spreadOrganisms(new SosnowskyHogweed(this), 3);
+        spreadOrganisms(new Grass(this), 3);
+        spreadOrganisms(new Guarana(this), 3);
+        spreadOrganisms(new Milkweed(this), 3);
+        spreadOrganisms(new WolfBerries(this), 3);
 
-        // spreadOrganisms(new Wolf(this), 3);
+        spreadOrganisms(new Wolf(this), 3);
         spreadOrganisms(new Sheep(this), 1);
-        // // spreadOrganisms(new CyberSheep(this), 3);
-        // spreadOrganisms(new Fox(this), 3);
-        // spreadOrganisms(new Turtle(this), 3);
-        // spreadOrganisms(new Antelope(this), 3);
+        // spreadOrganisms(new CyberSheep(this), 3);
+        spreadOrganisms(new Fox(this), 3);
+        spreadOrganisms(new Turtle(this), 3);
+        spreadOrganisms(new Antelope(this), 3);
     }
 
     public void addLog(String log) {

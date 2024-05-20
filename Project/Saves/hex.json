@@ -1,23 +1,296 @@
 {
   "world": {
-    "width": 6,
-    "window_width": 570,
-    "time": 25,
-    "window_height": 279,
+    "width": 20,
+    "window_width": 1410,
+    "time": 7,
+    "window_height": 699,
     "hexagonal": true,
-    "height": 6
+    "height": 20
   },
-  "organisms": [{
-    "old_tile_index": 14,
-    "initiative": 4,
-    "alive": true,
-    "tile_index": 15,
-    "skip": false,
-    "power": 5,
-    "type": 3,
-    "reproduction_cooldown": 0,
-    "age": 25,
-    "ability_cooldown": 0,
-    "immortality_left": 0
-  }]
+  "organisms": [
+    {
+      "old_tile_index": 340,
+      "initiative": 7,
+      "alive": true,
+      "tile_index": 360,
+      "skip": false,
+      "power": 3,
+      "type": 2,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 213,
+      "initiative": 7,
+      "alive": true,
+      "tile_index": 233,
+      "skip": false,
+      "power": 3,
+      "type": 2,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 127,
+      "initiative": 5,
+      "alive": true,
+      "tile_index": 126,
+      "skip": false,
+      "power": 9,
+      "type": 6,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 142,
+      "initiative": 5,
+      "alive": true,
+      "tile_index": 122,
+      "skip": false,
+      "power": 9,
+      "type": 6,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 145,
+      "initiative": 4,
+      "alive": true,
+      "tile_index": 165,
+      "skip": false,
+      "power": 5,
+      "type": 3,
+      "reproduction_cooldown": 0,
+      "age": 7,
+      "ability_cooldown": 5,
+      "immortality_left": 3
+    },
+    {
+      "old_tile_index": 66,
+      "initiative": 4,
+      "alive": true,
+      "tile_index": 46,
+      "skip": false,
+      "power": 4,
+      "type": 4,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 315,
+      "initiative": 4,
+      "alive": true,
+      "tile_index": 314,
+      "skip": false,
+      "power": 4,
+      "type": 0,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 96,
+      "initiative": 4,
+      "alive": true,
+      "tile_index": 117,
+      "skip": false,
+      "power": 4,
+      "type": 0,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 246,
+      "initiative": 4,
+      "alive": true,
+      "tile_index": 267,
+      "skip": false,
+      "power": 4,
+      "type": 0,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 381,
+      "initiative": 1,
+      "alive": true,
+      "tile_index": 380,
+      "skip": false,
+      "power": 2,
+      "type": 5,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 168,
+      "initiative": 1,
+      "alive": true,
+      "tile_index": 169,
+      "skip": false,
+      "power": 2,
+      "type": 5,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "old_tile_index": 262,
+      "initiative": 1,
+      "alive": true,
+      "tile_index": 283,
+      "skip": false,
+      "power": 2,
+      "type": 5,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 133,
+      "skip": false,
+      "power": 10,
+      "type": 10,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 310,
+      "skip": false,
+      "power": 10,
+      "type": 10,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 259,
+      "skip": false,
+      "power": 10,
+      "type": 10,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 178,
+      "skip": false,
+      "power": 0,
+      "type": 7,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 180,
+      "skip": false,
+      "power": 0,
+      "type": 7,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 199,
+      "skip": false,
+      "power": 0,
+      "type": 8,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 237,
+      "skip": false,
+      "power": 0,
+      "type": 8,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 383,
+      "skip": false,
+      "power": 0,
+      "type": 8,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 79,
+      "skip": false,
+      "power": 0,
+      "type": 9,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 329,
+      "skip": false,
+      "power": 0,
+      "type": 9,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 11,
+      "skip": false,
+      "power": 0,
+      "type": 9,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 55,
+      "skip": false,
+      "power": 99,
+      "type": 11,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 94,
+      "skip": false,
+      "power": 99,
+      "type": 11,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 366,
+      "skip": false,
+      "power": 99,
+      "type": 11,
+      "reproduction_cooldown": 0,
+      "age": 7
+    },
+    {
+      "initiative": 0,
+      "alive": true,
+      "tile_index": 93,
+      "skip": false,
+      "power": 99,
+      "type": 11,
+      "reproduction_cooldown": 0,
+      "age": 3
+    }
+  ]
 }
