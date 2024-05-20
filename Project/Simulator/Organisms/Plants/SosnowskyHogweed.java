@@ -30,8 +30,8 @@ public class SosnowskyHogweed extends Plant {
             Organism organism = neighbour.getOrganism();
             if (organism instanceof Plant)
                 continue;
-            // if (organism.getType() == Type.CYBER_SHEEP)
-            // continue;
+            if (organism.getType() == Type.CYBER_SHEEP)
+                continue;
 
             organism.die();
             if (organism.isDead()) {
@@ -54,8 +54,8 @@ public class SosnowskyHogweed extends Plant {
     public boolean collisionReaction(Organism other) {
         if (other instanceof Plant)
             return false;
-        // if (other.getType() == Type.CYBER_SHEEP)
-        // return false;
+        if (other.getType() == Type.CYBER_SHEEP)
+            return false;
         other.die();
         die();
         world.addLog(other.getSymbol() + " ate " + getSymbol() + " and died!");

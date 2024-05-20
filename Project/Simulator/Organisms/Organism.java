@@ -56,8 +56,8 @@ public abstract class Organism {
                     return new Human(w);
                 case SHEEP:
                     return new Sheep(w);
-                // case CYBER_SHEEP:
-                // return new CyberSheep(w);
+                case CYBER_SHEEP:
+                    return new CyberSheep(w);
                 case TURTLE:
                     return new Turtle(w);
                 case WOLF:

@@ -238,8 +238,6 @@ public class GUI {
         for (Type type : Type.values()) {
             if (type == Type.HUMAN && world.hasHuman())
                 continue;
-            if (type == Type.CYBER_SHEEP)
-                continue;
             JMenuItem item = new JMenuItem(type.getSymbol() + " - " + type.name());
             item.addActionListener(e -> {
                 world.setNewOrganism(type, j, i);

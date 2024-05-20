@@ -73,7 +73,7 @@ public class HexWorld extends World {
     }
 
     @Override
-    public long getDistanceTo(Tile start, Tile target) {
+    public int getDistance(Tile start, Tile target) {
         int x1 = start.index % width;
         int y1 = start.index / width;
         int x2 = target.index % width;

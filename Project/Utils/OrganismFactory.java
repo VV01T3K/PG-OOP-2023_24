@@ -23,8 +23,9 @@ public class OrganismFactory {
                 return new Fox(json, world);
             case HUMAN:
                 return new Human(json, world);
-            case SHEEP:
             case CYBER_SHEEP:
+                return new CyberSheep(json, world);
+            case SHEEP:
                 return new Sheep(json, world);
             case TURTLE:
                 return new Turtle(json, world);

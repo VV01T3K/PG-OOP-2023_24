@@ -75,9 +75,9 @@ public class World {
         }
     }
 
-    public long getDistanceTo(Tile tile, Tile target) {
-        long dx = Math.abs(tile.index % width - target.index % width);
-        long dy = Math.abs(tile.index / width - target.index / width);
+    public int getDistance(Tile tile, Tile target) {
+        int dx = Math.abs(tile.index % width - target.index % width);
+        int dy = Math.abs(tile.index / width - target.index / width);
         return dx + dy;
     }
 
@@ -227,18 +227,18 @@ public class World {
         spreadOrganisms(human, 1);
         setHuman(human);
 
-        spreadOrganisms(new SosnowskyHogweed(this), 3);
-        spreadOrganisms(new Grass(this), 3);
-        spreadOrganisms(new Guarana(this), 3);
-        spreadOrganisms(new Milkweed(this), 3);
-        spreadOrganisms(new WolfBerries(this), 3);
+        spreadOrganisms(new SosnowskyHogweed(this), 6);
+        // spreadOrganisms(new Grass(this), 3);
+        // spreadOrganisms(new Guarana(this), 3);
+        // spreadOrganisms(new Milkweed(this), 3);
+        // spreadOrganisms(new WolfBerries(this), 3);
 
-        spreadOrganisms(new Wolf(this), 3);
-        spreadOrganisms(new Sheep(this), 1);
-        // spreadOrganisms(new CyberSheep(this), 3);
-        spreadOrganisms(new Fox(this), 3);
-        spreadOrganisms(new Turtle(this), 3);
-        spreadOrganisms(new Antelope(this), 3);
+        // spreadOrganisms(new Wolf(this), 3);
+        // spreadOrganisms(new Sheep(this), 1);
+        spreadOrganisms(new CyberSheep(this), 1);
+        // spreadOrganisms(new Fox(this), 3);
+        // spreadOrganisms(new Turtle(this), 3);
+        // spreadOrganisms(new Antelope(this), 3);
     }
 
     public void addLog(String log) {
