@@ -32,23 +32,23 @@ public class CyberSheep extends Animal {
             return;
         }
         Tile target = nextTileToSosnowskyHogweed(index);
-        if (target == null) {
-            super.action();
-            return;
-        }
         move(target);
+        // if (target == null) {
+        // super.action();
+        // return;
+        // }
+        // move(target);
     }
 
     private int seekClosestSosnowskyHogweed() {
         int index = -1;
         int min_distance = -1;
-        for (int i = world.getOrganismCount(); i-- > 0;) { // Fixed iteration direction
-            Organism target = world.getOrganism(i);
-            if (target.getType() == Organism.Type.SOSNOWSKY_HOGWEED) {
-                int distance = world.getDistance(tile, target.getTile());
-                if (distance < min_distance) {
+        for (Organism organism : world.getOrganisms()) {
+            if (organism.getType() == Type.SOSNOWSKY_HOGWEED) {
+                int distance = world.getDistance(tile, organism.getTile());
+                if (min_distance == -1 || distance < min_distance) {
                     min_distance = distance;
-                    index = i;
+                    index = world.getOrganisms().indexOf(organism);
                 }
             }
         }
@@ -58,15 +58,21 @@ public class CyberSheep extends Animal {
     private Tile nextTileToSosnowskyHogweed(int index) {
         Tile target = world.getOrganism(index).getTile();
         int distance = world.getDistance(tile, target);
-        List<Tile> possibleMoves = new ArrayList<>();
         List<Tile> neighbours = tile.getNeighbours();
+        List<Tile> valid = new ArrayList<>();
         for (Tile neighbour : neighbours) {
+            if (neighbour == null) {
+                continue;
+            }
             if (world.getDistance(neighbour, target) < distance) {
-                possibleMoves.add(neighbour);
+                valid.add(neighbour);
             }
         }
-        if (possibleMoves.isEmpty())
+        if (valid.isEmpty()) {
             return null;
-        return possibleMoves.get(RNG.roll(0, possibleMoves.size() - 1));
+        }
+        target = valid.get(RNG.roll(0, valid.size() - 1));
+
+        return target;
     }
 }

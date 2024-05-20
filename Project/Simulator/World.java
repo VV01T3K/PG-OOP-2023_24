@@ -76,9 +76,11 @@ public class World {
     }
 
     public int getDistance(Tile tile, Tile target) {
-        int dx = Math.abs(tile.index % width - target.index % width);
-        int dy = Math.abs(tile.index / width - target.index / width);
-        return dx + dy;
+        int x1 = tile.index % width;
+        int y1 = tile.index / width;
+        int x2 = target.index % width;
+        int y2 = target.index / width;
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
 
     public void setWorld(int width, int height, long time) {
@@ -227,7 +229,7 @@ public class World {
         spreadOrganisms(human, 1);
         setHuman(human);
 
-        spreadOrganisms(new SosnowskyHogweed(this), 6);
+        spreadOrganisms(new SosnowskyHogweed(this), 1);
         // spreadOrganisms(new Grass(this), 3);
         // spreadOrganisms(new Guarana(this), 3);
         // spreadOrganisms(new Milkweed(this), 3);

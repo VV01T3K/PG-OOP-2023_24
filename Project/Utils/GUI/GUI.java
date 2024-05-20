@@ -160,7 +160,7 @@ public class GUI {
         nextRound.addActionListener(e -> {
             if (GlobalSettings.HUMAN_AI) {
                 nextRound.setText("<html><div style='text-align: center;'>Next Turn</div></html>");
-                humanPower.setText("    Power: " + world.getHuman().getPower());
+                humanPower.setText("    Power: " + (world.hasHuman() ? world.getHuman().getPower() : ""));
                 world.simulate();
                 updateGameView();
             } else if (world.hasHuman() && world.getHuman().getNextMove() == DynamicDirections.get("SELF")) {
