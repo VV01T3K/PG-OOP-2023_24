@@ -1,11 +1,10 @@
 import random
 from typing import List
 
-from Project.Simulator.Organisms.Animals.Human import Human
-from Tile import Tile
-from GlobalSettings import GlobalSettings
-from Organisms.Organism import Organism
-
+# from Project.Simulator.Organisms.Animals.Human import Human
+from Simulator.Tile import Tile
+from Simulator.GlobalSettings import GlobalSettings
+from Simulator.Organisms.Organism import Organism
 from Utils.DynamicDirections import DynamicDirections
 
 
@@ -144,8 +143,8 @@ class World:
         for organism in self.organisms.copy():
             if organism.isSkipped() or organism.isDead():
                 continue
-            if not GlobalSettings.AI_ACTION and not isinstance(organism, Human):
-                continue
+            # if not GlobalSettings.AI_ACTION and not isinstance(organism, Human):
+            #     continue
 
             organism.action()
 
@@ -164,8 +163,8 @@ class World:
             tile = organism.getTile()
             if organism.isDead() and tile is not None:
                 tile.removeOrganism(organism)
-                if isinstance(organism, Human):
-                    self.human = None
+                # if isinstance(organism, Human):
+                #     self.human = None
 
     def getOrganimsCount(self):
         return len(self.organisms)

@@ -1,10 +1,6 @@
 import json
 
-
 from abc import ABC, abstractmethod
-
-from Simulator.Tile import Tile
-from Simulator.World import World
 
 from enum import Enum
 
@@ -33,7 +29,7 @@ class Type(Enum):
 
 
 class Organism(ABC):
-    def __init__(self, type, power, initiative, world: World, json=None):
+    def __init__(self, type, power, initiative, world, json=None):
         if json is None:
             self.type = type
             self.power = power
