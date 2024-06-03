@@ -2,10 +2,12 @@ import random
 from typing import List
 
 # from Project.Simulator.Organisms.Animals.Human import Human
-from Simulator.Tile import Tile
-from Simulator.GlobalSettings import GlobalSettings
-from Simulator.Organisms.Organism import Organism
+from .Tile import Tile
+from .GlobalSettings import GlobalSettings
+from .Organisms.Organism import Organism
 from Utils.DynamicDirections import DynamicDirections
+
+from .Organisms.Plants import *
 
 
 class World:
@@ -88,7 +90,7 @@ class World:
         # self.setHuman(self.organisms[-1])
 
         # self.spreadOrganisms(SosnowskyHogweed(self), 3)
-        # self.spreadOrganisms(Grass(self), 3)
+        self.spreadOrganisms(Grass(self), 3)
         # self.spreadOrganisms(Guarana(self), 3)
         # self.spreadOrganisms(Milkweed(self), 3)
         # self.spreadOrganisms(WolfBerries(self), 3)

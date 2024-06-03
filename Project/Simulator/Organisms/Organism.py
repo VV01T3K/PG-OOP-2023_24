@@ -29,7 +29,7 @@ class Type(Enum):
 
 
 class Organism(ABC):
-    def __init__(self, type, power, initiative, world, json=None):
+    def __init__(self, type: Type, power, initiative, world, json=None):
         if json is None:
             self.type = type
             self.power = power
@@ -102,14 +102,11 @@ class Organism(ABC):
         self.initiative = initiative
 
     def getSymbol(self):
-        return self.type.getSymbol()
-
-    def draw(self):
-        print(self.getSymbol())
+        return self.type.value
 
     def toJson(self):
         data = {
-            "type": self.type.ordinal(),
+            "type": list(Type).index(self.type),
             "power": self.power,
             "initiative": self.initiative,
             "age": self.age,

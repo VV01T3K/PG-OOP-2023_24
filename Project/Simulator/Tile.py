@@ -1,7 +1,7 @@
 import random
 from typing import List
 
-from Simulator.Organisms.Organism import Organism
+from .Organisms.Organism import Organism
 
 
 class Tile:
