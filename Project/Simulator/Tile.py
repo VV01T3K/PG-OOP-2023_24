@@ -11,7 +11,7 @@ class Tile:
         self.organisms: List[Organism] = []
 
     def __str__(self):
-        return '' if not self.organisms else self.organisms[0].get_symbol()
+        return '' if not self.organisms else self.organisms[0].getSymbol()
 
     def clear(self):
         self.organisms.clear()

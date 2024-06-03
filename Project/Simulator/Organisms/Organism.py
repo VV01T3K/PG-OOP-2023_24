@@ -1,9 +1,35 @@
 import json
 
+
 from abc import ABC, abstractmethod
 
 from Simulator.Tile import Tile
 from Simulator.World import World
+
+from enum import Enum
+
+
+class Type(Enum):
+    ANTELOPE = "🦌"
+    CYBER_SHEEP = "🤖"
+    FOX = "🦊"
+    HUMAN = "👨"
+    SHEEP = "🐑"
+    TURTLE = "🐢"
+    WOLF = "🐺"
+    GRASS = "🌿"
+    GUARANA = "🍅"
+    MILKWEED = "🌾"
+    SOSNOWSKY_HOGWEED = "🍁"
+    WOLF_BERRIES = "🍇"
+
+    @property
+    def symbol(self):
+        return self.value
+
+    @staticmethod
+    def getTypeByInt(i):
+        return list(Type)[i]
 
 
 class Organism(ABC):
@@ -19,7 +45,7 @@ class Organism(ABC):
             self.world = world
             self.tile = None
         else:
-            # self.type = Type.getTypeByInt(json["type"])
+            self.type = Type.getTypeByInt(json["type"])
             self.power = json["power"]
             self.initiative = json["initiative"]
             self.age = json["age"]
