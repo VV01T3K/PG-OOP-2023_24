@@ -193,3 +193,11 @@ class World:
         organism.skipTurn()
         self.addOrganism(organism, tile)
         self.addLog("New " + type.getSymbol() + " " + type + " spawned!")
+
+
+class HexWorld(World):
+    def __init__(self, width, height):
+        super().__init__(width, height)
+
+    def createBoard(self, width, height):
+        pass
