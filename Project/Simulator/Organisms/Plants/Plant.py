@@ -1,23 +1,19 @@
-from hmac import new
-import json
 import random
 
 from abc import ABC, abstractmethod
 
-from Simulator.Tile import Tile
-from Simulator.World import World
-from Simulator.Organisms.Organism import Organism, Type
+from Simulator.Organisms.Organism import Organism
 from Simulator.GlobalSettings import GlobalSettings
 
 
 class Plant(Organism, ABC):
-    def __init__(self, type, power, initiative, world: World, json=None):
-        super().__init__(type, power, initiative, world, json)
+    def __init__(self, power, world, type, json=None):
+        super().__init__(type, power, 0, world, json)
+        self.reproduction_cooldown = 5
 
     def action(self):
         if not GlobalSettings.AI_REPRODUCE:
             return
-
         if random.randint(0, 100) < 5:
             if self.tile is not None:
                 newtile = self.tile.getRandomFreeNeighbour()
@@ -30,3 +26,19 @@ class Plant(Organism, ABC):
                 self.world.addOrganism(newPlant, newtile)
 
                 self.world.addLog(self.getSymbol() + " is spreading!!")
+
+    def collision(self, other):
+        pass
+
+    def collisionReaction(self, other):
+        return False
+
+    def setSpreadCooldown(self, cooldown):
+        self.reproduction_cooldown = cooldown
+
+    def getSpreadCooldown(self):
+        return self.reproduction_cooldown
+
+    @abstractmethod
+    def construct(self):
+        pass
