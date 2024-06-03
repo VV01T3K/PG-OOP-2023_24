@@ -1,5 +1,6 @@
-
 import random
+
+from Tile import Tile
 
 
 class World:
