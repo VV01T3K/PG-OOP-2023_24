@@ -21,6 +21,16 @@ class World:
         # self.human: Human = None
         self.createBoard(width, height)
 
+    def printWorld(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                tile = self.getTile(x, y)
+                if tile is not None:
+                    print(tile, end=" ")
+                else:
+                    print(" ", end=" ")
+            print()
+
     def createBoard(self, width, height):
         DynamicDirections.clear()
         DynamicDirections.addInstance("UP")
