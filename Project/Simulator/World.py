@@ -6,6 +6,8 @@ from Tile import Tile
 from GlobalSettings import GlobalSettings
 from Organisms.Organism import Organism
 
+from Utils.DynamicDirections import DynamicDirections
+
 
 class World:
 
@@ -19,6 +21,32 @@ class World:
         self.logs = []
         # self.human: Human = None
         self.createBoard(width, height)
+
+    def createBoard(self, width, height):
+        DynamicDirections.clear()
+        DynamicDirections.addInstance("UP")
+        DynamicDirections.addInstance("RIGHT")
+        DynamicDirections.addInstance("DOWN")
+        DynamicDirections.addInstance("LEFT")
+        DynamicDirections.addInstance("SELF")
+
+        for i in range(width * height):
+            self.tiles.append(Tile(i, 4))
+        for x in range(width):
+            for y in range(height):
+                tile: Tile = self.tiles[y * width + x]
+                if y > 0:
+                    tile.setLink(DynamicDirections.get("UP"),
+                                 self.tiles[(y - 1) * width + x])
+                if x < width - 1:
+                    tile.setLink(DynamicDirections.get("RIGHT"),
+                                 self.tiles[y * width + x + 1])
+                if y < height - 1:
+                    tile.setLink(DynamicDirections.get("DOWN"),
+                                 self.tiles[(y + 1) * width + x])
+                if x > 0:
+                    tile.setLink(DynamicDirections.get("LEFT"),
+                                 self.tiles[y * width + x - 1])
 
     def setTime(self, time):
         self.time = time
@@ -80,25 +108,6 @@ class World:
         self.time = time
         self.createBoard(width, height)
 
-    def createBoard(self, width, height):
-        # self.tiles = [Tile(i) for i in range(width * height)]
-        # for y in range(height):
-        #     for x in range(width):
-        #         tile = self.tiles[y * width + x]
-        #         if y > 0:
-        #             tile.setLink(
-        #                 Direction.UP, self.tiles[(y - 1) * width + x])
-        #         if x < width - 1:
-        #             tile.setLink(Direction.RIGHT,
-        #                          self.tiles[y * width + x + 1])
-        #         if y < height - 1:
-        #             tile.setLink(Direction.DOWN,
-        #                          self.tiles[(y + 1) * width + x])
-        #         if x > 0:
-        #             tile.setLink(Direction.LEFT,
-        #                          self.tiles[y * width + x - 1])
-        pass
-
     def checkTime(self):
         return self.time
 
@@ -120,7 +129,7 @@ class World:
     def getOrganism(self, index):
         return self.organisms[index]
 
-    def addOrganism(self, organism, tile):
+    def addOrganism(self, organism: Organism, tile: Tile):
         self.organisms.append(organism)
         organism.setTile(tile)
         tile.placeOrganism(organism)
@@ -208,4 +217,51 @@ class HexWorld(World):
         super().__init__(width, height)
 
     def createBoard(self, width, height):
-        pass
+        DynamicDirections.clear()
+
+        DynamicDirections.addInstance("UP")
+        DynamicDirections.addInstance("DOWN")
+        DynamicDirections.addInstance("TOP_LEFT")
+        DynamicDirections.addInstance("TOP_RIGHT")
+        DynamicDirections.addInstance("BOTTOM_LEFT")
+        DynamicDirections.addInstance("BOTTOM_RIGHT")
+        DynamicDirections.addInstance("SELF")
+
+        size = width * height
+
+        for i in range(size):
+            self.tiles.append(Tile(i, 6))
+
+        for x in range(width):
+            for y in range(height):
+                tile: Tile = self.tiles[y * width + x]
+
+                indexUp = (y - 1) * width + (x - 1)
+                up = self.tiles[indexUp] if 0 <= indexUp < len(
+                    self.tiles) else None
+                indexDown = (y + 1) * width + (x + 1)
+                down = self.tiles[indexDown] if 0 <= indexDown < len(
+                    self.tiles) else None
+                indexBottomRight = y * width + (x + 1)
+                bottom_right = self.tiles[indexBottomRight] if 0 <= indexBottomRight < len(
+                    self.tiles) else None
+                indexBottomLeft = (y + 1) * width + x
+                bottom_left = self.tiles[indexBottomLeft] if 0 <= indexBottomLeft < len(
+                    self.tiles) else None
+                indexTopRight = (y - 1) * width + x
+                top_right = self.tiles[indexTopRight] if 0 <= indexTopRight < len(
+                    self.tiles) else None
+                indexTopLeft = y * width + (x - 1)
+                top_left = self.tiles[indexTopLeft] if 0 <= indexTopLeft < len(
+                    self.tiles) else None
+
+                tile.setLink(DynamicDirections.get("UP"), up)
+                tile.setLink(DynamicDirections.get("DOWN"), down)
+                tile.setLink(DynamicDirections.get("TOP_LEFT"), top_left)
+                tile.setLink(DynamicDirections.get("TOP_RIGHT"), top_right)
+                tile.setLink(DynamicDirections.get("BOTTOM_LEFT"), bottom_left)
+                tile.setLink(DynamicDirections.get(
+                    "BOTTOM_RIGHT"), bottom_right)
+
+    def setTime(self, time):
+        self.time = time
