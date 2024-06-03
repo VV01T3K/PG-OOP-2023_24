@@ -1,11 +1,14 @@
 import random
+from typing import List
+
+from Organisms.Organism import Organism
 
 
 class Tile:
     def __init__(self, index, directionCount):
         self.index = index
         self.directions = [None]*directionCount
-        self.organisms = []
+        self.organisms: List[Organism] = []
 
     def __str__(self):
         return '' if not self.organisms else self.organisms[0].get_symbol()
@@ -19,10 +22,10 @@ class Tile:
     def getOrganism(self):
         return self.organisms[0] if len(self.organisms) > 0 else None
 
-    def placeOrganism(self, organism):
+    def placeOrganism(self, organism: Organism):
         self.organisms.append(organism)
 
-    def removeOrganism(self, organism):
+    def removeOrganism(self, organism: Organism):
         self.organisms.remove(organism)
 
     def getRandomFreeNeighbour(self):

@@ -1,6 +1,10 @@
 import random
+from typing import List
 
+from Project.Simulator.Organisms.Animals.Human import Human
 from Tile import Tile
+from GlobalSettings import GlobalSettings
+from Organisms.Organism import Organism
 
 
 class World:
@@ -10,17 +14,17 @@ class World:
         self.width = width
         self.height = height
         self.time = 0
-        self.organisms = []
-        self.tiles = []
+        self.organisms: List[Organism] = []
+        self.tiles: List[Tile] = []
         self.logs = []
-        # self.human = None;
+        # self.human: Human = None
         self.createBoard(width, height)
 
     def setTime(self, time):
         self.time = time
 
-    def setHuman(self, human):
-        self.human = human
+    # def setHuman(self, human: Human):
+    #     self.human = human
 
     def getHuman(self):
         return self.human
@@ -104,11 +108,11 @@ class World:
     def getHeight(self):
         return self.height
 
-    def getTile(self, index):
-        return self.tiles[index]
-
-    def getTile(self, x, y):
-        return self.tiles[x + y * self.width]
+    def getTile(self, x, y=None):
+        if y is None:
+            return self.tiles[x]
+        else:
+            return self.tiles[x + y * self.width]
 
     def setTile(self, x, y, tile):
         self.tiles[x + y * self.width] = tile
@@ -136,19 +140,21 @@ class World:
 
             organism.action()
 
-            if organism.getTile().getOrganismCount() > 1:
-                other = organism.getTile().getOrganism()
-                if organism == other or other.isDead():
+            tile = organism.getTile()
+            if tile is not None and tile.getOrganismCount() > 1:
+                other = tile.getOrganism() if tile is not None else None
+                if other is None or organism == other or (other is not None and other.isDead()):
                     continue
                 organism.collision(other)
 
         self.organisms = [
             organism for organism in self.organisms if not organism.isDead()]
         for organism in self.organisms:
-            organism.age()
+            organism.Age()
             organism.unskipTurn()
-            if organism.isDead():
-                organism.getTile().removeOrganism(organism)
+            tile = organism.getTile()
+            if organism.isDead() and tile is not None:
+                tile.removeOrganism(organism)
                 if isinstance(organism, Human):
                     self.human = None
 
@@ -175,7 +181,9 @@ class World:
 
     def linkOrganismsWithTiles(self):
         for organism in self.organisms:
-            self.getTile(organism.getTile().index).placeOrganism(organism)
+            tile = organism.getTile()
+            if tile is not None:
+                self.getTile(tile.index).placeOrganism(organism)
 
     def setOrganisms(self, organisms):
         self.clearOrganisms()
