@@ -7,6 +7,9 @@ class Tile:
         self.directions = [None]*directionCount
         self.organisms = []
 
+    def __str__(self):
+        return '' if not self.organisms else self.organisms[0].get_symbol()
+
     def clear(self):
         self.organisms.clear()
 
