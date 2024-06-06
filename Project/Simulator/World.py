@@ -98,11 +98,11 @@ class World:
         # self.spreadOrganisms(WolfBerries(self), 3)
 
         # self.spreadOrganisms(Wolf(self), 3)
-        # self.spreadOrganisms(Sheep(self), 10)
+        self.spreadOrganisms(Sheep(self), 1)
         # self.spreadOrganisms(CyberSheep(self), 2)
         # self.spreadOrganisms(Fox(self), 3)
-        # self.spreadOrganisms(Turtle(self), 3)
-        self.spreadOrganisms(Antelope(self), 1)
+        self.spreadOrganisms(Turtle(self), 3)
+        # self.spreadOrganisms(Antelope(self), 4)
 
     def cleanTiles(self):
         for tile in self.tiles:

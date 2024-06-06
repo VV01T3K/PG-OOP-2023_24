@@ -8,7 +8,7 @@ class Tile:
     def __init__(self, index, directionCount):
         self.index = index
         self.directions = [None]*directionCount
-        self.organisms: List[Organism] = []
+        self.organisms = []
 
     def __str__(self):
         return '🔳' if not self.organisms else self.organisms[0].getSymbol()

@@ -17,13 +17,14 @@ class Antelope(Animal):
             organism = self.tile.getOrganism()
             if organism is not None and organism.isAlive():
                 return
-        neighbours = [neighbour for neighbour in self.tile.getOccupiedNeighbours() if neighbour and neighbour.isFree(
-        ) and (not neighbour.getOrganism() or neighbour.getOrganism().getPower() > self.power)]
-
+        neighbours = list(self.tile.getNeighbours())
+        if self.oldTile is None:
+            return
+        neighbours.remove(self.oldTile)  # type: ignore
         if not neighbours:
             return
-        newTile = random.choice(neighbours)
-        self.move(newTile)
+        new_tile = neighbours[random.randint(0, len(neighbours) - 1)]
+        self.move(new_tile)
 
     def collision(self, other: Organism):
         if other.getType() == Type.ANTELOPE:
