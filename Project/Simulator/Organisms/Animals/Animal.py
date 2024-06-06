@@ -43,14 +43,15 @@ class Animal(Organism, ABC):
         self.move(self.tile.getRandomNeighbour())
 
     def getBreedCooldown(self):
-        return self.breedCooldown
+        return self.reproductionCooldown
 
     def setBreedCooldown(self, value):
-        self.breedCooldown = value
+        self.reproductionCooldown = value
 
     def collision(self, other: Organism):
         if other.collisionReaction(self):
             return
+
         if type(self) == type(other):
             self.undoMove()
             if not GlobalSettings.AI_REPRODUCE:
@@ -58,20 +59,19 @@ class Animal(Organism, ABC):
             other.skipTurn()
             if self.getBreedCooldown() > 0:
                 return
-            tmp_tile = other.getTile()
-            if tmp_tile is not None:
-                new_tile = tmp_tile.getRandomFreeNeighbour()
-            if new_tile is None:
+            tile = other.getTile()
+            new_Tile = tile.getRandomFreeNeighbour() if tile is not None else None
+            if new_Tile is None:
                 return
             new_animal = self.construct()
-            if new_animal is None:
+            if (new_animal is None):
                 raise Exception(
                     "construct method must return an instance of Animal")
             new_animal.skipTurn()
             self.setBreedCooldown(5)
             other.setBreedCooldown(5)
             new_animal.setBreedCooldown(10)
-            self.world.addOrganism(new_animal, new_tile)
+            self.world.addOrganism(new_animal, new_Tile)
 
             self.world.addLog(f"{self.getSymbol()} and {
                               other.getSymbol()} bred a new {new_animal.getSymbol()}!")
@@ -82,7 +82,7 @@ class Animal(Organism, ABC):
         else:
             self.die()
             self.world.addLog(f"{self.getSymbol()} was killed by {
-                              other.getSymbol()}!")
+                other.getSymbol()}!")
 
     def collisionReaction(self, other):
         return False
