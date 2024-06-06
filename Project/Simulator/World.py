@@ -87,7 +87,7 @@ class World:
     def populateWorld(self):
         self.resetWorld()
 
-        self.spreadOrganisms(Human(self), 1)
+        # self.spreadOrganisms(Human(self), 1)
         # self.setHuman(self.organisms[-1])
 
         # self.spreadOrganisms(SosnowskyHogweed(self), 3)
