@@ -5,12 +5,13 @@ import os
 def main():
     world = World(5, 5)
     world.populateWorld()
-    world.printWorld()
     while True:
-        world.simulate()
         world.printWorld()
+        print(F"Time: {world.checkTime()}")
+        print(F"Organisms: {world.getOrganimsCount()}")
         input()
         os.system('clear')
+        world.simulate()
 
 
 if __name__ == "__main__":
