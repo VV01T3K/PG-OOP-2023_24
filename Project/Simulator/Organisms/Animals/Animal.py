@@ -17,7 +17,7 @@ class Animal(Organism, ABC):
 
     def move(self, newTileOrDirection):
         if isinstance(newTileOrDirection, Tile):
-            newTile = self.tile.getNeighbor(newTileOrDirection)
+            newTile = self.tile.getNeighbour(newTileOrDirection)
         else:
             newTile = newTileOrDirection
         if newTile is None:
@@ -37,7 +37,7 @@ class Animal(Organism, ABC):
         self.oldTile = None
 
     def action(self):
-        self.move(self.tile.getRandomNeighbor())
+        self.move(self.tile.getRandomNeighbour())
 
     def getBreedCooldown(self):
         return self.breedCooldown
@@ -57,7 +57,7 @@ class Animal(Organism, ABC):
                 return
             tmp_tile = other.getTile()
             if tmp_tile is not None:
-                new_tile = tmp_tile.getRandomFreeNeighbor()
+                new_tile = tmp_tile.getRandomFreeNeighbour()
             if new_tile is None:
                 return
             new_animal = self.construct()
