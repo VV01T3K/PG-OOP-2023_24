@@ -14,7 +14,8 @@ class Antelope(Animal):
     def action(self):
         super().action()
         if self.tile.getOrganismCount() > 1:
-            if self.tile.getOrganism().isAlive():
+            organism = self.tile.getOrganism()
+            if organism is not None and organism.isAlive():
                 return
         neighbours = [neighbour for neighbour in self.tile.getOccupiedNeighbours() if neighbour and neighbour.isFree(
         ) and (not neighbour.getOrganism() or neighbour.getOrganism().getPower() > self.power)]

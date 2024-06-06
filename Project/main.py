@@ -3,6 +3,7 @@ import os
 
 
 def main():
+    os.system('clear')
     world = World(5, 5)
     world.populateWorld()
     while True:
