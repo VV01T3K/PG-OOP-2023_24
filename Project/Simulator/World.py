@@ -97,7 +97,7 @@ class World:
         # self.spreadOrganisms(WolfBerries(self), 3)
 
         # self.spreadOrganisms(Wolf(self), 3)
-        # self.spreadOrganisms(Sheep(self), 3)
+        self.spreadOrganisms(Sheep(self), 1)
         # self.spreadOrganisms(CyberSheep(self), 3)
         # self.spreadOrganisms(Fox(self), 3)
         # self.spreadOrganisms(Turtle(self), 3)

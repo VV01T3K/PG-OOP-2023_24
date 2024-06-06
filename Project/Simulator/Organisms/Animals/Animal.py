@@ -1,10 +1,12 @@
 import json
 
 from abc import ABC, abstractmethod
+from tkinter import N
 
 from Simulator.Tile import Tile
 from Simulator.Organisms.Organism import Organism
 from Simulator.GlobalSettings import GlobalSettings
+from Utils.DynamicDirections import DynamicDirections
 
 
 class Animal(Organism, ABC):
@@ -16,11 +18,12 @@ class Animal(Organism, ABC):
             self.oldTile = world.getTile(index) if index != -1 else None
 
     def move(self, newTileOrDirection):
-        if isinstance(newTileOrDirection, Tile):
+        if (newTileOrDirection == None):
+            return
+        if not isinstance(newTileOrDirection, Tile):
             newTile = self.tile.getNeighbour(newTileOrDirection)
-        else:
-            newTile = newTileOrDirection
-        if newTile is None:
+        newTile = newTileOrDirection
+        if (newTile == None):
             return
         self.oldTile = self.tile
         self.tile = newTile
