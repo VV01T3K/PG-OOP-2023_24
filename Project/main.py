@@ -8,8 +8,8 @@ def main():
     world.populateWorld()
     while True:
         world.printWorld()
-        print(F"Time: {world.checkTime()}")
-        print(F"Organisms: {world.getOrganimsCount()}")
+        # print(F"Time: {world.checkTime()}")
+        # print(F"Organisms: {world.getOrganimsCount()}")
         input()
         os.system('clear')
         world.simulate()

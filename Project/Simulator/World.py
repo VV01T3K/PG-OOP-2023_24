@@ -32,6 +32,8 @@ class World:
                     print(tile, end="")
             print()
         print()
+
+    def printLogs(self):
         for log in self.logs:
             print(log)
 
@@ -91,18 +93,18 @@ class World:
         # self.spreadOrganisms(Human(self), 1)
         # self.setHuman(self.organisms[-1])
 
-        # self.spreadOrganisms(SosnowskyHogweed(self), 3)
-        # self.spreadOrganisms(Grass(self), 5)
-        # self.spreadOrganisms(Guarana(self), 3)
-        # self.spreadOrganisms(Milkweed(self), 1)
-        # self.spreadOrganisms(WolfBerries(self), 3)
+        self.spreadOrganisms(SosnowskyHogweed(self), 5)
+        self.spreadOrganisms(Grass(self), 5)
+        self.spreadOrganisms(Guarana(self), 3)
+        self.spreadOrganisms(Milkweed(self), 1)
+        self.spreadOrganisms(WolfBerries(self), 3)
 
-        # self.spreadOrganisms(Wolf(self), 3)
+        self.spreadOrganisms(Wolf(self), 3)
         self.spreadOrganisms(Sheep(self), 1)
-        # self.spreadOrganisms(CyberSheep(self), 2)
-        # self.spreadOrganisms(Fox(self), 3)
+        self.spreadOrganisms(CyberSheep(self), 2)
+        self.spreadOrganisms(Fox(self), 3)
         self.spreadOrganisms(Turtle(self), 3)
-        # self.spreadOrganisms(Antelope(self), 4)
+        self.spreadOrganisms(Antelope(self), 4)
 
     def cleanTiles(self):
         for tile in self.tiles:

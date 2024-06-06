@@ -9,12 +9,19 @@ class Tile:
         self.index = index
         self.directions = [None]*directionCount
         self.organisms = []
+        self.parent = None
 
     def __str__(self):
         return '🔳' if not self.organisms else self.organisms[0].getSymbol()
 
     def clear(self):
         self.organisms.clear()
+
+    def getParent(self):
+        return self.parent
+
+    def setParent(self, parent):
+        self.parent = parent
 
     def setLink(self, direction, tile):
         self.directions[direction.ordinal()] = tile
@@ -48,7 +55,11 @@ class Tile:
         return len(self.organisms) == 0
 
     def getNeighbours(self):
-        return self.directions
+        neighbours = []
+        for direction in self.directions:
+            if direction is not None:
+                neighbours.append(direction)
+        return neighbours
 
     def getOccupiedNeighbours(self):
         occupiedNeighbours = [
