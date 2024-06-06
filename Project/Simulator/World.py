@@ -157,8 +157,8 @@ class World:
         for organism in self.organisms.copy():
             if organism.isSkipped() or organism.isDead():
                 continue
-            # if not GlobalSettings.AI_ACTION and not isinstance(organism, Human):
-            #     continue
+            if not GlobalSettings.AI_ACTION and not isinstance(organism, Human):
+                continue
 
             organism.action()
 
@@ -169,16 +169,18 @@ class World:
                     continue
                 organism.collision(other)
 
-        self.organisms = [
-            organism for organism in self.organisms if not organism.isDead()]
-        for organism in self.organisms:
-            organism.Age()
-            organism.unskipTurn()
-            tile = organism.getTile()
-            if organism.isDead() and tile is not None:
+        for organism in list(self.organisms):
+            if organism.isDead():
+                tile = organism.getTile()
+                if tile is None:
+                    raise Exception("Tile is None")
                 tile.removeOrganism(organism)
-                # if isinstance(organism, Human):
-                #     self.human = None
+                if isinstance(organism, Human):
+                    self.human = None
+                self.organisms.remove(organism)
+            else:
+                organism.Age()
+                organism.unskipTurn()
 
     def getOrganimsCount(self):
         return len(self.organisms)
