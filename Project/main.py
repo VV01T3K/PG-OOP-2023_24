@@ -7,7 +7,10 @@ from Utils.GUI.GUI import GUI
 
 
 def main():
-    world = World(5, 5)
+    world = World(10, 10)
+    world.populateWorld()
+    world.simulate()
+    world.printWorld()
     gui = GUI(world)
     gui.root.mainloop()
 

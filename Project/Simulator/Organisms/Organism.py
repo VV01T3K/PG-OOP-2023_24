@@ -19,8 +19,7 @@ class Type(Enum):
     SOSNOWSKY_HOGWEED = "🍁"
     WOLF_BERRIES = "🍇"
 
-    @property
-    def symbol(self):
+    def getSymbol(self):
         return self.value
 
     @staticmethod

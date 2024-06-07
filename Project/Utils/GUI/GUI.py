@@ -2,6 +2,7 @@
 import sys
 import tkinter.messagebox as messagebox
 from Simulator.World import World
+from Simulator.Organisms.Organism import Type
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog
@@ -14,19 +15,23 @@ class GUI:
         self.root = tk.Tk()
         self.root.title("Toolbar Example")
         self.root.geometry("800x600")
-        self.root.resizable(False, False)
         self.saveToolBar = None
         self.toolbar = self.buildToolBar()
+        self.continueButton = None
         self.menu = self.buildMenu()
         self.form = self.buildForm()
+        self.buildSquareWorldPanel()
 
         self.keyBindings = KeyBindings(self.root)
 
         self.showMenu()
 
+    def getActiveWorld(self):
+        return self.world
+
     def buildMenu(self):
         def continueGame():
-            print("Continue the game")
+            self.showGameView()
 
         def startGame():
             self.showForm()
@@ -59,6 +64,8 @@ class GUI:
         exit_button.pack(pady=10)
 
         menu_frame.pack(pady=100)
+
+        self.continueButton = continue_button
 
         return menu_frame
 
@@ -122,17 +129,36 @@ class GUI:
         print(
             f"Creating a new {world_type} world with width {width} and height {height}")
 
-    def showMenu(self):
+    def resetFrames(self):
+        self.menu.pack_forget()
         self.form.pack_forget()
-
+        self.squareWorldPanelFrame.pack_forget()
         self.hideToolBar()
+
+    def showMenu(self):
+        self.resetFrames()
+        if (not self.getActiveWorld() == None and self.getActiveWorld().checkTime() > 0):
+            self.continueButton.pack(pady=10)
+        else:
+            self.continueButton.pack_forget()
         self.menu.pack(pady=100)
 
     def showForm(self):
-        self.menu.pack_forget()
-
-        self.showExtendedToolBar()
+        self.resetFrames()
+        self.showToolBar()
         self.form.pack(pady=100)
+
+    def showToolBar(self):
+        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+
+    def showExtendedToolBar(self):
+        self.saveToolBar.pack(side=tk.LEFT, padx=2, pady=2)
+        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+
+    def showGameView(self):
+        self.resetFrames()
+        self.showExtendedToolBar()
+        self.squareWorldPanelFrame.pack(expand=True)
 
     def buildToolBar(self):
         toolbar = tk.Frame(self.root, bd=1, relief=tk.RAISED)
@@ -154,13 +180,71 @@ class GUI:
             # self.save_game(filename)
             pass
 
-    def showToolBar(self):
-        self.saveToolBar.pack_forget()
-        self.toolbar.pack(side=tk.TOP, fill=tk.X)
-
     def hideToolBar(self):
         self.toolbar.pack_forget()
 
-    def showExtendedToolBar(self):
-        self.saveToolBar.pack(side=tk.LEFT, padx=2, pady=2)
-        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+    def buildSquareWorldPanel(self):
+        width = self.getActiveWorld().getWidth()
+        height = self.getActiveWorld().getHeight()
+        # Create a new frame for the game board
+        self.squareWorldPanelFrame = tk.Frame(self.root)
+
+        # Create a dictionary to store the buttons
+        self.buttons = {}
+
+        # Create the buttons
+        for x in range(width):
+            for y in range(height):
+                button = tk.Button(
+                    self.squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20))
+                button.grid(row=y, column=x)
+
+                # Store the button in the dictionary
+                self.buttons[(x, y)] = button
+
+                # Add a click event to the button
+                button.bind("<Button-1>", lambda e, x=x,
+                            y=y: self.useAddOrganismPopup(x, y, button))
+        self.updateButtonsText()
+
+    def updateButtonsText(self):
+        for x in range(self.getActiveWorld().getWidth()):
+            for y in range(self.getActiveWorld().getHeight()):
+                button = self.buttons[(x, y)]
+                symbol = f'{self.getActiveWorld().getTile(x, y)}'
+                if (symbol == "🔳"):
+                    symbol = "    "
+                button.config(text=symbol)
+
+    def useAddOrganismPopup(self, x, y, button):
+        # Create a new context menu
+        addOrganismPopup = tk.Menu(self.root, tearoff=0)
+
+        # Get the type of the organism on the button
+        button_type = button.cget('text')
+
+        # If the organism is a human and there is already a human in the world, return
+        if button_type == Type.HUMAN and self.world.hasHuman():
+            return
+
+        # For each type of organism
+        for type in Type:
+            # If the type is a human and there is already a human in the world, skip this iteration
+            if type == Type.HUMAN and self.world.hasHuman():
+                continue
+
+            # Create a new menu item for the organism
+            addOrganismPopup.add_command(label=f'{type}',
+                                         command=lambda type=type: self.addOrganismAndShowGameView(type, x, y))
+
+        # Show the context menu at the position of the button
+        addOrganismPopup.tk_popup(button.winfo_rootx(), button.winfo_rooty())
+
+    def addOrganismAndShowGameView(self, type, x, y):
+        pass
+
+    # def hexWorldPanel(self):
+    #     self.hexWorldPanelFrame.pack(pady=100)
+
+    # def buildcontrolPanel(self):
+    #     self.controlPanelFrame.pack(pady=100)
