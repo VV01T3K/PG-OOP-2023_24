@@ -3,7 +3,7 @@ import os
 
 
 def main():
-    os.system('clear')
+    os.system('cls')
     world = World(5, 5)
     world.populateWorld()
     while True:
@@ -11,7 +11,7 @@ def main():
         # print(F"Time: {world.checkTime()}")
         # print(F"Organisms: {world.getOrganimsCount()}")
         input()
-        os.system('clear')
+        os.system('cls')
         world.simulate()
 
 
