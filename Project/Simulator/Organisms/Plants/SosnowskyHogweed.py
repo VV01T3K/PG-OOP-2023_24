@@ -38,5 +38,6 @@ class SosnowskyHogweed(Plant):
             return False
         other.die()
         self.die()
-        self.world.addLog(f"{other.getSymbol()} ate " + self.getSymbol() +" and died!")
+        self.world.addLog(f"{other.getSymbol()} ate " +
+                          self.getSymbol() + " and died!")
         return True

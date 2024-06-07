@@ -73,13 +73,16 @@ class Animal(Organism, ABC):
             new_animal.setBreedCooldown(10)
             self.world.addOrganism(new_animal, new_Tile)
 
-            self.world.addLog(f"{self.getSymbol()} and {other.getSymbol()} bred a new {new_animal.getSymbol()}!")
+            self.world.addLog(
+                f"{self.getSymbol()} and {other.getSymbol()} bred a new {new_animal.getSymbol()}!")
         elif self.getPower() > other.getPower():
             other.die()
-            self.world.addLog(f"{self.getSymbol()} killed {other.getSymbol()}!")
+            self.world.addLog(
+                f"{self.getSymbol()} killed {other.getSymbol()}!")
         else:
             self.die()
-            self.world.addLog(f"{self.getSymbol()} was killed by {other.getSymbol()}!")
+            self.world.addLog(
+                f"{self.getSymbol()} was killed by {other.getSymbol()}!")
 
     def collisionReaction(self, other):
         return False

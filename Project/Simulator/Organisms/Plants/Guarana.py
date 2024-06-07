@@ -12,5 +12,6 @@ class Guarana(Plant):
     def collisionReaction(self, other: Organism):
         other.setPower(other.getPower() + 3)
         self.die()
-        self.world.addLog(f"{other.getSymbol()} ate {self.getSymbol()} and gained 3 power!")
+        self.world.addLog(
+            f"{other.getSymbol()} ate {self.getSymbol()} and gained 3 power!")
         return True
