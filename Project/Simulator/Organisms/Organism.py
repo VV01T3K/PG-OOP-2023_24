@@ -105,7 +105,7 @@ class Organism(ABC):
         return self.type.value
 
     def toJson(self):
-        data = {
+        json = {
             "type": list(Type).index(self.type),
             "power": self.power,
             "initiative": self.initiative,
@@ -115,7 +115,7 @@ class Organism(ABC):
             "skip": self.skip,
             "tile_index": self.tile.index if self.tile else None
         }
-        return json.dumps(data)
+        return json
 
     @abstractmethod
     def action(self):

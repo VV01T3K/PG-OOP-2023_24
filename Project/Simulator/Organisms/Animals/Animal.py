@@ -92,8 +92,6 @@ class Animal(Organism, ABC):
         pass
 
     def toJson(self):
-        json_dump = super().toJson()
-        index = -1 if self.oldTile is None else self.oldTile.index
-        json_dict = {"old_tile_index": index}
-        json_dict.update(json.loads(json_dump))
-        return json_dict
+        json = super().toJson()
+        json["old_tile_index"] = self.oldTile.index if self.oldTile is not None else -1
+        return json

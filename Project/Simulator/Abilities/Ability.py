@@ -8,6 +8,8 @@ class Ability(ABC):
         if (default_cooldown == -1) or (default_duration == -1):
             self.default_cooldown = cooldown
             self.default_duration = duration + 1
+            self.cooldown = 0
+            self.duration = 0
         else:
             self.default_cooldown = default_cooldown
             self.default_duration = default_duration

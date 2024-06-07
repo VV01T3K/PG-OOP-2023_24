@@ -1,7 +1,7 @@
 import random
-from typing import List
+import re
+from typing import List, Optional
 
-# from Project.Simulator.Organisms.Animals.Human import Human
 from .Tile import Tile
 from .GlobalSettings import GlobalSettings
 from .Organisms.Organism import Organism
@@ -13,7 +13,6 @@ from .Organisms.Animals import *
 
 class World:
 
-    # public World(boolean skip) {}
     def __init__(self, width=20, height=20):
         self.width = width
         self.height = height
@@ -21,7 +20,7 @@ class World:
         self.organisms: List[Organism] = []
         self.tiles: List[Tile] = []
         self.logs = []
-        # self.human: Human = None
+        self.human: Optional[Human] = None
         self.createBoard(width, height)
 
     def printWorld(self):
@@ -32,6 +31,11 @@ class World:
                     print(tile, end="")
             print()
         print()
+        humann = self.getHuman()
+        if humann is None:
+            return
+        human: Human = humann
+        print("Human: " + human.getAbiliyInfo())
 
     def printLogs(self):
         for log in self.logs:
@@ -66,8 +70,8 @@ class World:
     def setTime(self, time):
         self.time = time
 
-    # def setHuman(self, human: Human):
-    #     self.human = human
+    def setHuman(self, human):
+        self.human = human
 
     def getHuman(self):
         return self.human
@@ -75,8 +79,8 @@ class World:
     def hasHuman(self):
         return self.human != None
 
-    # def findHuman(self):
-    #     return next((organism for organism in self.organisms if isinstance(organism, Human)), None)
+    def findHuman(self):
+        return next((organism for organism in self.organisms if isinstance(organism, Human)), None)
 
     def addLog(self, log):
         self.logs.append(log)
@@ -90,21 +94,21 @@ class World:
     def populateWorld(self):
         self.resetWorld()
 
-        # self.spreadOrganisms(Human(self), 1)
-        # self.setHuman(self.organisms[-1])
+        self.spreadOrganisms(Human(self), 1)
+        self.setHuman(self.organisms[-1])
 
-        self.spreadOrganisms(SosnowskyHogweed(self), 5)
-        self.spreadOrganisms(Grass(self), 5)
-        self.spreadOrganisms(Guarana(self), 3)
-        self.spreadOrganisms(Milkweed(self), 1)
-        self.spreadOrganisms(WolfBerries(self), 3)
+        # self.spreadOrganisms(SosnowskyHogweed(self), 5)
+        # self.spreadOrganisms(Grass(self), 5)
+        # self.spreadOrganisms(Guarana(self), 3)
+        # self.spreadOrganisms(Milkweed(self), 1)
+        # self.spreadOrganisms(WolfBerries(self), 6)
 
-        self.spreadOrganisms(Wolf(self), 3)
-        self.spreadOrganisms(Sheep(self), 1)
-        self.spreadOrganisms(CyberSheep(self), 2)
-        self.spreadOrganisms(Fox(self), 3)
-        self.spreadOrganisms(Turtle(self), 3)
-        self.spreadOrganisms(Antelope(self), 4)
+        # self.spreadOrganisms(Wolf(self), 3)
+        # self.spreadOrganisms(Sheep(self), 1)
+        # self.spreadOrganisms(CyberSheep(self), 2)
+        # self.spreadOrganisms(Fox(self), 3)
+        # self.spreadOrganisms(Turtle(self), 3)
+        # self.spreadOrganisms(Antelope(self), 4)
 
     def cleanTiles(self):
         for tile in self.tiles:
