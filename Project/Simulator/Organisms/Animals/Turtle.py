@@ -22,7 +22,6 @@ class Turtle(Animal):
             return False
         if other.getPower() < 5:
             other.undoMove()
-            self.world.addLog(f"{other.getSymbol()} tried to attack "
-                              f"{self.getSymbol()} but failed!")
+            self.world.addLog(f"{other.getSymbol()} tried to attack "f"{self.getSymbol()} but failed!")
             return True
         return False

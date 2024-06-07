@@ -35,8 +35,7 @@ class Antelope(Animal):
                 super().collision(other)
                 return
             self.move(newTile)
-            self.world.addLog(f"{self.getSymbol()} escaped from "
-                              f"{other.getSymbol()}!")
+            self.world.addLog(f"{self.getSymbol()} escaped from "f"{other.getSymbol()}!")
         else:
             super().collision(other)
 
