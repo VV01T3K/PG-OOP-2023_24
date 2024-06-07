@@ -1,8 +1,10 @@
 
 import sys
+import tkinter.messagebox as messagebox
 from Simulator.World import World
 import tkinter as tk
 from tkinter import ttk
+from tkinter import simpledialog
 
 
 class GUI:
@@ -12,6 +14,7 @@ class GUI:
         self.root.title("Toolbar Example")
         self.root.geometry("800x600")
         self.root.resizable(False, False)
+        self.saveToolBar = None
         self.toolbar = self.buildToolBar()
         self.menu = self.buildMenu()
         self.form = self.buildForm()
@@ -60,8 +63,7 @@ class GUI:
         root = self.root
         form_frame = tk.Frame(root)
 
-        # Define a larger font
-        larger_font = ('Arial', 14)
+        larger_font = ('Helvetica', 14)
 
         width_label = tk.Label(form_frame, text="Width:", font=larger_font)
         width_label.grid(row=0, column=0, padx=10, pady=10, sticky='w')
@@ -77,17 +79,38 @@ class GUI:
             form_frame, text="World Type:", font=larger_font)
         world_type_label.grid(row=2, column=0, padx=10, pady=10, sticky='w')
         world_type = tk.StringVar(root)
-        world_type.set("Square")  # default value
+        world_type.set("Square")
         world_type_dropdown = tk.OptionMenu(
             form_frame, world_type, "Square", "Hexagonal")
-        # For dropdown, use config method
         world_type_dropdown.config(font=larger_font)
         world_type_dropdown.grid(row=2, column=1, padx=10, pady=10, sticky='w')
 
-        submit_button = tk.Button(form_frame, text="Submit", font=larger_font, command=lambda: self.create_world(
-            width_entry.get(), height_entry.get(), world_type.get()))
-        submit_button.grid(row=3, column=0, columnspan=4,
-                           padx=10, pady=20)
+        def validate_input():
+            width = width_entry.get()
+            height = height_entry.get()
+            world = world_type.get()
+
+            if not width.isdigit() or not height.isdigit() or int(width) <= 1 or int(height) <= 1 or int(width) > 40 or int(height) > 40:
+                messagebox.showerror(
+                    "Invalid input", "Width and height must be positive integers between 1 and 40.")
+                width_entry.delete(0, 'end')
+                height_entry.delete(0, 'end')
+                return False
+            if world not in ["Square", "Hexagonal"]:
+                messagebox.showerror(
+                    "Invalid input", "World type must be either 'Square' or 'Hexagonal'.")
+                world_type.set("Square")
+                return False
+            return True
+
+        def submit():
+            if validate_input():
+                self.create_world(width_entry.get(),
+                                  height_entry.get(), world_type.get())
+
+        submit_button = tk.Button(
+            form_frame, text="Submit", font=larger_font, command=submit)
+        submit_button.grid(row=3, column=0, columnspan=4, padx=10, pady=20)
 
         return form_frame
 
@@ -105,26 +128,39 @@ class GUI:
     def showForm(self):
         self.menu.pack_forget()
 
-        self.showToolBar()
+        self.showExtendedToolBar()
         self.form.pack(pady=100)
 
     def buildToolBar(self):
         toolbar = tk.Frame(self.root, bd=1, relief=tk.RAISED)
 
-        button_one = tk.Button(toolbar, text="Menu",
-                               relief=tk.FLAT, command=self.showMenu)
-        button_one.pack(side=tk.LEFT, padx=2, pady=2)
+        menu = tk.Button(toolbar, text="Menu",
+                         relief=tk.FLAT, command=self.showMenu)
+        menu.pack(side=tk.LEFT, padx=2, pady=2)
 
-        # button_two = tk.Button(toolbar, text="Hide toolbar",
-        #                        relief=tk.FLAT, command=self.toggleToolBar)
-        # button_two.pack(side=tk.LEFT, padx=2, pady=2)
+        save = tk.Button(toolbar, text="Save",
+                         relief=tk.FLAT, command=self.savePopUp)
+        save.pack(side=tk.LEFT, padx=2, pady=2)
+        self.saveToolBar = save
+
         return toolbar
 
+    def savePopUp(self):
+        filename = simpledialog.askstring("Save game", "Enter filename")
+        if filename:
+            # self.save_game(filename)
+            pass
+
     def showToolBar(self):
+        self.saveToolBar.pack_forget()
         self.toolbar.pack(side=tk.TOP, fill=tk.X)
 
     def hideToolBar(self):
         self.toolbar.pack_forget()
+
+    def showExtendedToolBar(self):
+        self.saveToolBar.pack(side=tk.LEFT, padx=2, pady=2)
+        self.toolbar.pack(side=tk.TOP, fill=tk.X)
 
     def squareKeyBindings(self):
         root = self.root
