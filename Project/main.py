@@ -1,18 +1,16 @@
+
 from Simulator.World import World
-import os
+import tkinter as tk
+from tkinter import ttk
+
+from Utils.GUI.GUI import GUI
 
 
 def main():
-    os.system('cls')
     world = World(5, 5)
-    world.populateWorld()
-    while True:
-        world.printWorld()
-        # print(F"Time: {world.checkTime()}")
-        # print(F"Organisms: {world.getOrganimsCount()}")
-        input()
-        os.system('cls')
-        world.simulate()
+    gui = GUI(world)
+    gui.squareKeyBindings()
+    gui.root.mainloop()
 
 
 if __name__ == "__main__":
