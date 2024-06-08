@@ -14,7 +14,7 @@ class GUI:
         self.world = world
         self.root = tk.Tk()
         self.root.title("Toolbar Example")
-        self.root.geometry("800x600")
+        self.root.geometry("900x600")
         self.saveToolBar = None
         self.toolbar = self.buildToolBar()
         self.continueButton = None
@@ -22,16 +22,11 @@ class GUI:
         self.form = self.buildForm()
         self.controlPanel = None
         self.logPanel = None
-        self.squareWorldPanelFrame = None
+        self.worldPanel = None
         self.buttons = {}
-        self.game_view = None
-        self.buildSquareWorldPanel()
-        self.buildControlPanel()
-        self.buildLogPanel()
+        self.gameView = None
+        self.gameView = self.buildGameView()
         
-        # controlPanel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        # logPanel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
         self.keyBindings = KeyBindings(self.root)
 
         self.showMenu()
@@ -142,8 +137,11 @@ class GUI:
     def resetFrames(self):
         self.menu.pack_forget()
         self.form.pack_forget()
-        self.squareWorldPanelFrame.pack_forget()
         self.hideToolBar()
+        self.worldPanel.pack_forget()
+        self.logPanel.pack_forget()
+        self.controlPanel.pack_forget()
+        self.gameView.pack_forget()
 
     def showMenu(self):
         self.resetFrames()
@@ -168,32 +166,7 @@ class GUI:
     def showGameView(self):
         self.resetFrames()
         self.showExtendedToolBar()
-        
-        
-    def buildGameView(self):
-        # Create the main split pane (gameView)
-        self.game_view = tk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-    
-        # Create the right split pane (rightSplitPane)
-        right_split_pane = tk.PanedWindow(self.game_view, orient=tk.VERTICAL)
-    
-        # Create the log panel and control panel
-        self.log_panel = tk.Frame(right_split_pane)
-        self.control_panel = tk.Frame(right_split_pane)
-    
-        # Add the log panel and control panel to the right split pane
-        right_split_pane.add(self.log_panel)
-        right_split_pane.add(self.control_panel)
-    
-        # Create the board panel
-        self.board_panel = tk.Frame(self.game_view)
-    
-        # Add the board panel and right split pane to the main split pane
-        self.game_view.add(self.board_panel)
-        self.game_view.add(right_split_pane)
-    
-        # Pack the main split pane into the root window
-        self.game_view.pack(fill=tk.BOTH, expand=1)
+        self.gameView.pack(fill=tk.BOTH, expand=1)
 
     def buildToolBar(self):
         toolbar = tk.Frame(self.root, bd=1, relief=tk.RAISED)
@@ -218,30 +191,22 @@ class GUI:
     def hideToolBar(self):
         self.toolbar.pack_forget()
 
-    def buildSquareWorldPanel(self):
+    def buildSquareWorldPanel(self, panel):
         width = self.getActiveWorld().getWidth()
         height = self.getActiveWorld().getHeight()
-        # Create a new frame for the game board
-        self.squareWorldPanelFrame = tk.Frame(self.root)
-
-        # Create a dictionary to store the buttons
+        squareWorldPanelFrame = tk.Frame(panel)
         self.buttons = {}
-
-        # Create the buttons
         for x in range(width):
             for y in range(height):
                 button = tk.Button(
-                    self.squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
+                    squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
                 button.grid(row=y, column=x)
-
-                # Store the button in the dictionary
                 self.buttons[(x, y)] = button
-
-                # Add a click event to the button
                 button.bind("<Button-1>", lambda e, x=x,
                             y=y: self.useAddOrganismPopup(e, x, y))
                 button.config(relief=tk.RAISED)
         self.updateButtonsText()
+        return squareWorldPanelFrame
 
     def updateButtonsText(self):
         for x in range(self.getActiveWorld().getWidth()):
@@ -262,6 +227,7 @@ class GUI:
                 self.getActiveWorld().setHuman(self.getActiveWorld().findHuman())
                 self.getActiveWorld().getHuman().unskipTurn()
             self.updateButtonText(x, y)
+            self.updateLogPanel()
 
         addOrganismPopup = tk.Menu(self.root, tearoff=0)
         button_type = self.getActiveWorld().getTile(x, y).getOrganism()
@@ -279,8 +245,8 @@ class GUI:
     # def hexWorldPanel(self):
     #     self.hexWorldPanelFrame.pack(pady=100)
 
-    def buildControlPanel(self):
-        controlPanel = tk.Frame(self.root)
+    def buildControlPanel(self, panel):
+        controlPanel = tk.Frame(panel)
     
         tk.Label(controlPanel, text="Control Panel").pack()
         tk.Label(controlPanel, text="World:").pack()
@@ -302,20 +268,39 @@ class GUI:
         useImmortality = tk.Button(controlPanel, text="🔰 Immortality\n" + (self.getActiveWorld().getHuman().getAbilityInfo() if self.getActiveWorld().hasHuman() else ""), command=toggleImmortality)
         useImmortality.pack()
     
-        self.controlPanel = controlPanel
+        return controlPanel
         
-    def buildLogPanel(self):
-        logPanel = tk.Frame(self.root)
-        
-        # Create a Text widget inside the logPanel
-        self.logText = tk.Text(logPanel)
-        self.logText.pack(fill=tk.BOTH, expand=True)
-        
-        self.updateLogPanel()
+    def buildLogPanel(self, panel):
+        logPanel = tk.Text(panel)
+        logPanel.pack(fill=tk.BOTH, expand=True)
+        return logPanel
     
     def updateLogPanel(self):
-        # Use the Text widget for inserting and deleting text
-        logText = self.logText
-        logText.delete("1.0", tk.END)
+        self.logPanel.delete("1.0", tk.END)
         for log in self.getActiveWorld().getLogs():
-            logText.insert(tk.END, log + '\n')
+            self.logPanel.insert(tk.END, log + '\n')
+
+    def buildGameView(self):
+            # Create the main split pane (gameView)
+            gameView = tk.PanedWindow(self.root, orient=tk.HORIZONTAL)
+        
+            # Create the right split pane (rightSplitPane)
+            right_split_pane = tk.PanedWindow(gameView, orient=tk.VERTICAL)
+        
+            # Create the log panel and control panel
+            self.logPanel = self.buildLogPanel(right_split_pane)
+            self.controlPanel = self.buildControlPanel(right_split_pane)
+        
+            # Add the log panel and control panel to the right split pane
+            right_split_pane.add(self.logPanel)
+            right_split_pane.add(self.controlPanel)
+        
+            # Create the board panel
+            self.worldPanel = self.buildSquareWorldPanel(gameView)
+        
+            # Add the board panel and right split pane to the main split pane
+            gameView.add(self.worldPanel)
+            gameView.add(right_split_pane)
+            
+            self.updateLogPanel()
+            return gameView

@@ -1,8 +1,5 @@
 
 from Simulator.World import World
-import tkinter as tk
-from tkinter import ttk
-
 from Utils.GUI.GUI import GUI
 import os
 
@@ -13,6 +10,11 @@ def main():
     world.simulate()
     os.system('cls')
     world.printWorld()
+    world.addLog("Test")
+    world.addLog("Test")
+    world.addLog("Test")
+    world.addLog("Test")
+    world.addLog("Test")
     gui = GUI(world)
     gui.root.mainloop()
 
