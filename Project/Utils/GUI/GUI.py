@@ -8,7 +8,7 @@ from tkinter import ttk
 from tkinter import simpledialog
 from .KeyBindings import KeyBindings
 from Simulator.GlobalSettings import GlobalSettings
-
+from Utils.FileHandler import FileHandler
 
 class GUI:
     def __init__(self, world):
@@ -199,10 +199,10 @@ class GUI:
         return toolbar
 
     def savePopUp(self):
-        filename = simpledialog.askstring("Save game", "Enter filename")
+        filename = simpledialog.askstring("Save game", "Enter the name of the save file")
         if filename:
-            # self.save_game(filename)
-            pass
+            FileHandler.saveWorld(self.world, filename)
+            messagebox.showinfo("Saved", "Game saved successfully")
 
     def hideToolBar(self):
         self.toolbar.pack_forget()

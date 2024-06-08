@@ -7,7 +7,7 @@ from Utils.OrganismFactory import OrganismFactory
 
 class FileHandler:
     @staticmethod
-    def save_world(world: World, name: str, window_width: int, window_height: int):
+    def saveWorld(world: World, name: str):
         organisms = world.getOrganisms()
         if not organisms:
             return
@@ -19,8 +19,6 @@ class FileHandler:
             "height": world.getHeight(),
             "time": world.checkTime(),
             "hexagonal": isinstance(world, HexWorld),
-            "window_width": window_width,
-            "window_height": window_height
         }
 
         data = {
@@ -29,7 +27,7 @@ class FileHandler:
         }
 
         with open(f"Project/Saves/{name}.json", "w") as file:
-            json.dump(data, file)
+            json.dump(data, file, indent=2)
 
     @staticmethod
     def listSaves():
