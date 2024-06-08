@@ -12,42 +12,42 @@ from Utils.DynamicDirections import DynamicDirections
 class Animal(Organism, ABC):
     def __init__(self, power, initiative, world, type, json=None):
         super().__init__(type, power, initiative, world, json)
-        self.oldTile = None
+        self._oldTile = None
         if json is not None:
             index = json["old_tile_index"]
-            self.oldTile = world.getTile(index) if index != -1 else None
+            self._oldTile = world.getTile(index) if index != -1 else None
 
     def move(self, newTileOrDirection):
         if (newTileOrDirection == None):
             return
         if isinstance(newTileOrDirection, DynamicDirections):
-            newTile = self.tile.getNeighbour(newTileOrDirection)
+            newTile = self._tile.getNeighbour(newTileOrDirection)
         else:
             newTile = newTileOrDirection
         if (newTile == None):
             return
-        self.oldTile = self.tile
-        self.tile = newTile
-        self.tile.placeOrganism(self)
-        if self.oldTile is not None:
-            self.oldTile.removeOrganism(self)
+        self._oldTile = self._tile
+        self._tile = newTile
+        self._tile.placeOrganism(self)
+        if self._oldTile is not None:
+            self._oldTile.removeOrganism(self)
 
     def undoMove(self):
-        if self.oldTile is None:
+        if self._oldTile is None:
             return
-        self.oldTile.placeOrganism(self)
-        self.tile.removeOrganism(self)
-        self.tile = self.oldTile
-        self.oldTile = None
+        self._oldTile.placeOrganism(self)
+        self._tile.removeOrganism(self)
+        self._tile = self._oldTile
+        self._oldTile = None
 
     def action(self):
-        self.move(self.tile.getRandomNeighbour())
+        self.move(self._tile.getRandomNeighbour())
 
     def getBreedCooldown(self):
-        return self.reproductionCooldown
+        return self._reproductionCooldown
 
     def setBreedCooldown(self, value):
-        self.reproductionCooldown = value
+        self._reproductionCooldown = value
 
     def collision(self, other: Organism):
         if other.collisionReaction(self):
@@ -72,17 +72,17 @@ class Animal(Organism, ABC):
             self.setBreedCooldown(5)
             other.setBreedCooldown(5)
             new_animal.setBreedCooldown(10)
-            self.world.addOrganism(new_animal, new_Tile)
+            self._world.addOrganism(new_animal, new_Tile)
 
-            self.world.addLog(
+            self._world.addLog(
                 f"{self.getSymbol()} and {other.getSymbol()} bred a new {new_animal.getSymbol()}!")
         elif self.getPower() > other.getPower():
             other.die()
-            self.world.addLog(
+            self._world.addLog(
                 f"{self.getSymbol()} killed {other.getSymbol()}!")
         else:
             self.die()
-            self.world.addLog(
+            self._world.addLog(
                 f"{self.getSymbol()} was killed by {other.getSymbol()}!")
 
     def collisionReaction(self, other):
@@ -94,5 +94,5 @@ class Animal(Organism, ABC):
 
     def toJson(self):
         json = super().toJson()
-        json["old_tile_index"] = self.oldTile.index if self.oldTile is not None else -1
+        json["old_tile_index"] = self._oldTile.INDEX if self._oldTile is not None else -1
         return json

@@ -6,45 +6,45 @@ from typing import Optional
 class Ability(ABC):
     def __init__(self, cooldown, duration, default_cooldown=-1, default_duration=-1):
         if (default_cooldown == -1) or (default_duration == -1):
-            self.default_cooldown = cooldown
-            self.default_duration = duration + 1
-            self.cooldown = 0
-            self.duration = 0
+            self.___default_cooldown = cooldown
+            self.___default_duration = duration + 1
+            self.__cooldown = 0
+            self.__duration = 0
         else:
-            self.default_cooldown = default_cooldown
-            self.default_duration = default_duration
-            self.cooldown = cooldown
-            self.duration = duration
-        self.toggle = False
+            self.___default_cooldown = default_cooldown
+            self.___default_duration = default_duration
+            self.__cooldown = cooldown
+            self.__duration = duration
+        self.__toggle = False
 
     def isReady(self):
-        return self.cooldown == 0
+        return self.__cooldown == 0
 
     def isActive(self):
-        return self.duration > 0
+        return self.__duration > 0
 
     def getCooldown(self):
-        return self.cooldown
+        return self.__cooldown
 
     def getDuration(self):
-        return self.duration
+        return self.__duration
 
     def checkToggle(self):
-        return self.toggle
+        return self.__toggle
 
     def flipToggle(self):
-        self.toggle = not self.toggle
+        self.__toggle = not self.__toggle
 
     def use(self):
         if (self.isReady() and not self.isActive()):
-            self.cooldown = self.default_cooldown
-            self.duration = self.default_duration
+            self.__cooldown = self.___default_cooldown
+            self.__duration = self.___default_duration
 
     def update(self):
-        if self.duration > 0:
-            self.duration -= 1
-        elif self.cooldown > 0:
-            self.cooldown -= 1
+        if self.__duration > 0:
+            self.__duration -= 1
+        elif self.__cooldown > 0:
+            self.__cooldown -= 1
 
     @abstractmethod
     def effect(self, user: Organism, other: Optional[Organism] = None):

@@ -9,14 +9,14 @@ class Fox(Animal):
         super().__init__(3, 7, world, Type.FOX, json)
 
     def construct(self):
-        return Fox(self.world)
+        return Fox(self._world)
 
     def action(self):
-        neighbours = [neighbour for neighbour in self.tile.getNeighbours() if neighbour and neighbour.isFree(
-        ) and (not neighbour.getOrganism() or neighbour.getOrganism().getPower() <= self.power)]
+        neighbours = [neighbour for neighbour in self._tile.getNeighbours() if neighbour and neighbour.isFree(
+        ) and (not neighbour.getOrganism() or neighbour.getOrganism().getPower() <= self._power)]
 
         if not neighbours:
-            target = self.tile.getRandomFreeNeighbour()
+            target = self._tile.getRandomFreeNeighbour()
         else:
             target = random.choice(neighbours)
 

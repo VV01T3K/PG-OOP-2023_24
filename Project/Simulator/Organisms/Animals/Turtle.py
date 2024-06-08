@@ -9,7 +9,7 @@ class Turtle(Animal):
         super().__init__(2, 1, world, Type.TURTLE, json)
 
     def construct(self):
-        return Turtle(self.world)
+        return Turtle(self._world)
 
     def action(self):
         # 75% chance to skip turn
@@ -22,7 +22,7 @@ class Turtle(Animal):
             return False
         if other.getPower() < 5:
             other.undoMove()
-            self.world.addLog(
+            self._world.addLog(
                 f"{other.getSymbol()} tried to attack "f"{self.getSymbol()} but failed!")
             return True
         return False

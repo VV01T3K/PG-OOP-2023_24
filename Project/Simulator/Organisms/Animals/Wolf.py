@@ -7,4 +7,4 @@ class Wolf(Animal):
         super().__init__(9, 5, world, Type.WOLF, json)
 
     def construct(self):
-        return Wolf(self.world)
+        return Wolf(self._world)

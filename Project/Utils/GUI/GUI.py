@@ -11,31 +11,37 @@ from Utils.FileHandler import FileHandler
 
 class GUI:
     def __init__(self, world):
-        self.world = world
-        self.root = tk.Tk()
-        self.root.title("Toolbar Example")
-        self.root.geometry("900x650")
-        self.saveToolBar = None
-        self.toolbar = self.buildToolBar()
-        self.menuButtons = []
-        self.menu = self.buildMenu()
-        self.form = self.buildForm()
-        self.controlPanel = None
-        self.logPanel = None
-        self.worldPanel = None
-        self.buttons = {}
-        self.controlPanelStore = {}
-        self.gameView = None
-        self.gameView = self.buildGameView()
+        self.__world = world
+        self.__root = tk.Tk()
+        self.__root.title("Toolbar Example")
+        self.__root.geometry("900x650")
+        self.__saveToolBar = None
+        self.__toolbar = self.buildToolBar()
+        self.__menuButtons = []
+        self.__menu = self.buildMenu()
+        self.__form = self.buildForm()
+        self.__controlPanel = None
+        self.__logPanel = None
+        self.__worldPanel = None
+        self.__buttons = {}
+        self.__controlPanelStore = {}
+        self.__gameView = None
+        self.__gameView = self.buildGameView()
 
-        self.keyBindings = KeyBindings(self)
+        self.__keyBindings = KeyBindings(self)
+
+    def getRoot(self) -> tk.Tk:
+        return self.__root
+
+    def getControlPanelStore(self) -> dict[str, tk.Button]:
+        return self.__controlPanelStore
 
     def run(self):
         self.showMenu()
-        self.root.mainloop()
+        self.__root.mainloop()
 
     def getActiveWorld(self) -> World:
-        return self.world
+        return self.__world
 
     def buildMenu(self):
         def continueGame():
@@ -48,10 +54,10 @@ class GUI:
             self.loadPopUp()
 
         def exitGame():
-            self.root.destroy()
+            self.__root.destroy()
             sys.exit()
 
-        menu_frame = tk.Frame(self.root)
+        menu_frame = tk.Frame(self.__root)
 
         continue_button = tk.Button(menu_frame, text="Continue the game",
                                     relief=tk.FLAT, command=continueGame, height=2, width=20,
@@ -66,10 +72,10 @@ class GUI:
                                 relief=tk.FLAT, command=exitGame, height=2, width=20,
                                 background='red', foreground='white', font=("Helvetica", 16))
 
-        self.menuButtons.append(continue_button)
-        self.menuButtons.append(start_button)
-        self.menuButtons.append(load_button)
-        self.menuButtons.append(exit_button)
+        self.__menuButtons.append(continue_button)
+        self.__menuButtons.append(start_button)
+        self.__menuButtons.append(load_button)
+        self.__menuButtons.append(exit_button)
 
         self.continueButton = continue_button
 
@@ -79,7 +85,7 @@ class GUI:
         def on_ok():
             savename = name.get()
             if savename:
-                FileHandler.saveWorld(self.world, savename)
+                FileHandler.saveWorld(self.__world, savename)
                 messagebox.showinfo("Saved", "Game saved successfully")
             top.destroy()
         top = Toplevel()
@@ -100,8 +106,8 @@ class GUI:
         def on_ok():
             save = combo.get()
             if save:
-                self.world = FileHandler.loadWorld(save)
-                self.gameView = self.buildGameView()
+                self.__world = FileHandler.loadWorld(save)
+                self.__gameView = self.buildGameView()
                 self.showGameView()
             top.destroy()
         top = Toplevel()
@@ -114,7 +120,7 @@ class GUI:
         ttk.Button(top, text="OK", command=on_ok).pack()
 
     def buildForm(self):
-        root = self.root
+        root = self.__root
         form_frame = tk.Frame(root)
 
         larger_font = ('Helvetica', 14)
@@ -159,12 +165,12 @@ class GUI:
 
         def createWorld(width, height, world_type):
             if (world_type == "Square"):
-                self.world = World(width, height)
+                self.__world = World(width, height)
             else:
-                self.world = HexWorld(width, height)
-            self.world.populateWorld()
-            self.world.setHuman(self.world.findHuman())
-            self.gameView = self.buildGameView()
+                self.__world = HexWorld(width, height)
+            self.__world.populateWorld()
+            self.__world.setHuman(self.__world.findHuman())
+            self.__gameView = self.buildGameView()
 
         def submit():
             if validate_input():
@@ -179,50 +185,50 @@ class GUI:
         return form_frame
 
     def resetFrames(self):
-        self.keyBindings.resetKeyBindings()
-        self.menu.pack_forget()
-        self.form.pack_forget()
+        self.__keyBindings.resetKeyBindings()
+        self.__menu.pack_forget()
+        self.__form.pack_forget()
         self.hideToolBar()
-        self.worldPanel.pack_forget()
-        self.logPanel.pack_forget()
-        self.controlPanel.pack_forget()
-        self.gameView.pack_forget()
-        self.saveToolBar.pack_forget()
+        self.__worldPanel.pack_forget()
+        self.__logPanel.pack_forget()
+        self.__controlPanel.pack_forget()
+        self.__gameView.pack_forget()
+        self.__saveToolBar.pack_forget()
 
     def showMenu(self):
         self.resetFrames()
-        for button in self.menuButtons:
+        for button in self.__menuButtons:
             button.pack_forget()
-        for button in self.menuButtons:
+        for button in self.__menuButtons:
             button.pack(pady=10)
         if (not (not self.getActiveWorld() == None and self.getActiveWorld().checkTime() > 0)):
-            self.menuButtons[0].pack_forget()
-        self.menu.pack(pady=100)
+            self.__menuButtons[0].pack_forget()
+        self.__menu.pack(pady=100)
 
     def showForm(self):
         self.resetFrames()
         self.showToolBar()
-        self.form.pack(pady=100)
+        self.__form.pack(pady=100)
 
     def showToolBar(self):
-        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+        self.__toolbar.pack(side=tk.TOP, fill=tk.X)
 
     def showExtendedToolBar(self):
-        self.saveToolBar.pack(side=tk.LEFT, padx=2, pady=2)
-        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+        self.__saveToolBar.pack(side=tk.LEFT, padx=2, pady=2)
+        self.__toolbar.pack(side=tk.TOP, fill=tk.X)
 
     def showGameView(self):
-        self.keyBindings.resetKeyBindings()
+        self.__keyBindings.resetKeyBindings()
         self.resetFrames()
         if (isinstance(self.getActiveWorld(), HexWorld)):
-            self.keyBindings.hexagonalKeyBindings()
+            self.__keyBindings.hexagonalKeyBindings()
         else:
-            self.keyBindings.squareKeyBindings()
+            self.__keyBindings.squareKeyBindings()
         self.showExtendedToolBar()
-        self.gameView.pack(fill=tk.BOTH, expand=1)
+        self.__gameView.pack(fill=tk.BOTH, expand=1)
 
     def buildToolBar(self):
-        toolbar = tk.Frame(self.root, bd=1, relief=tk.RAISED)
+        toolbar = tk.Frame(self.__root, bd=1, relief=tk.RAISED)
 
         menu = tk.Button(toolbar, text="Menu",
                          relief=tk.FLAT, command=self.showMenu)
@@ -231,24 +237,24 @@ class GUI:
         save = tk.Button(toolbar, text="Save",
                          relief=tk.FLAT, command=self.savePopUp)
         save.pack(side=tk.LEFT, padx=2, pady=2)
-        self.saveToolBar = save
+        self.__saveToolBar = save
 
         return toolbar
 
     def hideToolBar(self):
-        self.toolbar.pack_forget()
+        self.__toolbar.pack_forget()
 
     def buildSquareWorldPanel(self, panel):
         width = self.getActiveWorld().getWidth()
         height = self.getActiveWorld().getHeight()
         squareWorldPanelFrame = tk.Frame(panel)
-        self.buttons = {}
+        self.__buttons = {}
         for x in range(width):
             for y in range(height):
                 button = tk.Button(
                     squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
                 button.grid(row=y, column=x)
-                self.buttons[(x, y)] = button
+                self.__buttons[(x, y)] = button
                 button.config(command=lambda x=x,
                               y=y: self.useAddOrganismPopup(x, y))
 
@@ -259,7 +265,7 @@ class GUI:
         width = self.getActiveWorld().getWidth()
         height = self.getActiveWorld().getHeight()
         squareWorldPanelFrame = tk.Frame(panel)
-        self.buttons = {}
+        self.__buttons = {}
         fontsize = 20
         square_size = fontsize * 2
         panel_width = square_size * width * 2
@@ -271,7 +277,7 @@ class GUI:
                 x = (i - j) * square_size + panel_width // 2 - square_size
                 y = (i + j) * square_size // 2
                 button.place(x=x, y=y, width=square_size, height=square_size)
-                self.buttons[(j, i)] = button
+                self.__buttons[(j, i)] = button
                 button.config(command=lambda x=j,
                               y=i: self.useAddOrganismPopup(x, y))
 
@@ -284,7 +290,7 @@ class GUI:
                 self.updateButtonText(x, y)
 
     def updateButtonText(self, x, y):
-        button = self.buttons[(x, y)]
+        button = self.__buttons[(x, y)]
         symbol = f'{self.getActiveWorld().getTile(x, y)}'
         if (symbol == "🔳"):
             symbol = "    "
@@ -300,7 +306,7 @@ class GUI:
             self.updateButtonText(x, y)
             self.updateLogPanel()
 
-        addOrganismPopup = tk.Menu(self.root, tearoff=0)
+        addOrganismPopup = tk.Menu(self.__root, tearoff=0)
         button_type = self.getActiveWorld().getTile(x, y).getOrganism()
         if button_type is not None:
             button_type = button_type.getType()
@@ -348,7 +354,7 @@ class GUI:
             controlPanel, command=nextRound, bg='light green')
         nextRoundButton.pack(fill='x')
 
-        self.controlPanelStore = {
+        self.__controlPanelStore = {
             "time": time_label,
             "organisms": organisms_label,
             "human": human_power,
@@ -361,29 +367,31 @@ class GUI:
         return controlPanel
 
     def updateControlPanel(self):
-        self.controlPanelStore["time"].config(
+        self.__controlPanelStore["time"].config(
             text="    Time: " + str(self.getActiveWorld().checkTime()))
-        self.controlPanelStore["organisms"].config(
+        self.__controlPanelStore["organisms"].config(
             text="    Organisms: " + str(self.getActiveWorld().getOrganimsCount()))
         if self.getActiveWorld().hasHuman():
-            self.controlPanelStore["human"].config(
+            self.__controlPanelStore["human"].config(
                 text="    Power: " + (str(self.getActiveWorld().getHuman().getPower())))
-            self.controlPanelStore["useImmortality"].config(
+            self.__controlPanelStore["useImmortality"].config(
                 text="🔰 Immortality\n" + self.getActiveWorld().getHuman().getAbilityInfo())
-            self.controlPanelStore["nextRound"].config(
+            self.__controlPanelStore["nextRound"].config(
                 text="Next Turn\n" + str(self.getActiveWorld().getHuman().getNextMove()))
-            self.controlPanelStore["useImmortality"].config(state=tk.NORMAL)
+            self.__controlPanelStore["useImmortality"].config(state=tk.NORMAL)
         else:
-            self.controlPanelStore["human"].config(text="")
-            self.controlPanelStore["useImmortality"].config(state=tk.DISABLED)
-            self.controlPanelStore["useImmortality"].config(
+            self.__controlPanelStore["human"].config(text="")
+            self.__controlPanelStore["useImmortality"].config(
+                state=tk.DISABLED)
+            self.__controlPanelStore["useImmortality"].config(
                 text="🔰 Immortality\nNo human in the world")
-            self.controlPanelStore["nextRound"].config(
+            self.__controlPanelStore["nextRound"].config(
                 text="Next Turn\nNo human in the world")
         if (GlobalSettings.HUMAN_AI):
-            self.controlPanelStore["nextRound"].config(
+            self.__controlPanelStore["nextRound"].config(
                 text="Next Turn\nAI controlled")
-            self.controlPanelStore["useImmortality"].config(state=tk.DISABLED)
+            self.__controlPanelStore["useImmortality"].config(
+                state=tk.DISABLED)
 
     def buildLogPanel(self, panel):
         logPanel = tk.Text(panel)
@@ -391,26 +399,26 @@ class GUI:
         return logPanel
 
     def updateLogPanel(self):
-        self.logPanel.config(state=tk.NORMAL)
-        self.logPanel.delete("1.0", tk.END)
+        self.__logPanel.config(state=tk.NORMAL)
+        self.__logPanel.delete("1.0", tk.END)
         for log in self.getActiveWorld().getLogs():
-            self.logPanel.insert(tk.END, log + '\n')
-        self.logPanel.config(state=tk.DISABLED)
+            self.__logPanel.insert(tk.END, log + '\n')
+        self.__logPanel.config(state=tk.DISABLED)
 
     def buildGameView(self):
         gameView = tk.PanedWindow(
-            self.root, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=0)
+            self.__root, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=0)
         right_split_pane = tk.PanedWindow(
             gameView, orient=tk.VERTICAL, sashrelief=tk.RAISED, sashwidth=0)
-        self.logPanel = self.buildLogPanel(right_split_pane)
-        self.controlPanel = self.buildControlPanel(right_split_pane)
-        right_split_pane.add(self.logPanel)
-        right_split_pane.add(self.controlPanel)
+        self.__logPanel = self.buildLogPanel(right_split_pane)
+        self.__controlPanel = self.buildControlPanel(right_split_pane)
+        right_split_pane.add(self.__logPanel)
+        right_split_pane.add(self.__controlPanel)
         if (isinstance(self.getActiveWorld(), HexWorld)):
-            self.worldPanel = self.buildHexWorldPanel(gameView)
+            self.__worldPanel = self.buildHexWorldPanel(gameView)
         else:
-            self.worldPanel = self.buildSquareWorldPanel(gameView)
-        gameView.add(self.worldPanel)
+            self.__worldPanel = self.buildSquareWorldPanel(gameView)
+        gameView.add(self.__worldPanel)
         gameView.add(right_split_pane)
 
         self.updateLogPanel()

@@ -8,14 +8,14 @@ class SosnowskyHogweed(Plant):
         super().__init__(10, world, Type.SOSNOWSKY_HOGWEED, json)
 
     def construct(self):
-        return SosnowskyHogweed(self.world)
+        return SosnowskyHogweed(self._world)
 
     def action(self):
         super().action()
         killed = []
-        if self.tile is None:
+        if self._tile is None:
             return
-        for neighbour in self.tile.getOccupiedNeighbours():
+        for neighbour in self._tile.getOccupiedNeighbours():
             organism = neighbour.getOrganism()
             if isinstance(organism, Plant):
                 continue
@@ -28,7 +28,7 @@ class SosnowskyHogweed(Plant):
         if not killed:
             return
         log = self.getSymbol() + " killed " + ", ".join(killed)
-        self.world.addLog(log + "!")
+        self._world.addLog(log + "!")
         killed.clear()
 
     def collisionReaction(self, other: Organism):
@@ -38,6 +38,6 @@ class SosnowskyHogweed(Plant):
             return False
         other.die()
         self.die()
-        self.world.addLog(f"{other.getSymbol()} ate " +
-                          self.getSymbol() + " and died!")
+        self._world.addLog(f"{other.getSymbol()} ate " +
+                           self.getSymbol() + " and died!")
         return True

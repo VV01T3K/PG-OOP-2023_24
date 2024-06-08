@@ -12,12 +12,12 @@ class CyberSheep(Animal):
         super().__init__(11, 4, world, Type.CYBER_SHEEP)
 
     def construct(self):
-        return CyberSheep(self.world)
+        return CyberSheep(self._world)
 
     def pathfind(self):
         queue = deque()
-        queue.append(self.tile)
-        visited = set([self.tile])
+        queue.append(self._tile)
+        visited = set([self._tile])
         found = None
         while queue:
             current = queue.popleft()
@@ -37,7 +37,7 @@ class CyberSheep(Animal):
         visited.remove(current)
         while queue:
             current = queue.popleft()
-            if (current.getParent() is self.tile):
+            if (current.getParent() is self._tile):
                 return current
             for neighbour in current.getNeighbours():
                 if neighbour not in visited:
@@ -48,7 +48,7 @@ class CyberSheep(Animal):
 
     def action(self):
         target = None
-        if any(isinstance(instance, SosnowskyHogweed) for instance in self.world.getOrganisms()):
+        if any(isinstance(instance, SosnowskyHogweed) for instance in self._world.getOrganisms()):
             target = self.pathfind()
         if target is None:
             super().action()

@@ -283,7 +283,6 @@ public class GUI {
             if (GlobalSettings.FONT_ICONS) {
                 image = createIconFromText(world.getTile(x, y).toString()).getImage();
             } else {
-                // TODO: Add image icons
             }
             Image resizedImage = image.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
             g.drawImage(resizedImage, 0, 0, null);

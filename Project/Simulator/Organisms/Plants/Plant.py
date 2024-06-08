@@ -9,23 +9,23 @@ from Simulator.GlobalSettings import GlobalSettings
 class Plant(Organism, ABC):
     def __init__(self, power, world, type, json=None):
         super().__init__(type, power, 0, world, json)
-        self.reproduction_cooldown = 5
+        self._reproduction_cooldown = 5
 
     def action(self):
         if not GlobalSettings.AI_REPRODUCE:
             return
         if random.randint(0, 100) < 5:
-            if self.tile is not None:
-                newtile = self.tile.getRandomFreeNeighbour()
+            if self._tile is not None:
+                newtile = self._tile.getRandomFreeNeighbour()
                 if newtile is None:
                     return
                 newPlant = self.construct()
                 if newPlant is None:
                     return
                 newPlant.skipTurn()
-                self.world.addOrganism(newPlant, newtile)
+                self._world.addOrganism(newPlant, newtile)
 
-                self.world.addLog(self.getSymbol() + " is spreading!!")
+                self._world.addLog(self.getSymbol() + " is spreading!!")
 
     def collision(self, other):
         pass
@@ -34,10 +34,10 @@ class Plant(Organism, ABC):
         return False
 
     def setSpreadCooldown(self, cooldown):
-        self.reproduction_cooldown = cooldown
+        self._reproduction_cooldown = cooldown
 
     def getSpreadCooldown(self):
-        return self.reproduction_cooldown
+        return self._reproduction_cooldown
 
     @abstractmethod
     def construct(self):

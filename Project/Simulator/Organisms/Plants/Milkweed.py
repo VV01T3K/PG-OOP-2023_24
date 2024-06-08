@@ -7,7 +7,7 @@ class Milkweed(Plant):
         super().__init__(0, world, Type.MILKWEED, json)
 
     def construct(self):
-        return Milkweed(self.world)
+        return Milkweed(self._world)
 
     def action(self):
         super().action()

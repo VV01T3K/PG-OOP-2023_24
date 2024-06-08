@@ -1,33 +1,33 @@
 class DynamicDirections:
-    instances = {}
-    next_ordinal = 0
+    __instances = {}
+    __next_ordinal = 0
 
     def __init__(self, name):
-        self.name = name
-        self.ordinal_value = DynamicDirections.next_ordinal
-        DynamicDirections.next_ordinal += 1
+        self.__name = name
+        self.__ordinal_value = DynamicDirections.__next_ordinal
+        DynamicDirections.__next_ordinal += 1
 
     @classmethod
     def addInstance(cls, name):
         instance = DynamicDirections(name)
-        cls.instances[name] = instance
+        cls.__instances[name] = instance
         return instance
 
     @classmethod
     def get(cls, name):
-        return cls.instances.get(name)
+        return cls.__instances.get(name)
 
     def ordinal(self):
-        return self.ordinal_value
+        return self.__ordinal_value
 
     def __str__(self):
-        return self.name
+        return self.__name
 
     @classmethod
     def values(cls):
-        return list(cls.instances.values())
+        return list(cls.__instances.values())
 
     @classmethod
     def clear(cls):
-        cls.instances.clear()
-        cls.next_ordinal = 0
+        cls.__instances.clear()
+        cls.__next_ordinal = 0

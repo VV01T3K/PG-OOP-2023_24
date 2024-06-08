@@ -9,18 +9,18 @@ class Antelope(Animal):
         super().__init__(4, 4, world, Type.ANTELOPE, json)
 
     def construct(self):
-        return Antelope(self.world)
+        return Antelope(self._world)
 
     def action(self):
         super().action()
-        if self.tile.getOrganismCount() > 1:
-            organism = self.tile.getOrganism()
+        if self._tile.getOrganismCount() > 1:
+            organism = self._tile.getOrganism()
             if organism is not None and organism.isAlive():
                 return
-        neighbours = list(self.tile.getNeighbours())
-        if self.oldTile is None:
+        neighbours = list(self._tile.getNeighbours())
+        if self._oldTile is None:
             return
-        neighbours.remove(self.oldTile)  # type: ignore
+        neighbours.remove(self._oldTile)  # type: ignore
         if not neighbours:
             return
         new_tile = neighbours[random.randint(0, len(neighbours) - 1)]
@@ -30,12 +30,12 @@ class Antelope(Animal):
         if other.getType() == Type.ANTELOPE:
             super().collision(other)
         elif random.randint(0, 100) < 50:
-            newTile = self.tile.getRandomFreeNeighbour()
+            newTile = self._tile.getRandomFreeNeighbour()
             if newTile is None:
                 super().collision(other)
                 return
             self.move(newTile)
-            self.world.addLog(
+            self._world.addLog(
                 f"{self.getSymbol()} escaped from "f"{other.getSymbol()}!")
         else:
             super().collision(other)
@@ -44,7 +44,7 @@ class Antelope(Animal):
         if other.getType() == Type.ANTELOPE:
             return False
         if random.randint(0, 100) < 50:
-            newTile = self.tile.getRandomFreeNeighbour()
+            newTile = self._tile.getRandomFreeNeighbour()
             if newTile is None:
                 return False
             self.move(newTile)

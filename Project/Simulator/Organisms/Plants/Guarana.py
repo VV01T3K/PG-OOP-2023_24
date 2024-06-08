@@ -7,11 +7,11 @@ class Guarana(Plant):
         super().__init__(0, world, Type.GUARANA, json)
 
     def construct(self):
-        return Guarana(self.world)
+        return Guarana(self._world)
 
     def collisionReaction(self, other: Organism):
         other.setPower(other.getPower() + 3)
         self.die()
-        self.world.addLog(
+        self._world.addLog(
             f"{other.getSymbol()} ate {self.getSymbol()} and gained 3 power!")
         return True

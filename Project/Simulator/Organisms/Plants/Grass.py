@@ -7,4 +7,4 @@ class Grass(Plant):
         super().__init__(0, world, Type.GRASS, json)
 
     def construct(self):
-        return Grass(self.world)
+        return Grass(self._world)

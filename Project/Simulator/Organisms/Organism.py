@@ -1,5 +1,3 @@
-import json
-
 from abc import ABC, abstractmethod
 
 from enum import Enum
@@ -17,13 +15,13 @@ class Type(Enum):
     GUARANA = "🍅"
     MILKWEED = "🌾"
     SOSNOWSKY_HOGWEED = "🍁"
-    WOLF_BERRIES = "🍇"
+    BELLADONNA = "🍇"
 
     def getSymbol(self):
         return self.value
 
     def getName(self):
-        return self.name
+        return self.name.replace('_', ' ')
 
     def getTypeByInt(i):
         return list(Type)[i]
@@ -32,89 +30,89 @@ class Type(Enum):
 class Organism(ABC):
     def __init__(self, type: Type, power, initiative, world, json=None):
         if json is None:
-            self.type = type
-            self.power = power
-            self.initiative = initiative
-            self.age = 0
-            self.alive = True
-            self.reproductionCooldown = 0
-            self.skip = False
-            self.world = world
-            self.tile = None
+            self._type = type
+            self._power = power
+            self._initiative = initiative
+            self._age = 0
+            self._alive = True
+            self._reproductionCooldown = 0
+            self._skip = False
+            self._world = world
+            self._tile = None
         else:
-            self.type = Type.getTypeByInt(json["type"])
-            self.power = json["power"]
-            self.initiative = json["initiative"]
-            self.age = json["age"]
-            self.alive = json["alive"]
-            self.reproductionCooldown = json["reproduction_cooldown"]
-            self.skip = json["skip"]
-            self.world = world
-            self.tile = world.getTile(json["tile_index"])
+            self._type = Type.getTypeByInt(json["type"])
+            self._power = json["power"]
+            self._initiative = json["initiative"]
+            self._age = json["age"]
+            self._alive = json["alive"]
+            self._reproductionCooldown = json["reproduction_cooldown"]
+            self._skip = json["skip"]
+            self._world = world
+            self._tile = world.getTile(json["tile_index"])
 
     def getType(self):
-        return self.type
+        return self._type
 
     def getTile(self):
-        return self.tile
+        return self._tile
 
     def setTile(self, tile):
-        self.tile = tile
+        self._tile = tile
 
     def Age(self):
-        if (self.reproductionCooldown > 0):
-            self.reproductionCooldown -= 1
-        self.age += 1
+        if (self._reproductionCooldown > 0):
+            self._reproductionCooldown -= 1
+        self._age += 1
 
     def setBreedCooldown(self, turns):
-        self.reproductionCooldown = turns
+        self._reproductionCooldown = turns
 
     def die(self):
-        self.alive = False
+        self._alive = False
 
     def isDead(self):
-        return not self.alive
+        return not self._alive
 
     def isAlive(self):
-        return self.alive
+        return self._alive
 
     def skipTurn(self):
-        self.skip = True
+        self._skip = True
 
     def unskipTurn(self):
-        self.skip = False
+        self._skip = False
 
     def isSkipped(self):
-        return self.skip
+        return self._skip
 
     def getPower(self):
-        return self.power
+        return self._power
 
     def getInitiative(self):
-        return self.initiative
+        return self._initiative
 
     def getAge(self):
-        return self.age
+        return self._age
 
     def setPower(self, power):
-        self.power = power
+        self._power = power
 
     def setInitiative(self, initiative):
-        self.initiative = initiative
+        self._initiative = initiative
 
     def getSymbol(self):
-        return self.type.value
+        return self._type.value
 
     def toJson(self):
         json = {
-            "type": list(Type).index(self.type),
-            "power": self.power,
-            "initiative": self.initiative,
-            "age": self.age,
-            "alive": self.alive,
-            "reproduction_cooldown": self.reproductionCooldown,
-            "skip": self.skip,
-            "tile_index": self.tile.index if self.tile else None
+            "type": list(Type).index(self._type),
+            "power": self._power,
+            "initiative": self._initiative,
+            "age": self._age,
+            "alive": self._alive,
+            "reproduction_cooldown": self._reproductionCooldown,
+            "skip": self._skip,
+            "tile_index": self._tile.INDEX if self._tile else None
         }
         return json
 
