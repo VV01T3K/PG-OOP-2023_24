@@ -4,9 +4,7 @@ from Utils.GUI.GUI import GUI
 import os
 
 def main():
-    world = World(10, 10)
-    world.populateWorld()
-    world.simulate()
+    world = World()
     os.system('cls')
     gui = GUI(world)
     gui.root.mainloop()

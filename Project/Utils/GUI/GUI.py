@@ -18,7 +18,7 @@ class GUI:
         self.root.geometry("900x650")
         self.saveToolBar = None
         self.toolbar = self.buildToolBar()
-        self.continueButton = None
+        self.menuButtons = []
         self.menu = self.buildMenu()
         self.form = self.buildForm()
         self.controlPanel = None
@@ -65,12 +65,11 @@ class GUI:
                                 relief=tk.FLAT, command=exitGame, height=2, width=20,
                                 background='red', foreground='white', font=("Helvetica", 16))
 
-        continue_button.pack(pady=10)
-        start_button.pack(pady=10)
-        load_button.pack(pady=10)
-        exit_button.pack(pady=10)
+        self.menuButtons.append(continue_button)
+        self.menuButtons.append(start_button)
+        self.menuButtons.append(load_button)
+        self.menuButtons.append(exit_button)
 
-        menu_frame.pack(pady=100)
 
         self.continueButton = continue_button
 
@@ -119,11 +118,21 @@ class GUI:
                 world_type.set("Square")
                 return False
             return True
+        def createWorld(width, height, world_type):
+            if(world_type == "Square"):
+                self.world = World(width, height)
+            else:
+                self.world = HexWorld(width, height)
+            self.world.populateWorld()
+            self.world.setHuman(self.world.findHuman())
+            self.world.simulate()
+            self.gameView = self.buildGameView()
 
         def submit():
             if validate_input():
-                self.create_world(width_entry.get(),
-                                  height_entry.get(), world_type.get())
+                createWorld(int(width_entry.get()),
+                            int(height_entry.get()), world_type.get())
+                self.showGameView()
 
         submit_button = tk.Button(
             form_frame, text="Submit", font=larger_font, command=submit)
@@ -131,10 +140,6 @@ class GUI:
 
         return form_frame
 
-    def create_world(self, width, height, world_type):
-        # Here you can add the logic to create a new world with the given width, height, and world type
-        print(
-            f"Creating a new {world_type} world with width {width} and height {height}")
 
     def resetFrames(self):
         self.keyBindings.resetKeyBindings()
@@ -149,10 +154,12 @@ class GUI:
 
     def showMenu(self):
         self.resetFrames()
-        if (not self.getActiveWorld() == None and self.getActiveWorld().checkTime() > 0):
-            self.continueButton.pack(pady=10)
-        else:
-            self.continueButton.pack_forget()
+        for button in self.menuButtons:
+            button.pack_forget()
+        for button in self.menuButtons:
+            button.pack(pady=10)
+        if (not (not self.getActiveWorld() == None and self.getActiveWorld().checkTime() > 0)):
+            self.menuButtons[0].pack_forget()
         self.menu.pack(pady=100)
 
     def showForm(self):
