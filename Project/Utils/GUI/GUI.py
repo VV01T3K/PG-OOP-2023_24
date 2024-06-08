@@ -211,9 +211,8 @@ class GUI:
                     squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
                 button.grid(row=y, column=x)
                 self.buttons[(x, y)] = button
-                button.bind("<Button-1>", lambda e, x=x,
-                            y=y: self.useAddOrganismPopup(e, x, y))
-                button.config(relief=tk.RAISED)
+                button.config(command=lambda x=x, y=y: self.useAddOrganismPopup(x, y))
+                
         self.updateButtonsText()
         return squareWorldPanelFrame
 
@@ -229,7 +228,7 @@ class GUI:
             symbol = "    "
         button.config(text=symbol)
 
-    def useAddOrganismPopup(self, event, x, y):
+    def useAddOrganismPopup(self, x, y):
         def addOrganism(type, x, y):
             self.getActiveWorld().setNewOrganism(type, x, y)
             if type == Type.HUMAN:
@@ -250,10 +249,7 @@ class GUI:
                 continue
             addOrganismPopup.add_command(label=f'{type.getSymbol()} - {type.getName()}',
                                          command=lambda type=type: addOrganism(type, x, y))
-        addOrganismPopup.tk_popup(event.x_root-1, event.y_root-1)
-
-    # def hexWorldPanel(self):
-    #     self.hexWorldPanelFrame.pack(pady=100)
+        addOrganismPopup.tk_popup(addOrganismPopup.winfo_pointerx()+1, addOrganismPopup.winfo_pointery()+1)
 
     def buildControlPanel(self, panel):
         controlPanel = tk.Frame(panel)
@@ -285,7 +281,7 @@ class GUI:
             self.updateControlPanel()
             
     
-        nextRoundButton = tk.Button(controlPanel, command=nextRound)
+        nextRoundButton = tk.Button(controlPanel, command=nextRound, bg='light green')
         nextRoundButton.pack(fill='x')
         
         self.controlPanelStore = {

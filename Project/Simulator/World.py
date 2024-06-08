@@ -228,7 +228,10 @@ class World:
     def setNewOrganism(self, type, x, y):
         tile = self.getTile(x, y)
         while not tile.isFree():
-            tile.removeOrganism(tile.getOrganism())
+            organism_to_remove = tile.getOrganism()
+            if organism_to_remove is not None:
+                tile.removeOrganism(organism_to_remove)
+                self.organisms.remove(organism_to_remove)
         organism = OrganismFactory(self).createFromType(type)
         organism.skipTurn()
         self.addOrganism(organism, tile)
