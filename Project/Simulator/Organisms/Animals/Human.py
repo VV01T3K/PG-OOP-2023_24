@@ -57,6 +57,8 @@ class Human(Animal):
             self.immortality.flipToggle()
 
     def getNextMove(self):
+        if(self.nextMove == DynamicDirections.get("SELF")):
+            return "Give direction"
         return self.nextMove
 
     def getAbilityInfo(self):

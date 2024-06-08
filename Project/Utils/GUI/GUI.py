@@ -1,12 +1,13 @@
 
 import sys
 import tkinter.messagebox as messagebox
-from Simulator.World import World
+from Simulator.World import World, HexWorld
 from Simulator.Organisms.Organism import Type
 import tkinter as tk
 from tkinter import ttk
 from tkinter import simpledialog
 from .KeyBindings import KeyBindings
+from Simulator.GlobalSettings import GlobalSettings
 
 
 class GUI:
@@ -14,7 +15,7 @@ class GUI:
         self.world = world
         self.root = tk.Tk()
         self.root.title("Toolbar Example")
-        self.root.geometry("900x600")
+        self.root.geometry("900x650")
         self.saveToolBar = None
         self.toolbar = self.buildToolBar()
         self.continueButton = None
@@ -24,10 +25,11 @@ class GUI:
         self.logPanel = None
         self.worldPanel = None
         self.buttons = {}
+        self.controlPanelStore = {}
         self.gameView = None
         self.gameView = self.buildGameView()
         
-        self.keyBindings = KeyBindings(self.root)
+        self.keyBindings = KeyBindings(self)
 
         self.showMenu()
 
@@ -135,6 +137,7 @@ class GUI:
             f"Creating a new {world_type} world with width {width} and height {height}")
 
     def resetFrames(self):
+        self.keyBindings.resetKeyBindings()
         self.menu.pack_forget()
         self.form.pack_forget()
         self.hideToolBar()
@@ -142,6 +145,7 @@ class GUI:
         self.logPanel.pack_forget()
         self.controlPanel.pack_forget()
         self.gameView.pack_forget()
+        self.saveToolBar.pack_forget()
 
     def showMenu(self):
         self.resetFrames()
@@ -164,7 +168,12 @@ class GUI:
         self.toolbar.pack(side=tk.TOP, fill=tk.X)
 
     def showGameView(self):
+        self.keyBindings.resetKeyBindings()
         self.resetFrames()
+        if(isinstance(self.getActiveWorld(), HexWorld)):
+            self.keyBindings.hexagonalKeyBindings()
+        else:
+            self.keyBindings.squareKeyBindings()
         self.showExtendedToolBar()
         self.gameView.pack(fill=tk.BOTH, expand=1)
 
@@ -226,6 +235,7 @@ class GUI:
             if type == Type.HUMAN:
                 self.getActiveWorld().setHuman(self.getActiveWorld().findHuman())
                 self.getActiveWorld().getHuman().unskipTurn()
+                self.updateControlPanel()
             self.updateButtonText(x, y)
             self.updateLogPanel()
 
@@ -248,16 +258,16 @@ class GUI:
     def buildControlPanel(self, panel):
         controlPanel = tk.Frame(panel)
     
-        tk.Label(controlPanel, text="Control Panel").pack()
-        tk.Label(controlPanel, text="World:").pack()
-        time_label = tk.Label(controlPanel, text="    Time: " + str(self.getActiveWorld().checkTime()))
-        time_label.pack()
-        organisms_label = tk.Label(controlPanel, text="    Organisms: " + str(self.getActiveWorld().getOrganimsCount()))
-        organisms_label.pack()
+        tk.Label(controlPanel, text="Control Panel").pack(fill='x')
+        tk.Label(controlPanel, text="World:", anchor='w').pack(fill='x')
+        time_label = tk.Label(controlPanel, anchor='w')
+        time_label.pack(fill='x')
+        organisms_label = tk.Label(controlPanel, anchor='w')
+        organisms_label.pack(fill='x')
     
-        tk.Label(controlPanel, text="Human:").pack()
-        human_power = tk.Label(controlPanel, text="    Power: " + (str(self.getActiveWorld().getHuman().getPower()) if self.getActiveWorld().hasHuman() else ""))
-        human_power.pack()
+        tk.Label(controlPanel, text="Human:", anchor='w').pack(fill='x')
+        human_power = tk.Label(controlPanel, anchor='w')
+        human_power.pack(fill='x')
     
         def toggleImmortality():
             if not self.getActiveWorld().hasHuman():
@@ -265,42 +275,84 @@ class GUI:
             self.getActiveWorld().getHuman().toggleImmortality()
             useImmortality.config(text="🔰 Immortality\n" + self.getActiveWorld().getHuman().getAbilityInfo())
     
-        useImmortality = tk.Button(controlPanel, text="🔰 Immortality\n" + (self.getActiveWorld().getHuman().getAbilityInfo() if self.getActiveWorld().hasHuman() else ""), command=toggleImmortality)
-        useImmortality.pack()
-    
-        return controlPanel
+        useImmortality = tk.Button(controlPanel, command=toggleImmortality)
+        useImmortality.pack(fill='x')
         
+        def nextRound():
+            self.getActiveWorld().simulate()
+            self.updateLogPanel()
+            self.updateButtonsText()
+            self.updateControlPanel()
+            
+    
+        nextRoundButton = tk.Button(controlPanel, command=nextRound)
+        nextRoundButton.pack(fill='x')
+        
+        self.controlPanelStore = {
+            "time": time_label,
+            "organisms": organisms_label,
+            "human": human_power,
+            "useImmortality": useImmortality,
+            "nextRound": nextRoundButton,
+            }
+        
+        self.updateControlPanel()
+        
+        return controlPanel
+    
+    def updateControlPanel(self):
+        self.controlPanelStore["time"].config(text="    Time: " + str(self.getActiveWorld().checkTime()))
+        self.controlPanelStore["organisms"].config(text="    Organisms: " + str(self.getActiveWorld().getOrganimsCount()))
+        if self.getActiveWorld().hasHuman():
+            self.controlPanelStore["human"].config(text="    Power: " + (str(self.getActiveWorld().getHuman().getPower())))
+            self.controlPanelStore["useImmortality"].config(text="🔰 Immortality\n" + self.getActiveWorld().getHuman().getAbilityInfo())
+            self.controlPanelStore["nextRound"].config(text="Next Turn\n" + str(self.getActiveWorld().getHuman().getNextMove()))
+            self.controlPanelStore["useImmortality"].config(state=tk.NORMAL)
+        else:
+            self.controlPanelStore["human"].config(text="")
+            self.controlPanelStore["useImmortality"].config(state=tk.DISABLED)
+            self.controlPanelStore["useImmortality"].config(text="🔰 Immortality\nNo human in the world")
+            self.controlPanelStore["nextRound"].config(text="Next Turn\nNo human in the world")
+        if(GlobalSettings.HUMAN_AI):
+            self.controlPanelStore["nextRound"].config(text="Next Turn\nAI controlled")
+            self.controlPanelStore["useImmortality"].config(state=tk.DISABLED)
+    
     def buildLogPanel(self, panel):
         logPanel = tk.Text(panel)
-        logPanel.pack(fill=tk.BOTH, expand=True)
+        logPanel.config(state=tk.DISABLED)
         return logPanel
     
     def updateLogPanel(self):
+        self.logPanel.config(state=tk.NORMAL)
         self.logPanel.delete("1.0", tk.END)
         for log in self.getActiveWorld().getLogs():
             self.logPanel.insert(tk.END, log + '\n')
+        self.logPanel.config(state=tk.DISABLED) 
 
     def buildGameView(self):
-            # Create the main split pane (gameView)
-            gameView = tk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-        
-            # Create the right split pane (rightSplitPane)
-            right_split_pane = tk.PanedWindow(gameView, orient=tk.VERTICAL)
-        
-            # Create the log panel and control panel
-            self.logPanel = self.buildLogPanel(right_split_pane)
-            self.controlPanel = self.buildControlPanel(right_split_pane)
-        
-            # Add the log panel and control panel to the right split pane
-            right_split_pane.add(self.logPanel)
-            right_split_pane.add(self.controlPanel)
-        
-            # Create the board panel
+        # Create the main split pane (gameView)
+        gameView = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=0)
+    
+        # Create the right split pane (rightSplitPane)
+        right_split_pane = tk.PanedWindow(gameView, orient=tk.VERTICAL, sashrelief=tk.RAISED, sashwidth=0)
+    
+        # Create the log panel and control panel
+        self.logPanel = self.buildLogPanel(right_split_pane)
+        self.controlPanel = self.buildControlPanel(right_split_pane)
+    
+        # Add the log panel and control panel to the right split pane
+        right_split_pane.add(self.logPanel)
+        right_split_pane.add(self.controlPanel)
+    
+        # Create the board panel
+        if(isinstance(self.getActiveWorld(), HexWorld)):
+            pass
+        else:
             self.worldPanel = self.buildSquareWorldPanel(gameView)
-        
-            # Add the board panel and right split pane to the main split pane
-            gameView.add(self.worldPanel)
-            gameView.add(right_split_pane)
-            
-            self.updateLogPanel()
-            return gameView
+    
+        # Add the board panel and right split pane to the main split pane
+        gameView.add(self.worldPanel)
+        gameView.add(right_split_pane)
+    
+        self.updateLogPanel()
+        return gameView

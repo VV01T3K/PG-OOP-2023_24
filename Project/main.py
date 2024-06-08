@@ -9,12 +9,6 @@ def main():
     world.populateWorld()
     world.simulate()
     os.system('cls')
-    world.printWorld()
-    world.addLog("Test")
-    world.addLog("Test")
-    world.addLog("Test")
-    world.addLog("Test")
-    world.addLog("Test")
     gui = GUI(world)
     gui.root.mainloop()
 

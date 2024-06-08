@@ -2,8 +2,9 @@ import tkinter as tk
 
 
 class KeyBindings:
-    def __init__(self, root: tk.Tk):
-        self.root: tk.Tk = root
+    def __init__(self, gui):
+        self.root: tk.Tk = gui.root
+        self.gui = gui
 
     def squareKeyBindings(self):
         root = self.root
@@ -22,7 +23,7 @@ class KeyBindings:
             print("Move right")
 
         def nextRound(e):
-            print("Next round")
+            self.gui.controlPanelStore["nextRound"].invoke()
 
         root.bind("<space>", nextRound)
 
