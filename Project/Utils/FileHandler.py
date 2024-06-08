@@ -28,8 +28,8 @@ class FileHandler:
         }
 
         with open(f"Project/Saves/{name}.json", "w") as file:
-            json.dump(data, file, indent=2)
-    
+            json.dump(data, file, indent=4)
+
     @staticmethod
     def listSaves():
         return [os.path.splitext(f.name)[0] for f in sorted(list(filter(lambda f: f.is_file(), list(Path("Project/Saves/").glob("*.json")))))]

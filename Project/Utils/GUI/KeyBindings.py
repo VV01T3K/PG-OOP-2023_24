@@ -130,7 +130,6 @@ class KeyBindings:
         from .GUI import GUI
         gui: GUI = self.__gui
         keys = ["q,", "w", "e", "a", "s", "d", "<space>", "<Up>", "<Down>", "<Left>", "<Right>",
-                "<Up>", "<Down>", "<Home>",
-                "<Prior>", "<End>", "<Next>"]
+                "<Home>", "<Prior>", "<End>", "<Next>"]
         for key in keys:
             gui.getRoot().unbind(key)

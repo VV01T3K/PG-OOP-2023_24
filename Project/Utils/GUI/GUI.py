@@ -10,7 +10,7 @@ from Utils.FileHandler import FileHandler
 
 
 class GUI:
-    def __init__(self, world):
+    def __init__(self, world: World):
         self.__world = world
         self.__root = tk.Tk()
         self.__root.title("Toolbar Example")
@@ -345,6 +345,8 @@ class GUI:
         useImmortality.pack(fill='x')
 
         def nextRound():
+            if (not GlobalSettings.HUMAN_AI and self.getActiveWorld().hasHuman() and self.getActiveWorld().getHuman().getNextMove() == "Give direction"):
+                return
             self.getActiveWorld().simulate()
             self.updateLogPanel()
             self.updateButtonsText()

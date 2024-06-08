@@ -4,9 +4,7 @@ from Utils.GUI.GUI import GUI
 
 
 def main():
-    world = World()
-    gui = GUI(world)
-    gui.run()
+    GUI(World()).run()
 
 
 if __name__ == "__main__":
