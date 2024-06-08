@@ -48,7 +48,7 @@ class KeyBindings:
         root = self.root
         gui: GUI = self.gui
         self.resetKeyBindings()
-
+        
         def moveUp(e):
             gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("UP"))
             self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: UP")
@@ -78,12 +78,12 @@ class KeyBindings:
 
         root.bind("<space>", nextRound)
 
-        root.bind("Q", moveTopLeft)
-        root.bind("W", moveUp)
-        root.bind("E", moveTopRight)
-        root.bind("A", moveBottomLeft)
-        root.bind("S", moveDown)
-        root.bind("D", moveBottomRight)
+        root.bind("q", moveTopLeft)
+        root.bind("w", moveUp)
+        root.bind("e", moveTopRight)
+        root.bind("a", moveBottomLeft)
+        root.bind("s", moveDown)
+        root.bind("d", moveBottomRight)
 
         root.bind("<KP_Up>", moveUp)
         root.bind("<KP_Down>", moveDown)
@@ -93,8 +93,8 @@ class KeyBindings:
         root.bind("<KP_Next>", moveBottomRight)
 
     def resetKeyBindings(self):
-        keys = ["w", "s", "a", "d", "<space>", "<Up>", "<Down>", "<Left>", "<Right>",
-                "Q", "W", "E", "A", "S", "D", "<KP_Up>", "<KP_Down>", "<KP_Home>",
+        keys = ["q,", "w", "e", "a", "s", "d", "<space>", "<Up>", "<Down>", "<Left>", "<Right>",
+                "<KP_Up>", "<KP_Down>", "<KP_Home>",
                 "<KP_Prior>", "<KP_End>", "<KP_Next>"]
         for key in keys:
             self.root.unbind(key)

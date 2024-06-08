@@ -250,6 +250,33 @@ class GUI:
                 
         self.updateButtonsText()
         return squareWorldPanelFrame
+    
+    def buildHexWorldPanel(self, panel):
+        width = self.getActiveWorld().getWidth()
+        height = self.getActiveWorld().getHeight()
+        hexWorldPanelFrame = tk.Frame(panel)
+        self.buttons = {}
+        for y in range(height):
+            for x in range(width):
+                button = tk.Button(
+                    hexWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
+                button.grid(row=y, column=x)
+                self.buttons[(x, y)] = button
+                button.config(command=lambda x=x, y=y: self.useAddOrganismPopup(x, y))
+        self.updateButtonsText()
+        self.adjustButtonSizesAndPositions(hexWorldPanelFrame)
+        return hexWorldPanelFrame
+    
+    def adjustButtonSizesAndPositions(self,hexWorldPanelFrame):
+        panelWidth = hexWorldPanelFrame.winfo_width()
+        panelHeight = hexWorldPanelFrame.winfo_height()
+        squareSize = min(panelWidth / (self.getActiveWorld().getWidth() * 2), panelHeight / (self.getActiveWorld().getHeight() + 1))
+        for i in range(self.getActiveWorld().getHeight()):
+            for j in range(self.getActiveWorld().getWidth()):
+                button = self.buttons[(j, i)]
+                x = (i - j) * squareSize + panelWidth / 2
+                y = (i + j) * squareSize / 2
+                button.place(x=x, y=y, width=squareSize, height=squareSize)
 
     def updateButtonsText(self):
         for x in range(self.getActiveWorld().getWidth()):
@@ -377,7 +404,8 @@ class GUI:
     
         # Create the board panel
         if(isinstance(self.getActiveWorld(), HexWorld)):
-            pass
+            # self.worldPanel = self.buildHexWorldPanel(gameView)
+            self.worldPanel = self.buildSquareWorldPanel(gameView)
         else:
             self.worldPanel = self.buildSquareWorldPanel(gameView)
     
