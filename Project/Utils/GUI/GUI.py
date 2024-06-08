@@ -9,6 +9,7 @@ from tkinter import simpledialog
 from .KeyBindings import KeyBindings
 from Simulator.GlobalSettings import GlobalSettings
 from Utils.FileHandler import FileHandler
+from tkinter import Toplevel, ttk
 
 class GUI:
     def __init__(self, world):
@@ -39,13 +40,10 @@ class GUI:
     def buildMenu(self):
         def continueGame():
             self.showGameView()
-
         def startGame():
             self.showForm()
-
         def loadGame():
-            print("Load game")
-
+            self.loadPopUp()
         def exitGame():
             self.root.destroy()
             sys.exit()
@@ -74,6 +72,43 @@ class GUI:
         self.continueButton = continue_button
 
         return menu_frame
+    
+    def savePopUp(self):
+        def on_ok():
+            savename = name.get()
+            if savename:
+                FileHandler.saveWorld(self.world, savename)
+                messagebox.showinfo("Saved", "Game saved successfully")
+            top.destroy()
+        top = Toplevel()
+        top.geometry("250x70")
+        top.title("Save game")
+        ttk.Label(top, text="Enter the name of the save file").pack()
+        name = ttk.Entry(top)
+        name.pack()
+    
+        ttk.Button(top, text="OK", command=on_ok).pack()
+            
+    def loadPopUp(self):
+        saves = FileHandler.listSaves()
+        if not saves:
+            messagebox.showerror("Error", "No saves found")
+            return
+        def on_ok():
+            save = combo.get()
+            if save:
+                self.world = FileHandler.loadWorld(save)
+                self.gameView = self.buildGameView()
+                self.showGameView()
+            top.destroy()
+        top = Toplevel()
+        top.geometry("250x70")
+        top.title("Load game")
+        ttk.Label(top, text="Choose a save to load").pack()
+        combo = ttk.Combobox(top, values=saves, state="readonly")
+        combo.pack()
+        combo.set(saves[0])
+        ttk.Button(top, text="OK", command=on_ok).pack()
 
     def buildForm(self):
         root = self.root
@@ -125,7 +160,6 @@ class GUI:
                 self.world = HexWorld(width, height)
             self.world.populateWorld()
             self.world.setHuman(self.world.findHuman())
-            self.world.simulate()
             self.gameView = self.buildGameView()
 
         def submit():
@@ -197,12 +231,6 @@ class GUI:
         self.saveToolBar = save
 
         return toolbar
-
-    def savePopUp(self):
-        filename = simpledialog.askstring("Save game", "Enter the name of the save file")
-        if filename:
-            FileHandler.saveWorld(self.world, filename)
-            messagebox.showinfo("Saved", "Game saved successfully")
 
     def hideToolBar(self):
         self.toolbar.pack_forget()

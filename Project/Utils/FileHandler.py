@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 from Simulator.World import World, HexWorld
@@ -28,10 +29,10 @@ class FileHandler:
 
         with open(f"Project/Saves/{name}.json", "w") as file:
             json.dump(data, file, indent=2)
-
+    
     @staticmethod
     def listSaves():
-        return [f.name for f in sorted(list(filter(lambda f: f.is_file(), list(Path("Project/Saves/").glob("*.json")))))]
+        return [os.path.splitext(f.name)[0] for f in sorted(list(filter(lambda f: f.is_file(), list(Path("Project/Saves/").glob("*.json")))))]
 
     @staticmethod
     def loadWorld(name: str) -> World:
