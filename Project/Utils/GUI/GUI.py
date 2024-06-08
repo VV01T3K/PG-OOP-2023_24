@@ -1,15 +1,12 @@
-
 import sys
-import tkinter.messagebox as messagebox
+import tkinter as tk
+from tkinter import Toplevel, ttk, messagebox
+
 from Simulator.World import World, HexWorld
 from Simulator.Organisms.Organism import Type
-import tkinter as tk
-from tkinter import ttk
-from tkinter import simpledialog
 from .KeyBindings import KeyBindings
 from Simulator.GlobalSettings import GlobalSettings
 from Utils.FileHandler import FileHandler
-from tkinter import Toplevel, ttk
 
 
 class GUI:
@@ -33,7 +30,9 @@ class GUI:
 
         self.keyBindings = KeyBindings(self)
 
+    def run(self):
         self.showMenu()
+        self.root.mainloop()
 
     def getActiveWorld(self) -> World:
         return self.world
@@ -399,29 +398,18 @@ class GUI:
         self.logPanel.config(state=tk.DISABLED)
 
     def buildGameView(self):
-        # Create the main split pane (gameView)
         gameView = tk.PanedWindow(
             self.root, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=0)
-
-        # Create the right split pane (rightSplitPane)
         right_split_pane = tk.PanedWindow(
             gameView, orient=tk.VERTICAL, sashrelief=tk.RAISED, sashwidth=0)
-
-        # Create the log panel and control panel
         self.logPanel = self.buildLogPanel(right_split_pane)
         self.controlPanel = self.buildControlPanel(right_split_pane)
-
-        # Add the log panel and control panel to the right split pane
         right_split_pane.add(self.logPanel)
         right_split_pane.add(self.controlPanel)
-
-        # Create the board panel
         if (isinstance(self.getActiveWorld(), HexWorld)):
             self.worldPanel = self.buildHexWorldPanel(gameView)
         else:
             self.worldPanel = self.buildSquareWorldPanel(gameView)
-
-        # Add the board panel and right split pane to the main split pane
         gameView.add(self.worldPanel)
         gameView.add(right_split_pane)
 
