@@ -22,7 +22,9 @@ class Type(Enum):
     def getSymbol(self):
         return self.value
 
-    @staticmethod
+    def getName(self):
+        return self.name
+
     def getTypeByInt(i):
         return list(Type)[i]
 

@@ -46,7 +46,7 @@ class FileHandler:
         else:
             world = World(data["world"]["width"], data["world"]["height"])
         world.setTime(data["world"]["time"])
-        organisms = [OrganismFactory().create(organism, world)
+        organisms = [OrganismFactory(world).create(organism)
                      for organism in data["organisms"]]
         world.setOrganisms(organisms)
         world.setHuman(world.findHuman())

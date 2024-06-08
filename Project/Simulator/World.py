@@ -10,6 +10,8 @@ from Utils.DynamicDirections import DynamicDirections
 from .Organisms.Plants import *
 from .Organisms.Animals import *
 
+from Utils.OrganismFactory import OrganismFactory
+
 
 class World:
 
@@ -223,14 +225,15 @@ class World:
     def getOrganisms(self):
         return self.organisms
 
-    def setNewOrganisms(self, type, x, y):
+    def setNewOrganism(self, type, x, y):
         tile = self.getTile(x, y)
         while not tile.isFree():
             tile.removeOrganism(tile.getOrganism())
-        organism = type.construct(self)
+        organism = OrganismFactory(self).createFromType(type)
         organism.skipTurn()
         self.addOrganism(organism, tile)
-        self.addLog("New " + type.getSymbol() + " " + type + " spawned!")
+        self.addLog("New " + type.getSymbol() + " " +
+                    type.getName() + " spawned!")
 
 
 class HexWorld(World):

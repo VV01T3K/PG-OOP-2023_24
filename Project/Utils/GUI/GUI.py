@@ -26,7 +26,7 @@ class GUI:
 
         self.showMenu()
 
-    def getActiveWorld(self):
+    def getActiveWorld(self) -> World:
         return self.world
 
     def buildMenu(self):
@@ -204,19 +204,23 @@ class GUI:
 
                 # Add a click event to the button
                 button.bind("<Button-1>", lambda e, x=x,
-                            y=y: self.useAddOrganismPopup(x, y, button))
+                            y=y: self.useAddOrganismPopup(e, x, y, button))
+                button.config(relief=tk.RAISED)
         self.updateButtonsText()
 
     def updateButtonsText(self):
         for x in range(self.getActiveWorld().getWidth()):
             for y in range(self.getActiveWorld().getHeight()):
-                button = self.buttons[(x, y)]
-                symbol = f'{self.getActiveWorld().getTile(x, y)}'
-                if (symbol == "🔳"):
-                    symbol = "    "
-                button.config(text=symbol)
+                self.updateButtonText(x, y)
 
-    def useAddOrganismPopup(self, x, y, button):
+    def updateButtonText(self, x, y):
+        button = self.buttons[(x, y)]
+        symbol = f'{self.getActiveWorld().getTile(x, y)}'
+        if (symbol == "🔳"):
+            symbol = "    "
+        button.config(text=symbol)
+
+    def useAddOrganismPopup(self, event, x, y, button):
         # Create a new context menu
         addOrganismPopup = tk.Menu(self.root, tearoff=0)
 
@@ -234,14 +238,18 @@ class GUI:
                 continue
 
             # Create a new menu item for the organism
-            addOrganismPopup.add_command(label=f'{type}',
+            addOrganismPopup.add_command(label=f'{type.getSymbol()} - {type.getName()}',
                                          command=lambda type=type: self.addOrganismAndShowGameView(type, x, y))
 
-        # Show the context menu at the position of the button
-        addOrganismPopup.tk_popup(button.winfo_rootx(), button.winfo_rooty())
+        # Show the context menu at the position of the mouse click
+        addOrganismPopup.tk_popup(event.x_root-1, event.y_root-1)
 
     def addOrganismAndShowGameView(self, type, x, y):
-        pass
+        self.getActiveWorld().setNewOrganism(type, x, y)
+        if type == Type.HUMAN:
+            self.getActiveWorld().setHuman(self.getActiveWorld().findHuman())
+            self.getActiveWorld().getHuman().unskipTurn()
+        self.updateButtonText(x, y)
 
     # def hexWorldPanel(self):
     #     self.hexWorldPanelFrame.pack(pady=100)
