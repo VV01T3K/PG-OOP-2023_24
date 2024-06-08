@@ -1,6 +1,6 @@
 from .Animal import Animal
 from Simulator.Organisms.Organism import Type
-from Simulator.GlobalSettings import GlobalSettings
+from GlobalSettings import GlobalSettings
 from Utils.DynamicDirections import DynamicDirections
 
 

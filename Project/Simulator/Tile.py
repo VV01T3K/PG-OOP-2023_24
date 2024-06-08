@@ -24,6 +24,8 @@ class Tile:
         self.__parent = parent
 
     def setLink(self, direction, tile):
+        if (direction == None):
+            return
         self.__directions[direction.ordinal()] = tile
 
     def getOrganism(self):

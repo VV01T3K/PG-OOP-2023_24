@@ -5,7 +5,7 @@ from tkinter import N
 
 from Simulator.Tile import Tile
 from Simulator.Organisms.Organism import Organism
-from Simulator.GlobalSettings import GlobalSettings
+from GlobalSettings import GlobalSettings
 from Utils.DynamicDirections import DynamicDirections
 
 

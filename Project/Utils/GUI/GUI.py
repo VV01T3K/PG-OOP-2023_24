@@ -5,7 +5,7 @@ from tkinter import Toplevel, ttk, messagebox
 from Simulator.World import World, HexWorld
 from Simulator.Organisms.Organism import Type
 from .KeyBindings import KeyBindings
-from Simulator.GlobalSettings import GlobalSettings
+from GlobalSettings import GlobalSettings
 from Utils.FileHandler import FileHandler
 
 

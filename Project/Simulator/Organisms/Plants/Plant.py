@@ -3,7 +3,7 @@ import random
 from abc import ABC, abstractmethod
 
 from Simulator.Organisms.Organism import Organism
-from Simulator.GlobalSettings import GlobalSettings
+from GlobalSettings import GlobalSettings
 
 
 class Plant(Organism, ABC):

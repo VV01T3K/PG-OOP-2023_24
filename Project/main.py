@@ -1,4 +1,3 @@
-
 from Simulator.World import World
 from Utils.GUI.GUI import GUI
 
