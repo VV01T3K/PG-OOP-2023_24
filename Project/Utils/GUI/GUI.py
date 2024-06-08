@@ -150,7 +150,7 @@ class GUI:
             height = height_entry.get()
             world = world_type.get()
 
-            if not width.isdigit() or not height.isdigit() or int(width) <= 1 or int(height) <= 1 or int(width) > 40 or int(height) > 40:
+            if not width.isdigit() or not height.isdigit() or int(width) < 1 or int(height) < 1 or int(width) > 40 or int(height) > 40:
                 messagebox.showerror(
                     "Invalid input", "Width and height must be positive integers between 1 and 40.")
                 width_entry.delete(0, 'end')
@@ -185,6 +185,7 @@ class GUI:
         return form_frame
 
     def resetFrames(self):
+        self.__root.focus_set()
         self.__keyBindings.resetKeyBindings()
         self.__menu.pack_forget()
         self.__form.pack_forget()
@@ -268,15 +269,16 @@ class GUI:
         self.__buttons = {}
         fontsize = 20
         square_size = fontsize * 2
-        panel_width = square_size * width * 2
+        panel_width = square_size * max(width, height) * 2
         squareWorldPanelFrame.config(width=panel_width)
-        for j in range(height):
-            for i in range(width):
+        for j in range(width):
+            for i in range(height):
                 button = tk.Button(
                     squareWorldPanelFrame, text=f'({j},{i})', font=("default", 20), width=3)
-                x = (i - j) * square_size + panel_width // 2 - square_size
-                y = (i + j) * square_size // 2
-                button.place(x=x, y=y, width=square_size, height=square_size)
+                x = (i - j) * square_size + panel_width // 2 - square_size//2
+                y = (i + j) * square_size // 2 + square_size//2
+                button.place(x=x, y=y,
+                             width=square_size, height=square_size)
                 self.__buttons[(j, i)] = button
                 button.config(command=lambda x=j,
                               y=i: self.useAddOrganismPopup(x, y))
