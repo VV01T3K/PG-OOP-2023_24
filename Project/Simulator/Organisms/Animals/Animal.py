@@ -20,9 +20,10 @@ class Animal(Organism, ABC):
     def move(self, newTileOrDirection):
         if (newTileOrDirection == None):
             return
-        if not isinstance(newTileOrDirection, Tile):
+        if isinstance(newTileOrDirection, DynamicDirections):
             newTile = self.tile.getNeighbour(newTileOrDirection)
-        newTile = newTileOrDirection
+        else:
+            newTile = newTileOrDirection
         if (newTile == None):
             return
         self.oldTile = self.tile

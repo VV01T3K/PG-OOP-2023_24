@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from Utils.DynamicDirections import DynamicDirections
 
 class KeyBindings:
     def __init__(self, gui):
@@ -7,20 +7,26 @@ class KeyBindings:
         self.gui = gui
 
     def squareKeyBindings(self):
+        from .GUI import GUI
         root = self.root
+        gui: GUI = self.gui
         self.resetKeyBindings()
 
         def moveUp(e):
-            print("Move up")
-
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("UP"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: UP")
+            
         def moveDown(e):
-            print("Move down")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("DOWN"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: DOWN")
 
         def moveLeft(e):
-            print("Move left")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("LEFT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: LEFT")
 
         def moveRight(e):
-            print("Move right")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("RIGHT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: RIGHT")
 
         def nextRound(e):
             self.gui.controlPanelStore["nextRound"].invoke()
@@ -38,29 +44,37 @@ class KeyBindings:
         root.bind("<Right>", moveRight)
 
     def hexagonalKeyBindings(self):
+        from .GUI import GUI
         root = self.root
+        gui: GUI = self.gui
         self.resetKeyBindings()
 
         def moveUp(e):
-            print("Move up")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("UP"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: UP")
 
         def moveDown(e):
-            print("Move down")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("DOWN"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: DOWN")
 
         def moveTopLeft(e):
-            print("Move top left")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("TOP_LEFT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: TOP LEFT")
 
         def moveBottomLeft(e):
-            print("Move bottom left")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("BOTTOM_LEFT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: BOTTOM LEFT")
 
         def moveTopRight(e):
-            print("Move top right")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("TOP_RIGHT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: TOP RIGHT")
 
         def moveBottomRight(e):
-            print("Move bottom right")
+            gui.getActiveWorld().getHuman().setNextMove(DynamicDirections.get("BOTTOM_RIGHT"))
+            self.gui.controlPanelStore["nextRound"].config(text="Next Turn\nMove: BOTTOM RIGHT")
 
         def nextRound(e):
-            print("Next round")
+            self.gui.controlPanelStore["nextRound"].invoke()
 
         root.bind("<space>", nextRound)
 
