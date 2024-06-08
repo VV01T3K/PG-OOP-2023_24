@@ -37,7 +37,7 @@ class World:
         if humann is None:
             return
         human: Human = humann
-        print("Human: " + human.getAbiliyInfo())
+        print("Human: " + human.getAbilityInfo())
 
     def printLogs(self):
         for log in self.logs:

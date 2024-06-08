@@ -59,7 +59,7 @@ class Human(Animal):
     def getNextMove(self):
         return self.nextMove
 
-    def getAbiliyInfo(self):
+    def getAbilityInfo(self):
         if (self.immortality.isActive()):
             return f"{self.immortality.getDuration()} turns left"
         if (not self.immortality.isReady()):

@@ -20,7 +20,17 @@ class GUI:
         self.continueButton = None
         self.menu = self.buildMenu()
         self.form = self.buildForm()
+        self.controlPanel = None
+        self.logPanel = None
+        self.squareWorldPanelFrame = None
+        self.buttons = {}
+        self.game_view = None
         self.buildSquareWorldPanel()
+        self.buildControlPanel()
+        self.buildLogPanel()
+        
+        # controlPanel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # logPanel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         self.keyBindings = KeyBindings(self.root)
 
@@ -158,7 +168,32 @@ class GUI:
     def showGameView(self):
         self.resetFrames()
         self.showExtendedToolBar()
-        self.squareWorldPanelFrame.pack(expand=True)
+        
+        
+    def buildGameView(self):
+        # Create the main split pane (gameView)
+        self.game_view = tk.PanedWindow(self.root, orient=tk.HORIZONTAL)
+    
+        # Create the right split pane (rightSplitPane)
+        right_split_pane = tk.PanedWindow(self.game_view, orient=tk.VERTICAL)
+    
+        # Create the log panel and control panel
+        self.log_panel = tk.Frame(right_split_pane)
+        self.control_panel = tk.Frame(right_split_pane)
+    
+        # Add the log panel and control panel to the right split pane
+        right_split_pane.add(self.log_panel)
+        right_split_pane.add(self.control_panel)
+    
+        # Create the board panel
+        self.board_panel = tk.Frame(self.game_view)
+    
+        # Add the board panel and right split pane to the main split pane
+        self.game_view.add(self.board_panel)
+        self.game_view.add(right_split_pane)
+    
+        # Pack the main split pane into the root window
+        self.game_view.pack(fill=tk.BOTH, expand=1)
 
     def buildToolBar(self):
         toolbar = tk.Frame(self.root, bd=1, relief=tk.RAISED)
@@ -196,7 +231,7 @@ class GUI:
         for x in range(width):
             for y in range(height):
                 button = tk.Button(
-                    self.squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20))
+                    self.squareWorldPanelFrame, text=f'({x},{y})', font=("default", 20), width=3)
                 button.grid(row=y, column=x)
 
                 # Store the button in the dictionary
@@ -204,7 +239,7 @@ class GUI:
 
                 # Add a click event to the button
                 button.bind("<Button-1>", lambda e, x=x,
-                            y=y: self.useAddOrganismPopup(e, x, y, button))
+                            y=y: self.useAddOrganismPopup(e, x, y))
                 button.config(relief=tk.RAISED)
         self.updateButtonsText()
 
@@ -220,39 +255,67 @@ class GUI:
             symbol = "    "
         button.config(text=symbol)
 
-    def useAddOrganismPopup(self, event, x, y, button):
-        # Create a new context menu
+    def useAddOrganismPopup(self, event, x, y):
+        def addOrganism(type, x, y):
+            self.getActiveWorld().setNewOrganism(type, x, y)
+            if type == Type.HUMAN:
+                self.getActiveWorld().setHuman(self.getActiveWorld().findHuman())
+                self.getActiveWorld().getHuman().unskipTurn()
+            self.updateButtonText(x, y)
+
         addOrganismPopup = tk.Menu(self.root, tearoff=0)
-
-        # Get the type of the organism on the button
-        button_type = button.cget('text')
-
-        # If the organism is a human and there is already a human in the world, return
-        if button_type == Type.HUMAN and self.world.hasHuman():
-            return
-
-        # For each type of organism
+        button_type = self.getActiveWorld().getTile(x, y).getOrganism()
+        if button_type is not None:
+            button_type = button_type.getType()
+            if button_type == Type.HUMAN and self.getActiveWorld().hasHuman():
+                return
         for type in Type:
-            # If the type is a human and there is already a human in the world, skip this iteration
-            if type == Type.HUMAN and self.world.hasHuman():
+            if type == Type.HUMAN and self.getActiveWorld().hasHuman():
                 continue
-
-            # Create a new menu item for the organism
             addOrganismPopup.add_command(label=f'{type.getSymbol()} - {type.getName()}',
-                                         command=lambda type=type: self.addOrganismAndShowGameView(type, x, y))
-
-        # Show the context menu at the position of the mouse click
+                                         command=lambda type=type: addOrganism(type, x, y))
         addOrganismPopup.tk_popup(event.x_root-1, event.y_root-1)
-
-    def addOrganismAndShowGameView(self, type, x, y):
-        self.getActiveWorld().setNewOrganism(type, x, y)
-        if type == Type.HUMAN:
-            self.getActiveWorld().setHuman(self.getActiveWorld().findHuman())
-            self.getActiveWorld().getHuman().unskipTurn()
-        self.updateButtonText(x, y)
 
     # def hexWorldPanel(self):
     #     self.hexWorldPanelFrame.pack(pady=100)
 
-    # def buildcontrolPanel(self):
-    #     self.controlPanelFrame.pack(pady=100)
+    def buildControlPanel(self):
+        controlPanel = tk.Frame(self.root)
+    
+        tk.Label(controlPanel, text="Control Panel").pack()
+        tk.Label(controlPanel, text="World:").pack()
+        time_label = tk.Label(controlPanel, text="    Time: " + str(self.getActiveWorld().checkTime()))
+        time_label.pack()
+        organisms_label = tk.Label(controlPanel, text="    Organisms: " + str(self.getActiveWorld().getOrganimsCount()))
+        organisms_label.pack()
+    
+        tk.Label(controlPanel, text="Human:").pack()
+        human_power = tk.Label(controlPanel, text="    Power: " + (str(self.getActiveWorld().getHuman().getPower()) if self.getActiveWorld().hasHuman() else ""))
+        human_power.pack()
+    
+        def toggleImmortality():
+            if not self.getActiveWorld().hasHuman():
+                return
+            self.getActiveWorld().getHuman().toggleImmortality()
+            useImmortality.config(text="🔰 Immortality\n" + self.getActiveWorld().getHuman().getAbilityInfo())
+    
+        useImmortality = tk.Button(controlPanel, text="🔰 Immortality\n" + (self.getActiveWorld().getHuman().getAbilityInfo() if self.getActiveWorld().hasHuman() else ""), command=toggleImmortality)
+        useImmortality.pack()
+    
+        self.controlPanel = controlPanel
+        
+    def buildLogPanel(self):
+        logPanel = tk.Frame(self.root)
+        
+        # Create a Text widget inside the logPanel
+        self.logText = tk.Text(logPanel)
+        self.logText.pack(fill=tk.BOTH, expand=True)
+        
+        self.updateLogPanel()
+    
+    def updateLogPanel(self):
+        # Use the Text widget for inserting and deleting text
+        logText = self.logText
+        logText.delete("1.0", tk.END)
+        for log in self.getActiveWorld().getLogs():
+            logText.insert(tk.END, log + '\n')
